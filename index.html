@@ -4,7 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dementia RA App</title>
+
+    <!-- ✅ Import map MUST come first -->
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@^19.2.3",
+          "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+          "react/": "https://esm.sh/react@^19.2.3/",
+          "@ionic/react": "https://esm.sh/@ionic/react@^8.7.16",
+          "ionicons/": "https://esm.sh/ionicons@^8.0.13/",
+          "@google/genai": "https://esm.sh/@google/genai@^1.35.0"
+        }
+      }
+    </script>
+
+    <!-- Styles -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"
+    />
+
+    <!-- Ionic -->
     <script
       type="module"
       src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"
@@ -13,10 +35,7 @@
       nomodule
       src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"
     ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"
-    />
+
     <style>
       :root {
         --ion-color-primary: #0061f2;
@@ -32,21 +51,12 @@
         --background: #f8f9fa;
       }
     </style>
-    <script type="importmap">
-      {
-        "imports": {
-          "react": "https://esm.sh/react@^19.2.3",
-          "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-          "react/": "https://esm.sh/react@^19.2.3/",
-          "@ionic/react": "https://esm.sh/@ionic/react@^8.7.16",
-          "ionicons/": "https://esm.sh/ionicons@^8.0.13/",
-          "@google/genai": "https://esm.sh/@google/genai@^1.35.0"
-        }
-      }
-    </script>
   </head>
+
   <body>
     <div id="root"></div>
+
+    <!-- App entry -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
