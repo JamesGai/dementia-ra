@@ -1,0 +1,7 @@
+{
+  "name": "dementia-ra",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
