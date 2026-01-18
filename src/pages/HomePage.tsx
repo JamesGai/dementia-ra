@@ -77,12 +77,12 @@ const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
         <div className="flex items-center justify-between gap-4">
           {/* Left */}
           <div className="min-w-0 flex-1">
-            <h3 className="text-xl sm:text-2xl font-extrabold text-gray-800 leading-tight">
-              Become a member
-            </h3>
-
-            {/* underline scales with container, but has a max */}
-            <div className="mt-2 h-2 rounded bg-[#d8b06a] w-2/3 max-w-sm" />
+            <div className="inline-block whitespace-nowrap">
+              <h3 className="text-xl sm:text-2xl font-extrabold text-gray-800 leading-tight">
+                Become a member
+              </h3>
+              <div className="mt-2 h-2 rounded bg-[#d8b06a]" />
+            </div>
           </div>
 
           {/* Right */}
