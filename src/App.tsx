@@ -15,7 +15,7 @@ import {
   informationCircleOutline,
 } from "ionicons/icons";
 import HomePage from "./pages/HomePage";
-import ContactUsPage from "./pages/ContactUsPage";
+import ContactUsPage from "./components/ContactUsPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import VideoLibrary from "./pages/VideoLibrary";
 import SearchView from "./pages/SearchView";
