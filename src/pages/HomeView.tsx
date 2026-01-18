@@ -125,11 +125,11 @@ const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             {
               "--background": "#2e6f73",
               "--color": "#ffffff",
-              "--border-radius": "14px",
+              "--border-radius": "0px",
             } as any
           }
         >
-          Open Contact Page
+          Contact us
         </IonButton>
       </div>
     </div>
