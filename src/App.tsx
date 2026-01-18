@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  IonApp,
-  IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonFooter,
-  IonIcon,
-} from "@ionic/react";
+import { IonApp, IonContent, IonFooter, IonIcon } from "@ionic/react";
 import {
   homeOutline,
   videocamOutline,
@@ -25,10 +17,11 @@ import VideoLibrary from "./pages/VideoLibrary";
 import SearchView from "./pages/SearchView";
 import ForYouView from "./pages/ForYouView";
 import ChatAssistant from "./pages/ChatAssistant";
+import ContactUs from "./pages/ContactUs";
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
-    "home" | "videos" | "search" | "foryou" | "chat"
+    "home" | "videos" | "search" | "foryou" | "chat" | "contact"
   >("home");
 
   const renderContent = () => {
@@ -43,6 +36,8 @@ const App: React.FC = () => {
         return <ForYouView />;
       case "chat":
         return <ChatAssistant />;
+      case "contact":
+        return <ContactUs onBack={() => setActiveTab("home")} />;
       default:
         return <HomeView onNavigate={(tab: any) => setActiveTab(tab)} />;
     }
@@ -50,13 +45,13 @@ const App: React.FC = () => {
 
   return (
     <IonApp>
-      <IonHeader className="ion-no-border">
+      {/* <IonHeader className="ion-no-border">
         <IonToolbar color="primary" className="px-2">
           <IonTitle className="ion-no-padding font-bold text-lg">
             e-DiVA Assistant
           </IonTitle>
         </IonToolbar>
-      </IonHeader>
+      </IonHeader> */}
 
       <IonContent>
         <div className="pb-24">{renderContent()}</div>
@@ -64,6 +59,7 @@ const App: React.FC = () => {
 
       <IonFooter className="ion-no-border">
         <div className="flex justify-around items-center bg-white border-t border-gray-100 py-3 px-2 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+          {/* Home Page */}
           <button
             onClick={() => setActiveTab("home")}
             className={`flex flex-col items-center flex-1 py-1 transition-all ${
@@ -80,6 +76,7 @@ const App: React.FC = () => {
             )}
           </button>
 
+          {/* Video Page */}
           <button
             onClick={() => setActiveTab("videos")}
             className={`flex flex-col items-center flex-1 py-1 transition-all ${
@@ -96,6 +93,7 @@ const App: React.FC = () => {
             )}
           </button>
 
+          {/* Search Page */}
           <button
             onClick={() => setActiveTab("search")}
             className={`flex flex-col items-center flex-1 py-1 transition-all ${
@@ -112,6 +110,7 @@ const App: React.FC = () => {
             )}
           </button>
 
+          {/* Favourite Page */}
           <button
             onClick={() => setActiveTab("foryou")}
             className={`flex flex-col items-center flex-1 py-1 transition-all ${
@@ -128,6 +127,7 @@ const App: React.FC = () => {
             )}
           </button>
 
+          {/* Chatbot Page */}
           <button
             onClick={() => setActiveTab("chat")}
             className={`flex flex-col items-center flex-1 py-1 transition-all ${
