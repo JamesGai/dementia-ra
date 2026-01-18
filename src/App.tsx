@@ -12,12 +12,12 @@ import {
   heart,
   chatbubbleEllipses,
 } from "ionicons/icons";
-import HomeView from "./pages/HomeView";
+import HomePage from "./pages/HomePage";
 import VideoLibrary from "./pages/VideoLibrary";
 import SearchView from "./pages/SearchView";
 import ForYouView from "./pages/ForYouView";
 import ChatAssistant from "./pages/ChatAssistant";
-import ContactUs from "./pages/ContactUs";
+import ContactUsPage from "./pages/ContactUsPage";
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
@@ -27,7 +27,7 @@ const App: React.FC = () => {
   const renderContent = () => {
     switch (activeTab) {
       case "home":
-        return <HomeView onNavigate={(tab: any) => setActiveTab(tab)} />;
+        return <HomePage onNavigate={(tab: any) => setActiveTab(tab)} />;
       case "videos":
         return <VideoLibrary />;
       case "search":
@@ -37,9 +37,9 @@ const App: React.FC = () => {
       case "chat":
         return <ChatAssistant />;
       case "contact":
-        return <ContactUs onBack={() => setActiveTab("home")} />;
+        return <ContactUsPage onBack={() => setActiveTab("home")} />;
       default:
-        return <HomeView onNavigate={(tab: any) => setActiveTab(tab)} />;
+        return <HomePage onNavigate={(tab: any) => setActiveTab(tab)} />;
     }
   };
 
