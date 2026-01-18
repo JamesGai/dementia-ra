@@ -82,8 +82,6 @@ const ContactUsPage: React.FC<ContactUsPageProps> = ({ onBack }) => {
         <button onClick={onBack} className="text-[#2e6f73] font-semibold">
           ← Back
         </button>
-        <div className="text-lg font-bold text-gray-900">Contact Us</div>
-        <div className="w-[56px]" />
       </div>
 
       {/* Contact info */}

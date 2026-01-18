@@ -2,7 +2,7 @@ import React from "react";
 import { IonButton, IonSearchbar } from "@ionic/react";
 
 interface HomePageProps {
-  onNavigate: (tab: "contactUs" | "chat") => void;
+  onNavigate: (tab: "chat") => void;
 }
 
 const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
@@ -31,25 +31,21 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* Introduction message */}
       <div className="bg-white rounded-2xl p-6 shadow-md space-y-4">
         <h2 className="text-2xl font-bold text-gray-900">Welcome to e-DiVA</h2>
-
         <p className="text-gray-700 leading-relaxed">
           Are you currently providing care for someone with dementia? Caring for
           someone with dementia can be both rewarding and challenging. e-DiVA is
           here to support you with a smart, easy-to-use Virtual Assistant
           designed to help you manage the responsibilities of caregiving.
         </p>
-
         <p className="text-gray-700 leading-relaxed">
           e-DiVA seeks to improve caregiver well-being by offering access to
           educational content and caring information. It aims to educate,
           provide skills, and offer support to carers.
         </p>
-
         <p className="text-gray-700 leading-relaxed">
           Whether you are looking for practical advice, emotional support, or
           tools to manage daily care, e-DiVA offers:
         </p>
-
         <ul className="list-disc pl-5 space-y-2 text-gray-700">
           <li>
             <span className="font-semibold">On-demand guidance</span> through
@@ -82,7 +78,6 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <div className="mt-2 h-2 rounded bg-[#d8b06a]" />
             </div>
           </div>
-
           {/* Right */}
           <IonButton
             onClick={() => onNavigate("chat")}
@@ -105,30 +100,6 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             Join now
           </IonButton>
         </div>
-      </div>
-
-      {/* Contact us */}
-      <div className="bg-white rounded-2xl p-6 shadow-md space-y-3">
-        <h2 className="text-2xl font-bold text-gray-900">Contact us</h2>
-
-        <p className="text-gray-700 leading-relaxed">
-          Need help or more information? You can call, email, or send us a
-          message.
-        </p>
-
-        <IonButton
-          expand="block"
-          onClick={() => onNavigate("contactUs")}
-          style={
-            {
-              "--background": "#2e6f73",
-              "--color": "#ffffff",
-              "--border-radius": "0px",
-            } as any
-          }
-        >
-          Contact us
-        </IonButton>
       </div>
     </div>
   );

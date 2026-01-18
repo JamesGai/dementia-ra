@@ -32,9 +32,9 @@ const App: React.FC = () => {
       case "home":
         return <HomePage onNavigate={(tab: any) => setActiveTab(tab)} />;
       case "contactUs":
-        return <ContactUsPage onBack={() => setActiveTab("home")} />;
+        return <ContactUsPage onBack={() => setActiveTab("aboutUs")} />;
       case "aboutUs":
-        return <AboutUsPage />;
+        return <AboutUsPage onNavigate={(tab: any) => setActiveTab(tab)} />;
       case "videos":
         return <VideoLibrary />;
       case "search":
