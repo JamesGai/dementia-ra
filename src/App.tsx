@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IonApp, IonContent, IonFooter, IonIcon } from "@ionic/react";
 import {
   homeOutline,
@@ -43,9 +43,16 @@ const App: React.FC = () => {
     }
   };
 
+  const contentRef = useRef<HTMLIonContentElement | null>(null);
+
+  useEffect(() => {
+    // reset scroll whenever you switch pages
+    contentRef.current?.scrollToTop(0);
+  }, [activeTab]);
+
   return (
     <IonApp>
-      <IonContent>
+      <IonContent ref={contentRef}>
         <div className="pb-24">{renderContent()}</div>
       </IonContent>
 
