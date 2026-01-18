@@ -100,7 +100,7 @@ const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                 "--padding-end": "1.5rem",
                 "--padding-top": "0.9rem",
                 "--padding-bottom": "0.9rem",
-                "font-size": "1rem",
+                fontSize: "1rem",
               } as any
             }
           >
