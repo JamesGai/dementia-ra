@@ -45,14 +45,6 @@ const App: React.FC = () => {
 
   return (
     <IonApp>
-      {/* <IonHeader className="ion-no-border">
-        <IonToolbar color="primary" className="px-2">
-          <IonTitle className="ion-no-padding font-bold text-lg">
-            e-DiVA Assistant
-          </IonTitle>
-        </IonToolbar>
-      </IonHeader> */}
-
       <IonContent>
         <div className="pb-24">{renderContent()}</div>
       </IonContent>

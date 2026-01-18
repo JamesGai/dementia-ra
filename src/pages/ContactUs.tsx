@@ -16,11 +16,10 @@ interface ContactUsProps {
 }
 
 const ContactUs: React.FC<ContactUsProps> = ({ onBack }) => {
-  const phoneDisplay = "+61 3 83872305";
-  const phoneTel = "+61383872305";
-  const email = "ediva@nari.edu.au";
-  const addressLine1 = "34-54 Poplar Road (via Gate4)";
-  const addressLine2 = "Parkville Victoria 3052 Australia";
+  const mobile = "+64 21 12345678";
+  //   const mobileToCall = "";
+  const email = "user123@auckland.uni.ac.nz";
+  const address = "The University of Auckland";
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -39,36 +38,39 @@ const ContactUs: React.FC<ContactUsProps> = ({ onBack }) => {
     [firstName, lastName, fromEmail, message],
   );
 
-  const openCall = () => (window.location.href = `tel:${phoneTel}`);
-  const openEmail = () => (window.location.href = `mailto:${email}`);
-  const openMaps = () => {
-    const full = `${addressLine1}, ${addressLine2}`;
-    window.open(
-      `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-        full,
-      )}`,
-      "_blank",
-    );
-  };
+  // Variables needed to access contact information
+  //   const openCall = () => (window.location.href = `tel:${mobileToCall}`);
+  //   const openEmail = () => (window.location.href = `mailto:${email}`);
+  //   const openMaps = () => {
+  //     const full = `${address}, ${addressLine2}`;
+  //     window.open(
+  //       `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  //         full,
+  //       )}`,
+  //       "_blank",
+  //     );
+  //   };
 
   const handleSubmit = () => {
-    const subject = `e-DiVA Contact Request from ${firstName.trim()} ${lastName.trim()}`;
-    const body = [
-      `Name: ${firstName.trim()} ${lastName.trim()}`,
-      `Email: ${fromEmail.trim()}`,
-      "",
-      "Message:",
-      message.trim(),
-    ].join("\n");
+    // const subject = `e-DiVA Contact Request from ${firstName.trim()} ${lastName.trim()}`;
+    // const body = [
+    //   `Name: ${firstName.trim()} ${lastName.trim()}`,
+    //   `Email: ${fromEmail.trim()}`,
+    //   "",
+    //   "Message:",
+    //   message.trim(),
+    // ].join("\n");
 
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(
-      subject,
-    )}&body=${encodeURIComponent(body)}`;
+    // window.location.href = `mailto:${email}?subject=${encodeURIComponent(
+    //   subject,
+    // )}&body=${encodeURIComponent(body)}`;
+
+    console.log("Successfully submitted");
   };
 
   return (
     <div className="p-4 space-y-6">
-      {/* Top bar (since you’re not using routing) */}
+      {/* Top bar */}
       <div className="flex items-center justify-between">
         <button onClick={onBack} className="text-[#2e6f73] font-semibold">
           ← Back
@@ -84,18 +86,18 @@ const ContactUs: React.FC<ContactUsProps> = ({ onBack }) => {
 
           <div className="mt-4 space-y-3">
             <button
-              onClick={openCall}
+              //   onClick={openCall}
               className="w-full flex items-center gap-4 rounded-xl bg-white/10 active:bg-white/15 px-4 py-4 text-left"
             >
               <IonIcon icon={callOutline} className="text-2xl" />
               <div>
-                <div className="font-semibold">{phoneDisplay}</div>
+                <div className="font-semibold">{mobile}</div>
                 <div className="text-sm text-white/80">Tap to call</div>
               </div>
             </button>
 
             <button
-              onClick={openEmail}
+              //   onClick={openEmail}
               className="w-full flex items-center gap-4 rounded-xl bg-white/10 active:bg-white/15 px-4 py-4 text-left"
             >
               <IonIcon icon={mailOutline} className="text-2xl" />
@@ -106,13 +108,12 @@ const ContactUs: React.FC<ContactUsProps> = ({ onBack }) => {
             </button>
 
             <button
-              onClick={openMaps}
+              //   onClick={openMaps}
               className="w-full flex items-center gap-4 rounded-xl bg-white/10 active:bg-white/15 px-4 py-4 text-left"
             >
               <IonIcon icon={locationOutline} className="text-2xl" />
               <div>
-                <div className="font-semibold">{addressLine1}</div>
-                <div className="text-sm text-white/90">{addressLine2}</div>
+                <div className="font-semibold">{address}</div>
                 <div className="text-sm text-white/80 mt-1">
                   Tap to open Maps
                 </div>
