@@ -11,23 +11,30 @@ import {
   search,
   heart,
   chatbubbleEllipses,
+  informationCircle,
+  informationCircleOutline,
 } from "ionicons/icons";
 import HomePage from "./pages/HomePage";
+import ContactUsPage from "./pages/ContactUsPage";
+import AboutUsPage from "./pages/AboutUsPage";
 import VideoLibrary from "./pages/VideoLibrary";
 import SearchView from "./pages/SearchView";
 import ForYouView from "./pages/ForYouView";
 import ChatAssistant from "./pages/ChatAssistant";
-import ContactUsPage from "./pages/ContactUsPage";
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
-    "home" | "videos" | "search" | "foryou" | "chat" | "contact"
+    "home" | "aboutUs" | "videos" | "search" | "foryou" | "chat" | "contactUs"
   >("home");
 
   const renderContent = () => {
     switch (activeTab) {
       case "home":
         return <HomePage onNavigate={(tab: any) => setActiveTab(tab)} />;
+      case "contactUs":
+        return <ContactUsPage onBack={() => setActiveTab("home")} />;
+      case "aboutUs":
+        return <AboutUsPage />;
       case "videos":
         return <VideoLibrary />;
       case "search":
@@ -36,8 +43,6 @@ const App: React.FC = () => {
         return <ForYouView />;
       case "chat":
         return <ChatAssistant />;
-      case "contact":
-        return <ContactUsPage onBack={() => setActiveTab("home")} />;
       default:
         return <HomePage onNavigate={(tab: any) => setActiveTab(tab)} />;
     }
@@ -71,6 +76,27 @@ const App: React.FC = () => {
             />
             <span className="text-[10px] font-medium">Home</span>
             {activeTab === "home" && (
+              <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
+            )}
+          </button>
+
+          {/* About Us Page */}
+          <button
+            onClick={() => setActiveTab("aboutUs")}
+            className={`flex flex-col items-center flex-1 py-1 transition-all ${
+              activeTab === "aboutUs" ? "text-blue-600" : "text-gray-400"
+            }`}
+          >
+            <IonIcon
+              icon={
+                activeTab === "aboutUs"
+                  ? informationCircle
+                  : informationCircleOutline
+              }
+              className="text-2xl mb-1"
+            />
+            <span className="text-[10px] font-medium">About Us</span>
+            {activeTab === "aboutUs" && (
               <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
             )}
           </button>

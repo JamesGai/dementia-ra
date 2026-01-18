@@ -1,13 +1,11 @@
 import React from "react";
 import { IonButton, IonSearchbar } from "@ionic/react";
 
-interface HomeViewProps {
-  onNavigate: (
-    tab: "videos" | "search" | "foryou" | "chat" | "contact",
-  ) => void;
+interface HomePageProps {
+  onNavigate: (tab: "contactUs" | "chat") => void;
 }
 
-const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
+const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   return (
     <div className="p-4 space-y-6">
       {/* Welcome card */}
@@ -120,7 +118,7 @@ const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
 
         <IonButton
           expand="block"
-          onClick={() => onNavigate("contact")}
+          onClick={() => onNavigate("contactUs")}
           style={
             {
               "--background": "#2e6f73",
@@ -136,4 +134,4 @@ const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
   );
 };
 
-export default HomeView;
+export default HomePage;

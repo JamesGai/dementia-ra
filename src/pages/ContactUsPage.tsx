@@ -11,11 +11,11 @@ import {
 } from "@ionic/react";
 import { callOutline, mailOutline, locationOutline } from "ionicons/icons";
 
-interface ContactUsProps {
+interface ContactUsPageProps {
   onBack: () => void;
 }
 
-const ContactUs: React.FC<ContactUsProps> = ({ onBack }) => {
+const ContactUsPage: React.FC<ContactUsPageProps> = ({ onBack }) => {
   const mobile = "+64 21 12345678";
   //   const mobileToCall = "";
   const email = "user123@auckland.uni.ac.nz";
@@ -213,4 +213,4 @@ const ContactUs: React.FC<ContactUsProps> = ({ onBack }) => {
   );
 };
 
-export default ContactUs;
+export default ContactUsPage;
