@@ -17,6 +17,7 @@ import {
 import HomePage from "./pages/HomePage";
 import ContactUsPage from "./subPages/ContactUsPage";
 import AboutUsPage from "./pages/AboutUsPage";
+import TeamPage from "./subPages/TeamPage";
 import VideoLibrary from "./pages/VideoLibrary";
 import SearchView from "./pages/SearchView";
 import ForYouView from "./pages/ForYouView";
@@ -24,7 +25,14 @@ import ChatAssistant from "./pages/ChatAssistant";
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
-    "home" | "aboutUs" | "videos" | "search" | "foryou" | "chat" | "contactUs"
+    | "home"
+    | "aboutUs"
+    | "team"
+    | "videos"
+    | "search"
+    | "foryou"
+    | "chat"
+    | "contactUs"
   >("home");
 
   const renderContent = () => {
@@ -35,6 +43,8 @@ const App: React.FC = () => {
         return <ContactUsPage onBack={() => setActiveTab("aboutUs")} />;
       case "aboutUs":
         return <AboutUsPage onNavigate={(tab: any) => setActiveTab(tab)} />;
+      case "team":
+        return <TeamPage onBack={() => setActiveTab("aboutUs")} />;
       case "videos":
         return <VideoLibrary />;
       case "search":

@@ -2,7 +2,7 @@ import React from "react";
 import { IonButton } from "@ionic/react";
 
 interface AboutUsPageProps {
-  onNavigate: (tab: "contactUs") => void;
+  onNavigate: (tab: "contactUs" | "team") => void;
 }
 
 const AboutUs: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
@@ -94,7 +94,7 @@ const AboutUs: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
         </p>
         <IonButton
           expand="block"
-          onClick={() => window.open("https://example.com", "_blank")}
+          onClick={() => onNavigate("team")}
           style={
             {
               "--background": "#2e6f73",
