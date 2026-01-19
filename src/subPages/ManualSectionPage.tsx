@@ -38,31 +38,22 @@ const ManualSectionPage: React.FC<ManualSectionPageProps> = ({
 
   return (
     <div className="p-4 space-y-6">
-      {/* Top bar (matches your style) */}
+      {/* Top bar */}
       <div className="flex items-center justify-between">
-        <IonButton fill="clear" onClick={onBack} className="p-0 m-0">
-          <div className="flex items-center gap-1 text-[#2e6f73] font-semibold">
-            <IonIcon icon={chevronBackOutline} className="text-2xl" />
-            <span>Back</span>
-          </div>
-        </IonButton>
-
-        <div className="text-lg font-bold text-gray-900">{title}</div>
-        <div className="w-[56px]" />
+        <button onClick={onBack} className="text-[#2e6f73] font-semibold">
+          ← Back
+        </button>
       </div>
-
       {/* Content card */}
       <div className="bg-white rounded-2xl p-6 shadow-md space-y-3">
         <div className="text-[#2e6f73] font-extrabold tracking-wide uppercase">
           {title}
         </div>
-
         {/* Replace this with the real content per section */}
         <p className="text-gray-700 leading-relaxed">
           Add the instructions for{" "}
           <span className="font-semibold">{title}</span> here.
         </p>
-
         {/* Example: add bullet points / screenshots later */}
         <ul className="list-disc pl-5 space-y-2 text-gray-700">
           <li>Step 1: ...</li>

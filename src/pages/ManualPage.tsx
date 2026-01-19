@@ -1,14 +1,4 @@
 import React, { useMemo, useState } from "react";
-import {
-  IonButton,
-  IonIcon,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonMenu,
-  IonMenuButton,
-} from "@ionic/react";
-import { menuOutline } from "ionicons/icons";
 import ManualSectionPage, {
   ManualSectionId,
 } from "../subPages/ManualSectionPage";
@@ -58,19 +48,18 @@ const ManualPage: React.FC = () => {
         <div className="w-[56px]" />
       </div>
 
-      {/* Section cards (clickable) */}
+      {/* Section cards */}
       {sections.map((s) => (
         <button
           key={s.id}
           onClick={() => openSection(s.id)}
-          className="w-full text-left bg-white rounded-2xl shadow-md active:opacity-90"
+          className="w-full text-left rounded-2xl shadow-md active:opacity-90"
         >
-          <div className="px-8 py-7 space-y-3">
-            <div className="text-[#2e6f73] font-extrabold tracking-wide uppercase">
+          <div className="px-8 py-7 space-y-3 bg-[#2e6f73]">
+            <div className="text-white font-extrabold tracking-wide uppercase">
               {s.number}. {s.title}
             </div>
-
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-white leading-relaxed">
               Tap to view instructions.
             </p>
           </div>
