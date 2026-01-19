@@ -2,22 +2,23 @@ import React, { useEffect, useRef, useState } from "react";
 import { IonApp, IonContent, IonFooter, IonIcon } from "@ionic/react";
 import {
   homeOutline,
-  videocamOutline,
   searchOutline,
   heartOutline,
   chatbubbleEllipsesOutline,
   home,
-  videocam,
   search,
   heart,
   chatbubbleEllipses,
   informationCircle,
   informationCircleOutline,
+  library,
+  libraryOutline,
 } from "ionicons/icons";
 import HomePage from "./pages/HomePage";
 import ContactUsPage from "./subPages/ContactUsPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import TeamPage from "./subPages/TeamPage";
+import ManualPage from "./pages/ManualPage";
 import VideoLibrary from "./pages/VideoLibrary";
 import SearchView from "./pages/SearchView";
 import ForYouView from "./pages/ForYouView";
@@ -28,6 +29,7 @@ const App: React.FC = () => {
     | "home"
     | "aboutUs"
     | "team"
+    | "manual"
     | "videos"
     | "search"
     | "foryou"
@@ -45,6 +47,8 @@ const App: React.FC = () => {
         return <AboutUsPage onNavigate={(tab: any) => setActiveTab(tab)} />;
       case "team":
         return <TeamPage onBack={() => setActiveTab("aboutUs")} />;
+      case "manual":
+        return <ManualPage />;
       case "videos":
         return <VideoLibrary />;
       case "search":
@@ -111,19 +115,19 @@ const App: React.FC = () => {
             )}
           </button>
 
-          {/* Video Page */}
+          {/* Manual Page */}
           <button
-            onClick={() => setActiveTab("videos")}
+            onClick={() => setActiveTab("manual")}
             className={`flex flex-col items-center flex-1 py-1 transition-all ${
-              activeTab === "videos" ? "text-blue-600" : "text-gray-400"
+              activeTab === "manual" ? "text-blue-600" : "text-gray-400"
             }`}
           >
             <IonIcon
-              icon={activeTab === "videos" ? videocam : videocamOutline}
+              icon={activeTab === "manual" ? library : libraryOutline}
               className="text-2xl mb-1"
             />
-            <span className="text-[10px] font-medium">Videos</span>
-            {activeTab === "videos" && (
+            <span className="text-[10px] font-medium">Manual</span>
+            {activeTab === "manual" && (
               <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
             )}
           </button>
