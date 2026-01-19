@@ -30,7 +30,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
       {/* Introduction message */}
       <div className="bg-white rounded-2xl p-6 shadow-md space-y-4">
-        <h2 className="text-2xl font-bold text-gray-900">Welcome to e-DiVA</h2>
+        <h2 className="text-2xl font-bold text-[#2e6f73]">WELCOME TO E-DIVA</h2>
         <p className="text-gray-700 leading-relaxed">
           Are you currently providing care for someone with dementia? Caring for
           someone with dementia can be both rewarding and challenging. e-DiVA is
@@ -72,8 +72,8 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           {/* Left */}
           <div className="min-w-0 flex-1">
             <div className="inline-block whitespace-nowrap">
-              <h3 className="text-xl sm:text-2xl font-extrabold text-gray-800 leading-tight">
-                Become a member
+              <h3 className="text-xl sm:text-2xl font-extrabold text-[#2e6f73] leading-tight">
+                BECOME A MEMBER
               </h3>
               <div className="mt-2 h-2 rounded bg-[#d8b06a]" />
             </div>
