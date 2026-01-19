@@ -17,7 +17,7 @@ const AboutUs: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
       {/* Image */}
       <div className="bg-white rounded-2xl shadow-md overflow-hidden">
         <img
-          src="public\Carers.png"
+          src="Carers.png"
           alt="Carer supporting an older adult"
           className="w-full h-56 object-cover"
         />
