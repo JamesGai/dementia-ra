@@ -9,131 +9,74 @@ import {
   IonMenuButton,
 } from "@ionic/react";
 import { menuOutline } from "ionicons/icons";
-
-type ManualSectionId =
-  | "login"
-  | "profile"
-  | "search"
-  | "course"
-  | "diary"
-  | "peer"
-  | "videos"
-  | "services"
-  | "chatbot";
+import ManualSectionPage, {
+  ManualSectionId,
+} from "../subPages/ManualSectionPage";
 
 const ManualPage: React.FC = () => {
-  const [activeSection, setActiveSection] = useState<ManualSectionId>("login");
+  const [selected, setSelected] = useState<ManualSectionId | null>(null);
 
   const sections = useMemo(
     () => [
-      { id: "login" as const, label: "1. Log-in" },
-      { id: "profile" as const, label: "2. Update your profile" },
-      { id: "search" as const, label: "3. Search e-DiVA content" },
-      { id: "course" as const, label: "4. Online Course" },
-      { id: "diary" as const, label: "5. Diary" },
-      { id: "peer" as const, label: "6. Peer-Support" },
-      { id: "videos" as const, label: "7. Video/Animations" },
-      { id: "services" as const, label: "8. Dementia Services" },
-      { id: "chatbot" as const, label: "9. Chatbot" },
+      { id: "login" as const, number: "1", title: "Log-in" },
+      { id: "profile" as const, number: "2", title: "Update your profile" },
+      { id: "search" as const, number: "3", title: "Search e-DiVA content" },
+      { id: "course" as const, number: "4", title: "Online Course" },
+      { id: "diary" as const, number: "5", title: "Diary" },
+      { id: "peer" as const, number: "6", title: "Peer-Support" },
+      { id: "videos" as const, number: "7", title: "Video/Animations" },
+      { id: "services" as const, number: "8", title: "Dementia Services" },
+      { id: "chatbot" as const, number: "9", title: "Chatbot" },
     ],
     [],
   );
 
-  const scrollToSection = async (id: ManualSectionId) => {
-    setActiveSection(id);
-
+  const openSection = async (id: ManualSectionId) => {
+    // close menu if it was opened
     const menuEl = document.querySelector("ion-menu") as any;
     await menuEl?.close?.();
 
-    const el = document.getElementById(`section-${id}`);
-    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setSelected(id);
+    // (optional) scroll to top so the detail page starts at top
+    window.scrollTo({ top: 0, behavior: "instant" as any });
   };
 
-  return (
-    <>
-      {/* Menu drawer */}
-      <IonMenu contentId="manual-content" side="start" type="overlay">
-        <div className="p-4">
-          <div className="text-lg font-extrabold text-gray-900 mb-3">
-            Content
-          </div>
-          <IonList>
-            {sections.map((s) => (
-              <IonItem
-                key={s.id}
-                button
-                detail={false}
-                onClick={() => scrollToSection(s.id)}
-              >
-                <IonLabel
-                  className={
-                    activeSection === s.id
-                      ? "font-semibold text-[#2e6f73]"
-                      : "text-gray-800"
-                  }
-                >
-                  {s.label}
-                </IonLabel>
-              </IonItem>
-            ))}
-          </IonList>
-        </div>
-      </IonMenu>
+  // ✅ Detail view
+  if (selected) {
+    return (
+      <ManualSectionPage section={selected} onBack={() => setSelected(null)} />
+    );
+  }
 
-      {/* Main Content */}
-      <div id="manual-content" className="p-4 space-y-6">
-        {/* Top bar */}
-        <div className="flex items-center justify-between">
-          <IonMenuButton autoHide={false}>
-            <IonButton fill="clear" className="p-0 m-0">
-              <IonIcon icon={menuOutline} className="text-[#2e6f73] text-5xl" />
-            </IonButton>
-          </IonMenuButton>
+  return (
+    <div id="manual-content" className="p-4 space-y-6">
+      {/* Top bar */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
           <div className="text-lg font-bold text-gray-900">User Manual</div>
         </div>
-        {/* 1. Login */}
-        <div
-          id="section-login"
-          className="bg-white rounded-2xl p-6 shadow-md space-y-3"
-        >
-          <div className="text-[#2e6f73] font-extrabold tracking-wide">
-            1. LOG-IN
-          </div>
-          <p className="text-gray-700 leading-relaxed">
-            Add your Log-in instructions here...
-          </p>
-        </div>
-        {/* 2. Update profile */}
-        <div
-          id="section-profile"
-          className="bg-white rounded-2xl p-6 shadow-md space-y-3"
-        >
-          <div className="text-[#2e6f73] font-extrabold tracking-wide">
-            2. UPDATE YOUR PROFILE
-          </div>
-          <p className="text-gray-700 leading-relaxed">
-            Add your profile instructions here...
-          </p>
-        </div>
-        {/* 3. Search e-DiVA content */}
-        <div
-          id="section-search"
-          className="bg-white rounded-2xl p-6 shadow-md space-y-3"
-        >
-          <div className="text-[#2e6f73] font-extrabold tracking-wide">
-            3. SEARCH E-DIVA CONTENT
-          </div>
-          <p className="text-gray-700 leading-relaxed">
-            Add your search instructions here...
-          </p>
-        </div>
-
-        {/* Add more cards using the same pattern:
-            section-course, section-diary, section-peer, section-videos,
-            section-services, section-chatbot
-        */}
+        <div className="w-[56px]" />
       </div>
-    </>
+
+      {/* Section cards (clickable) */}
+      {sections.map((s) => (
+        <button
+          key={s.id}
+          onClick={() => openSection(s.id)}
+          className="w-full text-left bg-white rounded-2xl shadow-md active:opacity-90"
+        >
+          <div className="px-8 py-7 space-y-3">
+            <div className="text-[#2e6f73] font-extrabold tracking-wide uppercase">
+              {s.number}. {s.title}
+            </div>
+
+            <p className="text-gray-700 leading-relaxed">
+              Tap to view instructions.
+            </p>
+          </div>
+        </button>
+      ))}
+    </div>
   );
 };
 
