@@ -1,30 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
 import { IonApp, IonContent, IonFooter, IonIcon } from "@ionic/react";
 import {
-  homeOutline,
   home,
+  homeOutline,
   informationCircle,
   informationCircleOutline,
   library,
   libraryOutline,
 } from "ionicons/icons";
-import HomePage from "./pages/HomePage";
-import ContactUsPage from "./subPages/ContactUsPage";
 import AboutUsPage from "./pages/AboutUsPage";
-import TeamPage from "./subPages/TeamPage";
+import HomePage from "./pages/HomePage";
 import ManualPage from "./pages/ManualPage";
+import ContactUsPage from "./subPages/ContactUsPage";
 import ManualSectionPage, {
   ManualSectionId,
 } from "./subPages/ManualSectionPage";
+import TeamPage from "./subPages/TeamPage";
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
-    | "home"
-    | "aboutUs"
-    | "team"
-    | "manual"
-    | "contactUs"
-    | "manualSection"
+    "home" | "aboutUs" | "manual" | "contactUs" | "manualSection" | "team"
   >("home");
   const [activeManualSection, setActiveManualSection] =
     useState<ManualSectionId | null>(null);
@@ -33,12 +28,8 @@ const App: React.FC = () => {
     switch (activeTab) {
       case "home":
         return <HomePage onNavigate={(tab: any) => setActiveTab(tab)} />;
-      case "contactUs":
-        return <ContactUsPage onBack={() => setActiveTab("aboutUs")} />;
       case "aboutUs":
         return <AboutUsPage onNavigate={(tab: any) => setActiveTab(tab)} />;
-      case "team":
-        return <TeamPage onBack={() => setActiveTab("aboutUs")} />;
       case "manual":
         return (
           <ManualPage
@@ -48,6 +39,8 @@ const App: React.FC = () => {
             }}
           />
         );
+      case "contactUs":
+        return <ContactUsPage onBack={() => setActiveTab("aboutUs")} />;
       case "manualSection":
         return (
           <ManualSectionPage
@@ -55,6 +48,8 @@ const App: React.FC = () => {
             sectionId={activeManualSection!}
           />
         );
+      case "team":
+        return <TeamPage onBack={() => setActiveTab("aboutUs")} />;
       default:
         return <HomePage onNavigate={(tab: any) => setActiveTab(tab)} />;
     }
@@ -69,10 +64,12 @@ const App: React.FC = () => {
 
   return (
     <IonApp>
+      {/* Main content/page */}
       <IonContent ref={contentRef}>
         <div className="pb-24">{renderContent()}</div>
       </IonContent>
 
+      {/* Footer */}
       <IonFooter className="ion-no-border">
         <div className="flex justify-around items-center bg-white border-t border-gray-100 py-3 px-2 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
           {/* Home Page */}

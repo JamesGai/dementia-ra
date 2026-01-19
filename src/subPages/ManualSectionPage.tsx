@@ -42,17 +42,15 @@ const ManualSectionPage: React.FC<ManualSectionPageProps> = ({
           ← Back
         </button>
       </div>
-      {/* Content card */}
+      {/* Instruction content */}
       <div className="bg-white rounded-2xl p-6 shadow-md space-y-3">
         <div className="text-[#2e6f73] font-extrabold tracking-wide uppercase">
           {title}
         </div>
-        {/* Replace this with the real content per section */}
         <p className="text-gray-700 leading-relaxed">
           Add the instructions for{" "}
           <span className="font-semibold">{title}</span> here.
         </p>
-        {/* Example: add bullet points / screenshots later */}
         <ul className="list-disc pl-5 space-y-2 text-gray-700">
           <li>Step 1: ...</li>
           <li>Step 2: ...</li>

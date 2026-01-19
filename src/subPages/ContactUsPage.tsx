@@ -9,7 +9,7 @@ import {
   IonNote,
   IonTextarea,
 } from "@ionic/react";
-import { callOutline, mailOutline, locationOutline } from "ionicons/icons";
+import { callOutline, locationOutline, mailOutline } from "ionicons/icons";
 
 interface ContactUsPageProps {
   onBack: () => void;
