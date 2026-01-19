@@ -1,11 +1,11 @@
-import React, { useMemo, useState } from "react";
-import ManualSectionPage, {
-  ManualSectionId,
-} from "../subPages/ManualSectionPage";
+import React, { useMemo } from "react";
+import { ManualSectionId } from "../subPages/ManualSectionPage";
 
-const ManualPage: React.FC = () => {
-  const [selected, setSelected] = useState<ManualSectionId | null>(null);
+interface ManualPageProps {
+  onNavigate: (tab: "manualSection", sectionId: ManualSectionId) => void;
+}
 
+const ManualPage: React.FC<ManualPageProps> = ({ onNavigate }) => {
   const sections = useMemo(
     () => [
       { id: "login" as const, number: "1", title: "Log-in" },
@@ -21,23 +21,6 @@ const ManualPage: React.FC = () => {
     [],
   );
 
-  const openSection = async (id: ManualSectionId) => {
-    // close menu if it was opened
-    const menuEl = document.querySelector("ion-menu") as any;
-    await menuEl?.close?.();
-
-    setSelected(id);
-    // (optional) scroll to top so the detail page starts at top
-    window.scrollTo({ top: 0, behavior: "instant" as any });
-  };
-
-  // ✅ Detail view
-  if (selected) {
-    return (
-      <ManualSectionPage section={selected} onBack={() => setSelected(null)} />
-    );
-  }
-
   return (
     <div id="manual-content" className="p-4 space-y-6">
       {/* Top bar */}
@@ -52,7 +35,7 @@ const ManualPage: React.FC = () => {
       {sections.map((s) => (
         <button
           key={s.id}
-          onClick={() => openSection(s.id)}
+          onClick={() => onNavigate("manualSection", s.id)}
           className="w-full text-left rounded-2xl shadow-md active:opacity-90"
         >
           <div className="px-8 py-7 space-y-3 bg-[#2e6f73]">

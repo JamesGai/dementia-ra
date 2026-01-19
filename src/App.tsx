@@ -23,6 +23,9 @@ import VideoLibrary from "./pages/VideoLibrary";
 import SearchView from "./pages/SearchView";
 import ForYouView from "./pages/ForYouView";
 import ChatAssistant from "./pages/ChatAssistant";
+import ManualSectionPage, {
+  ManualSectionId,
+} from "./subPages/ManualSectionPage";
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
@@ -35,7 +38,10 @@ const App: React.FC = () => {
     | "foryou"
     | "chat"
     | "contactUs"
+    | "manualSection"
   >("home");
+  const [activeManualSection, setActiveManualSection] =
+    useState<ManualSectionId | null>(null);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -48,7 +54,21 @@ const App: React.FC = () => {
       case "team":
         return <TeamPage onBack={() => setActiveTab("aboutUs")} />;
       case "manual":
-        return <ManualPage />;
+        return (
+          <ManualPage
+            onNavigate={(tab, sectionId) => {
+              setActiveManualSection(sectionId);
+              setActiveTab(tab);
+            }}
+          />
+        );
+      case "manualSection":
+        return (
+          <ManualSectionPage
+            onBack={() => setActiveTab("manual")}
+            sectionId={activeManualSection!}
+          />
+        );
       case "videos":
         return <VideoLibrary />;
       case "search":

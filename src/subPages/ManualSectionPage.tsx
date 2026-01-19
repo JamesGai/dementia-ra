@@ -1,6 +1,4 @@
 import React from "react";
-import { IonButton, IonIcon } from "@ionic/react";
-import { chevronBackOutline } from "ionicons/icons";
 
 export type ManualSectionId =
   | "login"
@@ -26,15 +24,15 @@ const SECTION_TITLES: Record<ManualSectionId, string> = {
 };
 
 interface ManualSectionPageProps {
-  section: ManualSectionId;
   onBack: () => void;
+  sectionId: ManualSectionId;
 }
 
 const ManualSectionPage: React.FC<ManualSectionPageProps> = ({
-  section,
   onBack,
+  sectionId,
 }) => {
-  const title = SECTION_TITLES[section];
+  const title = SECTION_TITLES[sectionId];
 
   return (
     <div className="p-4 space-y-6">
