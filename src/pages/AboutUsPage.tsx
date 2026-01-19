@@ -23,7 +23,7 @@ const AboutUs: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
         />
       </div>
 
-      {/* THE PURPOSE */}
+      {/* The purpose */}
       <div className="bg-white rounded-2xl p-6 shadow-md space-y-3">
         <div className="text-[#2e6f73] font-extrabold tracking-wide">
           THE PURPOSE
@@ -38,7 +38,7 @@ const AboutUs: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
         </p>
       </div>
 
-      {/* THE PROJECT */}
+      {/* The project */}
       <div className="bg-white rounded-2xl p-6 shadow-md space-y-4">
         <div className="text-[#2e6f73] font-extrabold tracking-wide">
           THE PROJECT
@@ -83,7 +83,7 @@ const AboutUs: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
         </ul>
       </div>
 
-      {/* THE TEAM */}
+      {/* The team */}
       <div className="bg-white rounded-2xl p-6 shadow-md space-y-3">
         <div className="text-[#2e6f73] font-extrabold tracking-wide">
           THE TEAM

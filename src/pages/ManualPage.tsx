@@ -91,8 +91,7 @@ const ManualPage: React.FC = () => {
           </IonMenuButton>
           <div className="text-lg font-bold text-gray-900">User Manual</div>
         </div>
-
-        {/* Section cards */}
+        {/* 1. Login */}
         <div
           id="section-login"
           className="bg-white rounded-2xl p-6 shadow-md space-y-3"
@@ -104,7 +103,7 @@ const ManualPage: React.FC = () => {
             Add your Log-in instructions here...
           </p>
         </div>
-
+        {/* 2. Update profile */}
         <div
           id="section-profile"
           className="bg-white rounded-2xl p-6 shadow-md space-y-3"
@@ -116,7 +115,7 @@ const ManualPage: React.FC = () => {
             Add your profile instructions here...
           </p>
         </div>
-
+        {/* 3. Search e-DiVA content */}
         <div
           id="section-search"
           className="bg-white rounded-2xl p-6 shadow-md space-y-3"
