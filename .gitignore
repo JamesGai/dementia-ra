@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+# capacitor
+/android
+/ios
+
 # testing
 /coverage
 
