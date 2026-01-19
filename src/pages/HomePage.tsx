@@ -2,7 +2,7 @@ import React from "react";
 import { IonButton, IonSearchbar } from "@ionic/react";
 
 interface HomePageProps {
-  onNavigate: (tab: "aboutUs") => void;
+  onNavigate: (tab: "profile") => void;
 }
 
 const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
@@ -80,7 +80,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </div>
           {/* Right */}
           <IonButton
-            onClick={() => onNavigate("aboutUs")}
+            onClick={() => onNavigate("profile")}
             className="shrink-0"
             style={
               {

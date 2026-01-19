@@ -7,10 +7,15 @@ import {
   informationCircleOutline,
   library,
   libraryOutline,
+  person,
+  personOutline,
 } from "ionicons/icons";
+// Main pages
 import AboutUsPage from "./pages/AboutUsPage";
 import HomePage from "./pages/HomePage";
 import ManualPage from "./pages/ManualPage";
+import ProfilePage from "./pages/ProfilePage";
+// Sub pages
 import ContactUsPage from "./subPages/ContactUsPage";
 import ManualSectionPage, {
   ManualSectionId,
@@ -19,7 +24,13 @@ import TeamPage from "./subPages/TeamPage";
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
-    "home" | "aboutUs" | "manual" | "contactUs" | "manualSection" | "team"
+    | "home"
+    | "aboutUs"
+    | "manual"
+    | "profile"
+    | "contactUs"
+    | "manualSection"
+    | "team"
   >("home");
   const [activeManualSection, setActiveManualSection] =
     useState<ManualSectionId | null>(null);
@@ -39,6 +50,8 @@ const App: React.FC = () => {
             }}
           />
         );
+      case "profile":
+        return <ProfilePage onNavigate={(tab: any) => setActiveTab(tab)} />;
       case "contactUs":
         return <ContactUsPage onBack={() => setActiveTab("aboutUs")} />;
       case "manualSection":
@@ -72,7 +85,7 @@ const App: React.FC = () => {
       {/* Footer */}
       <IonFooter className="ion-no-border">
         <div className="flex justify-around items-center bg-white border-t border-gray-100 py-3 px-2 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
-          {/* Home Page */}
+          {/* Home page */}
           <button
             onClick={() => setActiveTab("home")}
             className={`flex flex-col items-center flex-1 py-1 transition-all ${
@@ -89,7 +102,7 @@ const App: React.FC = () => {
             )}
           </button>
 
-          {/* About Us Page */}
+          {/* About us page */}
           <button
             onClick={() => setActiveTab("aboutUs")}
             className={`flex flex-col items-center flex-1 py-1 transition-all ${
@@ -110,7 +123,7 @@ const App: React.FC = () => {
             )}
           </button>
 
-          {/* Manual Page */}
+          {/* Manual page */}
           <button
             onClick={() => setActiveTab("manual")}
             className={`flex flex-col items-center flex-1 py-1 transition-all ${
@@ -123,6 +136,23 @@ const App: React.FC = () => {
             />
             <span className="text-[10px] font-medium">Manual</span>
             {activeTab === "manual" && (
+              <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
+            )}
+          </button>
+
+          {/* Profile page */}
+          <button
+            onClick={() => setActiveTab("profile")}
+            className={`flex flex-col items-center flex-1 py-1 transition-all ${
+              activeTab === "profile" ? "text-blue-600" : "text-gray-400"
+            }`}
+          >
+            <IonIcon
+              icon={activeTab === "profile" ? person : personOutline}
+              className="text-2xl mb-1"
+            />
+            <span className="text-[10px] font-medium">Profile</span>
+            {activeTab === "profile" && (
               <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
             )}
           </button>
