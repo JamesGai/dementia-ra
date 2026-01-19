@@ -2,13 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { IonApp, IonContent, IonFooter, IonIcon } from "@ionic/react";
 import {
   homeOutline,
-  searchOutline,
-  heartOutline,
-  chatbubbleEllipsesOutline,
   home,
-  search,
-  heart,
-  chatbubbleEllipses,
   informationCircle,
   informationCircleOutline,
   library,
@@ -19,10 +13,6 @@ import ContactUsPage from "./subPages/ContactUsPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import TeamPage from "./subPages/TeamPage";
 import ManualPage from "./pages/ManualPage";
-import VideoLibrary from "./pages/VideoLibrary";
-import SearchView from "./pages/SearchView";
-import ForYouView from "./pages/ForYouView";
-import ChatAssistant from "./pages/ChatAssistant";
 import ManualSectionPage, {
   ManualSectionId,
 } from "./subPages/ManualSectionPage";
@@ -33,10 +23,6 @@ const App: React.FC = () => {
     | "aboutUs"
     | "team"
     | "manual"
-    | "videos"
-    | "search"
-    | "foryou"
-    | "chat"
     | "contactUs"
     | "manualSection"
   >("home");
@@ -69,14 +55,6 @@ const App: React.FC = () => {
             sectionId={activeManualSection!}
           />
         );
-      case "videos":
-        return <VideoLibrary />;
-      case "search":
-        return <SearchView />;
-      case "foryou":
-        return <ForYouView />;
-      case "chat":
-        return <ChatAssistant />;
       default:
         return <HomePage onNavigate={(tab: any) => setActiveTab(tab)} />;
     }
@@ -148,61 +126,6 @@ const App: React.FC = () => {
             />
             <span className="text-[10px] font-medium">Manual</span>
             {activeTab === "manual" && (
-              <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
-            )}
-          </button>
-
-          {/* Search Page */}
-          <button
-            onClick={() => setActiveTab("search")}
-            className={`flex flex-col items-center flex-1 py-1 transition-all ${
-              activeTab === "search" ? "text-blue-600" : "text-gray-400"
-            }`}
-          >
-            <IonIcon
-              icon={activeTab === "search" ? search : searchOutline}
-              className="text-2xl mb-1"
-            />
-            <span className="text-[10px] font-medium">Search</span>
-            {activeTab === "search" && (
-              <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
-            )}
-          </button>
-
-          {/* Favourite Page */}
-          <button
-            onClick={() => setActiveTab("foryou")}
-            className={`flex flex-col items-center flex-1 py-1 transition-all ${
-              activeTab === "foryou" ? "text-blue-600" : "text-gray-400"
-            }`}
-          >
-            <IonIcon
-              icon={activeTab === "foryou" ? heart : heartOutline}
-              className="text-2xl mb-1"
-            />
-            <span className="text-[10px] font-medium">For You</span>
-            {activeTab === "foryou" && (
-              <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
-            )}
-          </button>
-
-          {/* Chatbot Page */}
-          <button
-            onClick={() => setActiveTab("chat")}
-            className={`flex flex-col items-center flex-1 py-1 transition-all ${
-              activeTab === "chat" ? "text-blue-600" : "text-gray-400"
-            }`}
-          >
-            <IonIcon
-              icon={
-                activeTab === "chat"
-                  ? chatbubbleEllipses
-                  : chatbubbleEllipsesOutline
-              }
-              className="text-2xl mb-1"
-            />
-            <span className="text-[10px] font-medium">Chat</span>
-            {activeTab === "chat" && (
               <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
             )}
           </button>
