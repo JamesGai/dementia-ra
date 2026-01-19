@@ -83,13 +83,10 @@ const ManualPage: React.FC = () => {
       {/* Main Content */}
       <div id="manual-content" className="p-4 space-y-6">
         {/* Top bar */}
-        <div className="flex items-center justify-between ">
+        <div className="flex items-center justify-between">
           <IonMenuButton autoHide={false}>
-            <IonButton
-              size="large"
-              style={{ "--background": "#2e6f73" } as any}
-            >
-              <IonIcon icon={menuOutline} slot="icon-only" />
+            <IonButton fill="clear" className="p-0 m-0">
+              <IonIcon icon={menuOutline} className="text-[#2e6f73] text-5xl" />
             </IonButton>
           </IonMenuButton>
           <div className="text-lg font-bold text-gray-900">User Manual</div>
