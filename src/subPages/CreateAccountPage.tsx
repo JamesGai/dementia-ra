@@ -1,10 +1,13 @@
-// CreateAccountPage.tsx
 import React from "react";
 import { IonButton } from "@ionic/react";
 
 interface CreateAccountPageProps {
   onBack: () => void;
 }
+
+const handleCreate = () => {
+  console.log("Account successfully created");
+};
 
 const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
   return (
@@ -89,6 +92,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
         </label>
         {/* Create account button */}
         <IonButton
+          onClick={handleCreate}
           expand="block"
           style={
             {

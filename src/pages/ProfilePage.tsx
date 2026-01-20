@@ -2,7 +2,7 @@ import React from "react";
 import { IonButton } from "@ionic/react";
 
 interface ProfilePageProps {
-  onNavigate: (tab: "createAccount") => void;
+  onNavigate: (tab: "createAccount" | "forgotPassword") => void;
 }
 
 const handleLogin = () => {
@@ -47,6 +47,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
           </div>
           {/* Forgot password button */}
           <button
+            onClick={() => onNavigate("forgotPassword")}
             type="button"
             className="text-sm font-semibold text-[#2e6f73] mt-1 active:opacity-70"
           >

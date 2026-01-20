@@ -18,6 +18,7 @@ import ProfilePage from "./pages/ProfilePage";
 // Sub pages
 import ContactUsPage from "./subPages/ContactUsPage";
 import CreateAccountPage from "./subPages/CreateAccountPage";
+import ForgotPasswordPage from "./subPages/ForgotPasswordPage";
 import ManualSectionPage, {
   ManualSectionId,
 } from "./subPages/ManualSectionPage";
@@ -31,6 +32,7 @@ const App: React.FC = () => {
     | "profile"
     | "contactUs"
     | "createAccount"
+    | "forgotPassword"
     | "manualSection"
     | "team"
   >("home");
@@ -58,6 +60,8 @@ const App: React.FC = () => {
         return <ContactUsPage onBack={() => setActiveTab("aboutUs")} />;
       case "createAccount":
         return <CreateAccountPage onBack={() => setActiveTab("profile")} />;
+      case "forgotPassword":
+        return <ForgotPasswordPage onBack={() => setActiveTab("profile")} />;
       case "manualSection":
         return (
           <ManualSectionPage
