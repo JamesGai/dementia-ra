@@ -5,7 +5,7 @@ interface AboutUsPageProps {
   onNavigate: (tab: "contactUs" | "team") => void;
 }
 
-const AboutUs: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
+const AboutUsPage: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
   return (
     <div className="p-4 space-y-6">
       {/* Top bar */}
@@ -135,4 +135,4 @@ const AboutUs: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
   );
 };
 
-export default AboutUs;
+export default AboutUsPage;

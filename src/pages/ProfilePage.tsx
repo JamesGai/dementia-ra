@@ -1,15 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { IonButton } from "@ionic/react";
 
 interface ProfilePageProps {
   onNavigate: (tab: "createAccount" | "forgotPassword") => void;
+  onLogin: () => void;
 }
 
-const handleLogin = () => {
-  console.log("Successfully logged in");
-};
-
-const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
+const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, onLogin }) => {
   return (
     <div className="p-4 space-y-6">
       {/* Top bar */}
@@ -63,7 +60,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
         </label>
         {/* Login button */}
         <IonButton
-          onClick={handleLogin}
+          onClick={onLogin}
           expand="block"
           style={
             {
