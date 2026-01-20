@@ -93,8 +93,8 @@ const AboutUs: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
           Research Team page.
         </p>
         <IonButton
-          expand="block"
           onClick={() => onNavigate("team")}
+          expand="block"
           style={
             {
               "--background": "#2e6f73",

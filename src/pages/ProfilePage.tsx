@@ -1,13 +1,15 @@
-// ProfilePage.tsx
 import React from "react";
 import { IonButton } from "@ionic/react";
 
 interface ProfilePageProps {
-  // keep it flexible like your AboutUsPage pattern
-  onNavigate?: (tab: "home" | "manual" | "about" | "chat") => void;
+  onNavigate: (tab: "createAccount") => void;
 }
 
-const ProfilePage: React.FC<ProfilePageProps> = () => {
+const handleLogin = () => {
+  console.log("Successfully logged in");
+};
+
+const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
   return (
     <div className="p-4 space-y-6">
       {/* Top bar */}
@@ -27,18 +29,15 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
             className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 placeholder:text-gray-400 outline-none focus:border-[#2e6f73]"
           />
         </div>
-
         {/* Password */}
         <div className="space-y-2">
           <div className="text-sm font-bold text-gray-900">Password</div>
-
           <div className="flex items-center gap-3 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 focus-within:border-[#2e6f73]">
             <input
               type="password"
               placeholder="Enter password"
               className="flex-1 bg-transparent text-gray-900 placeholder:text-gray-400 outline-none"
             />
-            {/* layout only */}
             <button
               type="button"
               className="text-gray-500 font-semibold active:opacity-70"
@@ -46,8 +45,14 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
               Show
             </button>
           </div>
+          {/* Forgot password button */}
+          <button
+            type="button"
+            className="text-sm font-semibold text-[#2e6f73] mt-1 active:opacity-70"
+          >
+            Forgot password?
+          </button>
         </div>
-
         {/* Remember me */}
         <label className="flex items-center gap-3">
           <input type="checkbox" className="h-4 w-4 accent-[#2e6f73]" />
@@ -55,9 +60,9 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
             Remember me
           </span>
         </label>
-
-        {/* Primary button */}
+        {/* Login button */}
         <IonButton
+          onClick={handleLogin}
           expand="block"
           style={
             {
@@ -72,6 +77,16 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
         >
           Login
         </IonButton>
+        {/* Create account button */}
+        <div className="text-center">
+          <button
+            onClick={() => onNavigate("createAccount")}
+            type="button"
+            className="text-sm font-semibold text-[#2e6f73] active:opacity-70"
+          >
+            Don’t have an account?
+          </button>
+        </div>
       </div>
 
       {/* Settings */}
@@ -79,7 +94,6 @@ const ProfilePage: React.FC<ProfilePageProps> = () => {
         <div className="text-[#2e6f73] font-extrabold tracking-wide uppercase">
           Settings
         </div>
-
         <button
           type="button"
           className="w-full text-left bg-white rounded-2xl shadow-md active:opacity-90"
