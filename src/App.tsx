@@ -63,9 +63,15 @@ const App: React.FC = () => {
         return (
           <ProfilePage
             onNavigate={(tab: any) => setActiveTab(tab)}
+            isLoggedIn={isLoggedIn}
             onLogin={() => {
               setIsLoggedIn(true);
               console.log("Successfully logged in");
+              setActiveTab("home");
+            }}
+            onLogout={() => {
+              setIsLoggedIn(false);
+              console.log("Successfully logged out");
               setActiveTab("home");
             }}
           />
