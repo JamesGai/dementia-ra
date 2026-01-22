@@ -22,12 +22,10 @@ const ManualPage: React.FC<ManualPageProps> = ({ onNavigate }) => {
   );
 
   return (
-    <div id="manual-content" className="p-4 space-y-6">
+    <div className="p-4 space-y-6">
       {/* Top bar */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="text-lg font-bold text-gray-900">User Manual</div>
-        </div>
+        <div className="text-lg font-bold text-gray-900">User Manual</div>
         <div className="w-[56px]" />
       </div>
 
