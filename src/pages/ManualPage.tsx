@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { ManualSectionId } from "../subPages/ManualSectionPage";
+import TopBar from "../components/universe/TopBar";
 
 interface ManualPageProps {
   onNavigate: (tab: "manualSection", sectionId: ManualSectionId) => void;
@@ -23,11 +24,7 @@ const ManualPage: React.FC<ManualPageProps> = ({ onNavigate }) => {
 
   return (
     <div className="p-4 space-y-6">
-      {/* Top bar */}
-      <div className="flex items-center justify-between">
-        <div className="text-lg font-bold text-gray-900">User Manual</div>
-        <div className="w-[56px]" />
-      </div>
+      <TopBar title="User Manual" />
 
       {/* Section cards */}
       {sections.map((s) => (
