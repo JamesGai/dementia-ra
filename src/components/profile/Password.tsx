@@ -1,10 +1,6 @@
 import React from "react";
 
-interface ProfilePageProps {
-  onNavigate: (tab: "forgotPassword") => void;
-}
-
-const Password: React.FC<ProfilePageProps> = ({ onNavigate }) => {
+const Password: React.FC = () => {
   return (
     <div className="space-y-2">
       <div className="text-sm font-bold text-gray-900">Password</div>
@@ -21,14 +17,6 @@ const Password: React.FC<ProfilePageProps> = ({ onNavigate }) => {
           Show
         </button>
       </div>
-      {/* Forgot password button */}
-      <button
-        onClick={() => onNavigate("forgotPassword")}
-        type="button"
-        className="text-sm font-semibold text-[#2e6f73] mt-1 active:opacity-70"
-      >
-        Forgot password?
-      </button>
     </div>
   );
 };

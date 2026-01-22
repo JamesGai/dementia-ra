@@ -1,8 +1,8 @@
 import React from "react";
-import CreateAccount from "../components/profile/createAccount";
 import Email from "../components/profile/Email";
 import LogInOut from "../components/profile/LogInOut";
 import Password from "../components/profile/Password";
+import TextButton from "../components/profile/TextButton";
 import Settings from "../components/profile/Settings";
 import TopBar from "../components/universe/TopBar";
 
@@ -26,13 +26,14 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
       {!isLoggedIn && (
         <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
           <Email />
-          <Password onNavigate={onNavigate} />
+          <Password />
+          <TextButton isForgotPassword={true} onNavigate={onNavigate} />
           <LogInOut
             isLoggedIn={isLoggedIn}
             onLogin={onLogin}
             onLogout={onLogout}
           />
-          <CreateAccount onNavigate={onNavigate} />
+          <TextButton isForgotPassword={false} onNavigate={onNavigate} />
         </div>
       )}
       <Settings />
