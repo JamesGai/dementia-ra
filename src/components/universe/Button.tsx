@@ -1,20 +1,15 @@
 import React from "react";
 import { IonButton } from "@ionic/react";
 
-interface ProfilePageProps {
-  isLoggedIn: boolean;
-  onLogin: () => void;
-  onLogout: () => void;
+interface ButtonProps {
+  text: string;
+  onClick: () => void;
 }
 
-const LogInOut: React.FC<ProfilePageProps> = ({
-  isLoggedIn,
-  onLogin,
-  onLogout,
-}) => {
+const Button: React.FC<ButtonProps> = ({ text, onClick }) => {
   return (
     <IonButton
-      onClick={isLoggedIn ? onLogout : onLogin}
+      onClick={onClick}
       expand="block"
       style={
         {
@@ -27,9 +22,9 @@ const LogInOut: React.FC<ProfilePageProps> = ({
         } as any
       }
     >
-      {isLoggedIn ? "Logout" : "Login"}
+      {text}
     </IonButton>
   );
 };
 
-export default LogInOut;
+export default Button;

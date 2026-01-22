@@ -1,6 +1,6 @@
 import React from "react";
+import Button from "../components/universe/Button";
 import Email from "../components/profile/Email";
-import LogInOut from "../components/profile/LogInOut";
 import Password from "../components/profile/Password";
 import TextButton from "../components/profile/TextButton";
 import Settings from "../components/profile/Settings";
@@ -28,23 +28,15 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
           <Email />
           <Password />
           <TextButton isForgotPassword={true} onNavigate={onNavigate} />
-          <LogInOut
-            isLoggedIn={isLoggedIn}
-            onLogin={onLogin}
-            onLogout={onLogout}
-          />
-          <TextButton isForgotPassword={false} onNavigate={onNavigate} />
+          <Button text="Login" onClick={onLogin} />
+          <div className="text-center">
+            <TextButton isForgotPassword={false} onNavigate={onNavigate} />
+          </div>
         </div>
       )}
       <Settings />
       {/* Logged in state */}
-      {isLoggedIn && (
-        <LogInOut
-          isLoggedIn={isLoggedIn}
-          onLogin={onLogin}
-          onLogout={onLogout}
-        />
-      )}
+      {isLoggedIn && <Button text="Logout" onClick={onLogout} />}
     </div>
   );
 };
