@@ -1,5 +1,6 @@
 import React from "react";
 import { IonButton } from "@ionic/react";
+import Button from "../universe/Button";
 
 interface ContactUsProps {
   onNavigate: (tab: "contactUs") => void;
@@ -13,19 +14,7 @@ const ContactUs: React.FC<ContactUsProps> = ({ onNavigate }) => {
         Need help or more information? You can call, email, or send us a
         message.
       </p>
-      <IonButton
-        expand="block"
-        onClick={() => onNavigate("contactUs")}
-        style={
-          {
-            "--background": "#2e6f73",
-            "--color": "#ffffff",
-            "--border-radius": "0px",
-          } as any
-        }
-      >
-        Contact us
-      </IonButton>
+      <Button text="Contact us" onClick={() => onNavigate("contactUs")} />
     </div>
   );
 };

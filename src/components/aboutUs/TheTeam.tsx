@@ -1,5 +1,6 @@
 import React from "react";
 import { IonButton } from "@ionic/react";
+import Button from "../universe/Button";
 
 interface TheTeamProps {
   onNavigate: (tab: "team") => void;
@@ -15,22 +16,7 @@ const TheTeam: React.FC<TheTeamProps> = ({ onNavigate }) => {
         If you would like to read more about our team members, please see the
         Research Team page.
       </p>
-      <IonButton
-        onClick={() => onNavigate("team")}
-        expand="block"
-        style={
-          {
-            "--background": "#2e6f73",
-            "--color": "#ffffff",
-            "--border-radius": "0px",
-            "--padding-top": "0.9rem",
-            "--padding-bottom": "0.9rem",
-            fontSize: "1rem",
-          } as any
-        }
-      >
-        View Research Team
-      </IonButton>
+      <Button text="View research team" onClick={() => onNavigate("team")} />
     </div>
   );
 };

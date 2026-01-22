@@ -1,5 +1,6 @@
 import React from "react";
 import { IonButton } from "@ionic/react";
+import Button from "../universe/Button";
 
 interface LoginProps {
   onJoin: () => void;
@@ -18,26 +19,8 @@ const Login: React.FC<LoginProps> = ({ onJoin }) => {
             <div className="mt-2 h-2 rounded bg-[#d8b06a]" />
           </div>
         </div>
-
         {/* Right */}
-        <IonButton
-          onClick={onJoin}
-          className="shrink-0"
-          style={
-            {
-              "--background": "#2e6f73",
-              "--color": "#ffffff",
-              "--border-radius": "0px",
-              "--padding-start": "1.5rem",
-              "--padding-end": "1.5rem",
-              "--padding-top": "0.9rem",
-              "--padding-bottom": "0.9rem",
-              fontSize: "1rem",
-            } as any
-          }
-        >
-          Join now
-        </IonButton>
+        <Button text="Join now" onClick={onJoin} />
       </div>
     </div>
   );
