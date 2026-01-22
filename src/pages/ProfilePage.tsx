@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../components/universe/Button";
 import Email from "../components/profile/Email";
 import Password from "../components/profile/Password";
-import TextButton from "../components/profile/TextButton";
+import TextButton from "../components/universe/TextButton";
 import Settings from "../components/profile/Settings";
 import TopBar from "../components/universe/TopBar";
 
@@ -27,10 +27,16 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
         <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
           <Email />
           <Password />
-          <TextButton isForgotPassword={true} onNavigate={onNavigate} />
+          <TextButton
+            text="Forgot password?"
+            onClick={() => onNavigate("forgotPassword")}
+          />
           <Button text="Login" onClick={onLogin} />
           <div className="text-center">
-            <TextButton isForgotPassword={false} onNavigate={onNavigate} />
+            <TextButton
+              text="Don't have account?"
+              onClick={() => onNavigate("createAccount")}
+            />
           </div>
         </div>
       )}
