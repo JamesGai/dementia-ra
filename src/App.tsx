@@ -161,43 +161,47 @@ const App: React.FC = () => {
             </button>
           )}
 
-          {/* About us page */}
-          <button
-            onClick={() => setActiveTab("aboutUs")}
-            className={`flex flex-col items-center flex-1 py-1 transition-all ${
-              activeTab === "aboutUs" ? "text-blue-600" : "text-gray-400"
-            }`}
-          >
-            <IonIcon
-              icon={
-                activeTab === "aboutUs"
-                  ? informationCircle
-                  : informationCircleOutline
-              }
-              className="text-2xl mb-1"
-            />
-            <span className="text-[10px] font-medium">About Us</span>
-            {activeTab === "aboutUs" && (
-              <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
-            )}
-          </button>
+          {!isLoggedIn && (
+            <>
+              {/* About us page */}
+              <button
+                onClick={() => setActiveTab("aboutUs")}
+                className={`flex flex-col items-center flex-1 py-1 transition-all ${
+                  activeTab === "aboutUs" ? "text-blue-600" : "text-gray-400"
+                }`}
+              >
+                <IonIcon
+                  icon={
+                    activeTab === "aboutUs"
+                      ? informationCircle
+                      : informationCircleOutline
+                  }
+                  className="text-2xl mb-1"
+                />
+                <span className="text-[10px] font-medium">About Us</span>
+                {activeTab === "aboutUs" && (
+                  <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
+                )}
+              </button>
 
-          {/* Manual page */}
-          <button
-            onClick={() => setActiveTab("manual")}
-            className={`flex flex-col items-center flex-1 py-1 transition-all ${
-              activeTab === "manual" ? "text-blue-600" : "text-gray-400"
-            }`}
-          >
-            <IonIcon
-              icon={activeTab === "manual" ? library : libraryOutline}
-              className="text-2xl mb-1"
-            />
-            <span className="text-[10px] font-medium">Manual</span>
-            {activeTab === "manual" && (
-              <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
-            )}
-          </button>
+              {/* Manual page */}
+              <button
+                onClick={() => setActiveTab("manual")}
+                className={`flex flex-col items-center flex-1 py-1 transition-all ${
+                  activeTab === "manual" ? "text-blue-600" : "text-gray-400"
+                }`}
+              >
+                <IonIcon
+                  icon={activeTab === "manual" ? library : libraryOutline}
+                  className="text-2xl mb-1"
+                />
+                <span className="text-[10px] font-medium">Manual</span>
+                {activeTab === "manual" && (
+                  <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
+                )}
+              </button>
+            </>
+          )}
 
           {/* Profile page */}
           <button
