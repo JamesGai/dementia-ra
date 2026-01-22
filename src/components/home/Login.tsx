@@ -1,12 +1,11 @@
 import React from "react";
-import { IonButton } from "@ionic/react";
 import Button from "../universe/Button";
 
 interface LoginProps {
-  onJoin: () => void;
+  onNavigate: (tab: "profile") => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onJoin }) => {
+const Login: React.FC<LoginProps> = ({ onNavigate }) => {
   return (
     <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-md">
       <div className="flex items-center justify-between gap-4">
@@ -20,7 +19,7 @@ const Login: React.FC<LoginProps> = ({ onJoin }) => {
           </div>
         </div>
         {/* Right */}
-        <Button text="Join now" onClick={onJoin} />
+        <Button text="Join now" onClick={() => onNavigate("profile")} />
       </div>
     </div>
   );

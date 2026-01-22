@@ -11,7 +11,7 @@ const Introduction: React.FC<IntroductionProps> = ({ isLoggedIn }) => {
       <h2 className="text-2xl font-bold text-[#2e6f73]">WELCOME TO E-DIVA</h2>
       {/* Logged out state */}
       {!isLoggedIn && (
-        <div>
+        <>
           <p className="text-gray-700 leading-relaxed">
             Are you currently providing care for someone with dementia? Caring
             for someone with dementia can be both rewarding and challenging.
@@ -48,7 +48,7 @@ const Introduction: React.FC<IntroductionProps> = ({ isLoggedIn }) => {
               reduce stress and improve well-being
             </li>
           </ul>
-        </div>
+        </>
       )}
       {/* Logged in state */}
       {isLoggedIn && (
