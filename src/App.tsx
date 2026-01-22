@@ -47,7 +47,12 @@ const App: React.FC = () => {
   const renderContent = () => {
     switch (activeTab) {
       case "home":
-        return <HomePage onNavigate={(tab: any) => setActiveTab(tab)} />;
+        return (
+          <HomePage
+            onNavigate={(tab: any) => setActiveTab(tab)}
+            isLoggedIn={isLoggedIn}
+          />
+        );
       case "aboutUs":
         return <AboutUsPage onNavigate={(tab: any) => setActiveTab(tab)} />;
       case "manual":
@@ -94,7 +99,12 @@ const App: React.FC = () => {
       case "team":
         return <TeamPage onBack={() => setActiveTab("aboutUs")} />;
       default:
-        return <HomePage onNavigate={(tab: any) => setActiveTab(tab)} />;
+        return (
+          <HomePage
+            onNavigate={(tab: any) => setActiveTab(tab)}
+            isLoggedIn={isLoggedIn}
+          />
+        );
     }
   };
 
