@@ -23,14 +23,15 @@ const VideoPage: React.FC = () => {
       <div className="bg-white rounded-2xl shadow-md overflow-hidden">
         <IonSegment
           value={segment}
+          style={{ fontSize: "1rem" }}
           onIonChange={(e) =>
             setSegment((e.detail.value as "all" | "history") || "all")
           }
         >
-          <IonSegmentButton value="all">
+          <IonSegmentButton value="all" style={{ fontSize: "1rem" }}>
             <IonLabel>All videos</IonLabel>
           </IonSegmentButton>
-          <IonSegmentButton value="history">
+          <IonSegmentButton value="history" style={{ fontSize: "1rem" }}>
             <IonLabel>History</IonLabel>
           </IonSegmentButton>
         </IonSegment>
