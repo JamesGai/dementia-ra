@@ -1,6 +1,5 @@
 import React from "react";
 import ContactUs from "../components/aboutUs/ContactUs";
-import Image from "../components/aboutUs/Image";
 import TheTeam from "../components/aboutUs/TheTeam";
 import TheProject from "../components/aboutUs/TheProject";
 import ThePurpose from "../components/aboutUs/ThePurpose";
@@ -14,7 +13,13 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
   return (
     <div className="p-4 space-y-6">
       <TopBar title="About Us" />
-      <Image />
+      <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+        <img
+          src="Carers.png"
+          alt="Carer supporting an older adult"
+          className="w-full h-56 object-cover"
+        />
+      </div>
       <ThePurpose />
       <TheProject />
       <TheTeam onNavigate={onNavigate} />
