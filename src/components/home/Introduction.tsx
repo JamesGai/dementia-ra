@@ -20,7 +20,7 @@ const Introduction: React.FC<IntroductionProps> = ({ isLoggedIn }) => {
             lines="none"
             className="text-[#2e6f73] font-extrabold tracking-wide"
           >
-            <IonLabel>WELCOME TO E-DIVA</IonLabel>
+            <IonLabel className="pl-2">WELCOME TO E-DIVA</IonLabel>
           </IonItem>
           <div slot="content" className="p-6 pt-1">
             {/* Logged out state */}

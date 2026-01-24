@@ -16,7 +16,7 @@ const ThePurpose: React.FC = () => {
             lines="none"
             className="text-[#2e6f73] font-extrabold tracking-wide"
           >
-            <IonLabel>THE PURPOSE</IonLabel>
+            <IonLabel className="pl-2">THE PURPOSE</IonLabel>
           </IonItem>
           <div slot="content" className="p-6 pt-1">
             <p className="text-gray-700 leading-relaxed">
