@@ -20,7 +20,7 @@ const VideoDetailPage: React.FC<VideoDetailPageProps> = ({ video }) => {
 
   return (
     <div className="p-4 space-y-6">
-      {/* Video player (simple example) */}
+      {/* Video player */}
       <div className="bg-white rounded-2xl shadow-md overflow-hidden">
         {video.src ? (
           <video
@@ -38,10 +38,11 @@ const VideoDetailPage: React.FC<VideoDetailPageProps> = ({ video }) => {
 
       {/* Title + Description */}
       <div className="bg-white rounded-2xl p-4 shadow-md space-y-2">
-        <div className="text-base font-bold text-gray-900">{video.title}</div>
-        <div className="text-sm text-gray-600 leading-relaxed">
-          {video.description}
+        <div className="text-[#2e6f73] font-extrabold tracking-wide">
+          {video.title}
         </div>
+        <div className="h-px w-full bg-gray-400" />
+        <div className="text-gray-700 leading-relaxed">{video.description}</div>
       </div>
     </div>
   );

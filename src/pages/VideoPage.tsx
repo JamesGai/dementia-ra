@@ -109,7 +109,9 @@ const VideoPage: React.FC<VideoPageProps> = ({ onNavigate, onSelectVideo }) => {
                 </div>
               </div>
               <div className="p-4">
-                <div className="font-bold text-gray-900">{v.title}</div>
+                <div className="text-[#2e6f73] font-extrabold tracking-wide">
+                  {v.title}
+                </div>
               </div>
             </button>
           ))}
