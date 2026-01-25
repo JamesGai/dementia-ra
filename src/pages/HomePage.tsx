@@ -7,7 +7,7 @@ import SearchBar from "../components/home/SearchBar";
 import WelcomeCard from "../components/home/WelcomeCard";
 
 interface HomePageProps {
-  onNavigate: (tab: "aboutUs" | "manual" | "contactUs" | "profile") => void;
+  onNavigate: (tab: "aboutUs" | "manual" | "profile") => void;
   isLoggedIn: boolean;
 }
 
