@@ -22,10 +22,9 @@ import VideoPage from "./pages/VideoPage";
 import ContactUsPage from "./subPages/ContactUsPage";
 import CreateAccountPage from "./subPages/CreateAccountPage";
 import ForgotPasswordPage from "./subPages/ForgotPasswordPage";
-import ManualSectionPage, {
-  ManualSectionId,
-} from "./subPages/ManualSectionPage";
+import ManualDetailPage, { ManualDetailId } from "./subPages/ManualDetailPage";
 import TeamPage from "./subPages/TeamPage";
+import VideoDetailPage from "./subPages/VideoDetailPage";
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
@@ -34,14 +33,15 @@ const App: React.FC = () => {
     | "manual"
     | "profile"
     | "video"
+    | "videoDetail"
     | "contactUs"
     | "createAccount"
     | "forgotPassword"
-    | "manualSection"
+    | "manualDetail"
     | "team"
   >("home");
-  const [activeManualSection, setActiveManualSection] =
-    useState<ManualSectionId | null>(null);
+  const [activeManualDetail, setActiveManualDetail] =
+    useState<ManualDetailId | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const renderContent = () => {
@@ -59,7 +59,7 @@ const App: React.FC = () => {
         return (
           <ManualPage
             onNavigate={(tab, sectionId) => {
-              setActiveManualSection(sectionId);
+              setActiveManualDetail(sectionId);
               setActiveTab(tab);
             }}
           />
@@ -82,18 +82,20 @@ const App: React.FC = () => {
           />
         );
       case "video":
-        return <VideoPage />;
+        return <VideoPage onNavigate={(tab: any) => setActiveTab(tab)} />;
+      case "videoDetail":
+        return <VideoDetailPage />;
       case "contactUs":
         return <ContactUsPage onBack={() => setActiveTab("aboutUs")} />;
       case "createAccount":
         return <CreateAccountPage onBack={() => setActiveTab("profile")} />;
       case "forgotPassword":
         return <ForgotPasswordPage onBack={() => setActiveTab("profile")} />;
-      case "manualSection":
+      case "manualDetail":
         return (
-          <ManualSectionPage
+          <ManualDetailPage
             onBack={() => setActiveTab("manual")}
-            sectionId={activeManualSection!}
+            sectionId={activeManualDetail!}
           />
         );
       case "team":

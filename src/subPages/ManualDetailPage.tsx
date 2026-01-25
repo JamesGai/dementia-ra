@@ -1,6 +1,6 @@
 import React from "react";
 
-export type ManualSectionId =
+export type ManualDetailId =
   | "login"
   | "profile"
   | "search"
@@ -11,7 +11,7 @@ export type ManualSectionId =
   | "services"
   | "chatbot";
 
-const SECTION_TITLES: Record<ManualSectionId, string> = {
+const SECTION_TITLES: Record<ManualDetailId, string> = {
   login: "Log-in",
   profile: "Update your profile",
   search: "Search e-DiVA content",
@@ -23,12 +23,12 @@ const SECTION_TITLES: Record<ManualSectionId, string> = {
   chatbot: "Chatbot",
 };
 
-interface ManualSectionPageProps {
+interface ManualDetailPageProps {
   onBack: () => void;
-  sectionId: ManualSectionId;
+  sectionId: ManualDetailId;
 }
 
-const ManualSectionPage: React.FC<ManualSectionPageProps> = ({
+const ManualDetailPage: React.FC<ManualDetailPageProps> = ({
   onBack,
   sectionId,
 }) => {
@@ -61,4 +61,4 @@ const ManualSectionPage: React.FC<ManualSectionPageProps> = ({
   );
 };
 
-export default ManualSectionPage;
+export default ManualDetailPage;

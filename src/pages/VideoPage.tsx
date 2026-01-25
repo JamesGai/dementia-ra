@@ -6,6 +6,10 @@ import TopBar from "../components/universe/TopBar";
 
 type Segment = "all" | "history";
 
+interface VideoPageProps {
+  onNavigate: (tab: "videoDetail") => void;
+}
+
 interface VideoItem {
   id: string;
   title: string;
@@ -14,7 +18,7 @@ interface VideoItem {
   thumbnail: string;
 }
 
-const VideoPage: React.FC = () => {
+const VideoPage: React.FC<VideoPageProps> = ({ onNavigate }) => {
   const [segment, setSegment] = useState<Segment>("all");
   const [page, setPage] = useState(1);
   const totalPages = 5;
@@ -77,7 +81,7 @@ const VideoPage: React.FC = () => {
             <button
               key={v.id}
               type="button"
-              onClick={() => console.log("Open video:", v.id)}
+              onClick={() => onNavigate("videoDetail")}
               className="w-full bg-white rounded-2xl shadow-md overflow-hidden text-left active:opacity-90"
             >
               <div className="relative">

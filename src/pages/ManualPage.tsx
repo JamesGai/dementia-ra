@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
-import { ManualSectionId } from "../subPages/ManualSectionPage";
+import { ManualDetailId } from "../subPages/ManualDetailPage";
 import TopBar from "../components/universe/TopBar";
 
 interface ManualPageProps {
-  onNavigate: (tab: "manualSection", sectionId: ManualSectionId) => void;
+  onNavigate: (tab: "manualDetail", sectionId: ManualDetailId) => void;
 }
 
 const ManualPage: React.FC<ManualPageProps> = ({ onNavigate }) => {
@@ -30,7 +30,7 @@ const ManualPage: React.FC<ManualPageProps> = ({ onNavigate }) => {
       {sections.map((s) => (
         <button
           key={s.id}
-          onClick={() => onNavigate("manualSection", s.id)}
+          onClick={() => onNavigate("manualDetail", s.id)}
           className="w-full text-left rounded-2xl shadow-md active:opacity-90"
         >
           <div className="px-8 py-7 space-y-3 bg-[#2e6f73]">
