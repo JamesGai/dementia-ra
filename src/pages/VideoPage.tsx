@@ -6,25 +6,21 @@ import TopBar from "../components/universe/TopBar";
 
 type Segment = "all" | "history";
 
-interface VideoPageProps {
-  onNavigate: (tab: "videoDetail") => void;
-}
-
-interface VideoItem {
+export interface VideoItem {
   id: string;
   title: string;
   description: string;
   duration: string;
   thumbnail: string;
+  src: string;
 }
 
-const VideoPage: React.FC<VideoPageProps> = ({ onNavigate }) => {
-  const [segment, setSegment] = useState<Segment>("all");
-  const [page, setPage] = useState(1);
-  const totalPages = 5;
-  const goPrev = () => setPage((prev) => Math.max(1, prev - 1));
-  const goNext = () => setPage((prev) => Math.min(totalPages, prev + 1));
+interface VideoPageProps {
+  onNavigate: (tab: "videoDetail") => void;
+  onSelectVideo: (video: VideoItem) => void;
+}
 
+const VideoPage: React.FC<VideoPageProps> = ({ onNavigate, onSelectVideo }) => {
   const dummyVideos: VideoItem[] = useMemo(
     () => [
       {
@@ -33,6 +29,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ onNavigate }) => {
         description: "A gentle introduction to dementia and what to expect.",
         duration: "08:45",
         thumbnail: "https://picsum.photos/seed/dementia1/640/360",
+        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
         id: "2",
@@ -40,6 +37,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ onNavigate }) => {
         description: "Practical ways to reduce frustration and connect.",
         duration: "06:12",
         thumbnail: "https://picsum.photos/seed/dementia2/640/360",
+        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
         id: "3",
@@ -47,6 +45,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ onNavigate }) => {
         description: "Small routine changes that can support wellbeing.",
         duration: "10:03",
         thumbnail: "https://picsum.photos/seed/dementia3/640/360",
+        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
         id: "4",
@@ -54,6 +53,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ onNavigate }) => {
         description: "Simple strategies to prevent burnout and stay balanced.",
         duration: "07:28",
         thumbnail: "https://picsum.photos/seed/dementia4/640/360",
+        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
         id: "5",
@@ -61,27 +61,40 @@ const VideoPage: React.FC<VideoPageProps> = ({ onNavigate }) => {
         description: "A quick checklist to reduce risks and improve safety.",
         duration: "05:50",
         thumbnail: "https://picsum.photos/seed/dementia5/640/360",
+        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
     ],
     [],
   );
+  const [segment, setSegment] = useState<Segment>("all");
+  const [page, setPage] = useState(1);
+
+  const totalPages = 5;
+  const goPrev = () => setPage((prev) => Math.max(1, prev - 1));
+  const goNext = () => setPage((prev) => Math.min(totalPages, prev + 1));
+
+  const handleOpenVideo = (video: VideoItem) => {
+    onNavigate("videoDetail");
+    onSelectVideo(video);
+  };
 
   return (
     <div className="p-4 space-y-6">
       <TopBar title="Videos" />
       <Segment value={segment} onChange={setSegment} />
+
       <Button
         text="User Instruction"
         onClick={() => console.log("Instruction of video page presented")}
       />
-      {/* Video content */}
+
       {segment === "all" ? (
         <div className="space-y-4">
           {dummyVideos.map((v) => (
             <button
               key={v.id}
               type="button"
-              onClick={() => onNavigate("videoDetail")}
+              onClick={() => handleOpenVideo(v)}
               className="w-full bg-white rounded-2xl shadow-md overflow-hidden text-left active:opacity-90"
             >
               <div className="relative">
@@ -97,9 +110,6 @@ const VideoPage: React.FC<VideoPageProps> = ({ onNavigate }) => {
               </div>
               <div className="p-4">
                 <div className="font-bold text-gray-900">{v.title}</div>
-                {/* <div className="mt-1 text-xs text-gray-600 leading-relaxed">
-                  {v.description}
-                </div> */}
               </div>
             </button>
           ))}
@@ -109,6 +119,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ onNavigate }) => {
           No videos watched yet
         </div>
       )}
+
       <Pagination
         page={page}
         totalPages={totalPages}

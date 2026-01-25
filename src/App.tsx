@@ -17,7 +17,7 @@ import AboutUsPage from "./pages/AboutUsPage";
 import HomePage from "./pages/HomePage";
 import ManualPage from "./pages/ManualPage";
 import ProfilePage from "./pages/ProfilePage";
-import VideoPage from "./pages/VideoPage";
+import VideoPage, { VideoItem } from "./pages/VideoPage";
 // Sub pages
 import ContactUsPage from "./subPages/ContactUsPage";
 import CreateAccountPage from "./subPages/CreateAccountPage";
@@ -40,9 +40,12 @@ const App: React.FC = () => {
     | "manualDetail"
     | "team"
   >("home");
+
   const [activeManualDetail, setActiveManualDetail] =
     useState<ManualDetailId | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const contentRef = useRef<HTMLIonContentElement | null>(null);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -82,9 +85,17 @@ const App: React.FC = () => {
           />
         );
       case "video":
-        return <VideoPage onNavigate={(tab: any) => setActiveTab(tab)} />;
+        return (
+          <VideoPage
+            onNavigate={(tab: any) => setActiveTab(tab)}
+            onSelectVideo={(video) => {
+              setSelectedVideo(video);
+              setActiveTab("videoDetail");
+            }}
+          />
+        );
       case "videoDetail":
-        return <VideoDetailPage />;
+        return <VideoDetailPage video={selectedVideo ?? undefined} />;
       case "contactUs":
         return <ContactUsPage onBack={() => setActiveTab("aboutUs")} />;
       case "createAccount":
@@ -110,10 +121,8 @@ const App: React.FC = () => {
     }
   };
 
-  const contentRef = useRef<HTMLIonContentElement | null>(null);
-
   useEffect(() => {
-    // reset scroll whenever you switch pages
+    // Reset scroll whenever you switch pages
     contentRef.current?.scrollToTop(0);
   }, [activeTab]);
 
@@ -123,7 +132,6 @@ const App: React.FC = () => {
       <IonContent ref={contentRef}>
         <div className="pb-24">{renderContent()}</div>
       </IonContent>
-
       {/* Footer */}
       <IonFooter className="ion-no-border">
         <div className="flex justify-around items-center bg-white border-t border-gray-100 py-3 px-2 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
@@ -143,7 +151,6 @@ const App: React.FC = () => {
               <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
             )}
           </button>
-
           {/* Video page (login) */}
           {isLoggedIn && (
             <button
@@ -162,7 +169,6 @@ const App: React.FC = () => {
               )}
             </button>
           )}
-
           {!isLoggedIn && (
             <>
               {/* About us page */}
@@ -185,7 +191,6 @@ const App: React.FC = () => {
                   <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
                 )}
               </button>
-
               {/* Manual page */}
               <button
                 onClick={() => setActiveTab("manual")}
@@ -204,7 +209,6 @@ const App: React.FC = () => {
               </button>
             </>
           )}
-
           {/* Profile page */}
           <button
             onClick={() => setActiveTab("profile")}
