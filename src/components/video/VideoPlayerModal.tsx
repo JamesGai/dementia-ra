@@ -44,8 +44,12 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="end">
-            <IonButton onClick={handleClose} aria-label="Close">
-              <IonIcon icon={closeOutline} />
+            <IonButton
+              onClick={handleClose}
+              aria-label="Close"
+              className="w-11 h-11 rounded-full flex items-center justify-center"
+            >
+              <IonIcon icon={closeOutline} className="text-2xl" />
             </IonButton>
           </IonButtons>
         </IonToolbar>
