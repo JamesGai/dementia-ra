@@ -18,9 +18,14 @@ export interface VideoItem {
 interface VideoPageProps {
   onNavigate: (tab: "videoDetail") => void;
   onSelectVideo: (video: VideoItem) => void;
+  historyVideos: VideoItem[];
 }
 
-const VideoPage: React.FC<VideoPageProps> = ({ onNavigate, onSelectVideo }) => {
+const VideoPage: React.FC<VideoPageProps> = ({
+  onNavigate,
+  onSelectVideo,
+  historyVideos,
+}) => {
   const dummyVideos: VideoItem[] = useMemo(
     () => [
       {
@@ -111,6 +116,29 @@ const VideoPage: React.FC<VideoPageProps> = ({ onNavigate, onSelectVideo }) => {
               <div className="p-4">
                 <div className="text-[#2e6f73] font-extrabold tracking-wide">
                   {v.title}
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      ) : historyVideos.length > 0 ? (
+        <div className="space-y-4">
+          {historyVideos.map((v) => (
+            <button
+              key={v.id}
+              type="button"
+              onClick={() => handleOpenVideo(v)}
+              className="w-full bg-white rounded-2xl shadow-md overflow-hidden text-left active:opacity-90"
+            >
+              <div className="flex items-center gap-4 p-4">
+                <img
+                  src={v.thumbnail}
+                  alt={v.title}
+                  className="w-24 h-16 object-cover rounded-lg"
+                />
+                <div className="flex-1">
+                  <div className="text-[#2e6f73] font-bold">{v.title}</div>
+                  <div className="text-xs text-gray-500 mt-1">Watched</div>
                 </div>
               </div>
             </button>

@@ -44,8 +44,16 @@ const App: React.FC = () => {
   const [activeManualDetail, setActiveManualDetail] =
     useState<ManualDetailId | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
+  const [videoHistory, setVideoHistory] = useState<VideoItem[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const contentRef = useRef<HTMLIonContentElement | null>(null);
+
+  const addToVideoHistory = (video: VideoItem) => {
+    setVideoHistory((prev) => {
+      const filtered = prev.filter((v) => v.id !== video.id);
+      return [video, ...filtered];
+    });
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -90,8 +98,10 @@ const App: React.FC = () => {
             onNavigate={(tab: any) => setActiveTab(tab)}
             onSelectVideo={(video) => {
               setSelectedVideo(video);
+              addToVideoHistory(video);
               setActiveTab("videoDetail");
             }}
+            historyVideos={videoHistory}
           />
         );
       case "videoDetail":
