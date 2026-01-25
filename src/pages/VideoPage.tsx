@@ -4,8 +4,9 @@ import Pagination from "../components/video/Pagination";
 import Segment from "../components/video/Segment";
 import TopBar from "../components/universe/TopBar";
 import VideoContent from "../components/video/VideoContent";
+import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
-type Segment = "all" | "history";
+type SegmentType = "all" | "history";
 
 export interface VideoItem {
   id: string;
@@ -17,14 +18,12 @@ export interface VideoItem {
 }
 
 interface VideoPageProps {
-  onNavigate: (tab: "videoDetail") => void;
-  onSelectVideo: (video: VideoItem) => void;
+  addToVideoHistory: (video: VideoItem) => void;
   historyVideos: VideoItem[];
 }
 
 const VideoPage: React.FC<VideoPageProps> = ({
-  onNavigate,
-  onSelectVideo,
+  addToVideoHistory,
   historyVideos,
 }) => {
   const dummyVideos: VideoItem[] = useMemo(
@@ -72,7 +71,12 @@ const VideoPage: React.FC<VideoPageProps> = ({
     ],
     [],
   );
-  const [segment, setSegment] = useState<Segment>("all");
+
+  const [selectedVideo, setSelectedVideo] = useState<VideoItem | undefined>(
+    undefined,
+  );
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [segment, setSegment] = useState<SegmentType>("all");
   const [page, setPage] = useState(1);
 
   const totalPages = 5;
@@ -80,8 +84,9 @@ const VideoPage: React.FC<VideoPageProps> = ({
   const goNext = () => setPage((prev) => Math.min(totalPages, prev + 1));
 
   const handleOpenVideo = (video: VideoItem) => {
-    onNavigate("videoDetail");
-    onSelectVideo(video);
+    addToVideoHistory(video);
+    setSelectedVideo(video);
+    setIsVideoOpen(true);
   };
 
   return (
@@ -90,7 +95,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
       <Segment value={segment} onChange={setSegment} />
       <Button
         text="User Instruction"
-        onClick={() => console.log("Instruction of video page presented")}
+        onClick={() => console.log("Instruction modal can be separate too")}
       />
       <VideoContent
         segment={segment}
@@ -103,6 +108,11 @@ const VideoPage: React.FC<VideoPageProps> = ({
         totalPages={totalPages}
         onPrev={goPrev}
         onNext={goNext}
+      />
+      <VideoPlayerModal
+        isVideoOpen={isVideoOpen}
+        onClose={() => setIsVideoOpen(false)}
+        video={selectedVideo}
       />
     </div>
   );
