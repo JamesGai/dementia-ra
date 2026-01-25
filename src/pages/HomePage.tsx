@@ -18,12 +18,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, isLoggedIn }) => {
       <SearchBar />
       <Introduction isLoggedIn={isLoggedIn} />
       {/* Logged in state */}
-      {isLoggedIn && (
-        <>
-          <QuickAccess onNavigate={onNavigate} />
-          <ContactUs onNavigate={onNavigate} />
-        </>
-      )}
+      {isLoggedIn && <QuickAccess onNavigate={onNavigate} />}
       {/* Logged out state */}
       {!isLoggedIn && <Login onNavigate={onNavigate} />}
     </div>
