@@ -26,6 +26,15 @@ const VideoPage: React.FC<VideoPageProps> = ({
   addToVideoHistory,
   historyVideos,
 }) => {
+  const instructionVideo: VideoItem = {
+    id: "instruction",
+    title: "How to use the Videos page",
+    description:
+      "This short video explains how to browse videos, play them, and review your watch history.",
+    duration: "02:30",
+    thumbnail: "",
+    src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+  };
   const dummyVideos: VideoItem[] = useMemo(
     () => [
       {
@@ -83,6 +92,11 @@ const VideoPage: React.FC<VideoPageProps> = ({
   const goPrev = () => setPage((prev) => Math.max(1, prev - 1));
   const goNext = () => setPage((prev) => Math.min(totalPages, prev + 1));
 
+  const handleOpenInstruction = () => {
+    setSelectedVideo(instructionVideo);
+    setIsVideoOpen(true);
+  };
+
   const handleOpenVideo = (video: VideoItem) => {
     addToVideoHistory(video);
     setSelectedVideo(video);
@@ -93,10 +107,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
     <div className="p-4 space-y-6">
       <TopBar title="Videos" />
       <Segment value={segment} onChange={setSegment} />
-      <Button
-        text="User Instruction"
-        onClick={() => console.log("Instruction modal can be separate too")}
-      />
+      <Button text="User Instruction" onClick={handleOpenInstruction} />
       <VideoContent
         segment={segment}
         videos={dummyVideos}
