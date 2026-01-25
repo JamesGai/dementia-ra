@@ -24,7 +24,6 @@ import CreateAccountPage from "./subPages/CreateAccountPage";
 import ForgotPasswordPage from "./subPages/ForgotPasswordPage";
 import ManualDetailPage, { ManualDetailId } from "./subPages/ManualDetailPage";
 import TeamPage from "./subPages/TeamPage";
-import VideoDetailPage from "./subPages/VideoDetailPage";
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
@@ -33,7 +32,6 @@ const App: React.FC = () => {
     | "manual"
     | "profile"
     | "video"
-    | "videoDetail"
     | "contactUs"
     | "createAccount"
     | "forgotPassword"
@@ -43,7 +41,6 @@ const App: React.FC = () => {
 
   const [activeManualDetail, setActiveManualDetail] =
     useState<ManualDetailId | null>(null);
-  const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
   const [videoHistory, setVideoHistory] = useState<VideoItem[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const contentRef = useRef<HTMLIonContentElement | null>(null);
@@ -95,17 +92,10 @@ const App: React.FC = () => {
       case "video":
         return (
           <VideoPage
-            onNavigate={(tab: any) => setActiveTab(tab)}
-            onSelectVideo={(video) => {
-              setSelectedVideo(video);
-              addToVideoHistory(video);
-              setActiveTab("videoDetail");
-            }}
+            addToVideoHistory={(video: VideoItem) => addToVideoHistory(video)}
             historyVideos={videoHistory}
           />
         );
-      case "videoDetail":
-        return <VideoDetailPage video={selectedVideo ?? undefined} />;
       case "contactUs":
         return <ContactUsPage onBack={() => setActiveTab("aboutUs")} />;
       case "createAccount":
