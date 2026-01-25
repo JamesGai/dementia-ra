@@ -1,13 +1,7 @@
 import React, { useMemo, useState } from "react";
-import {
-  IonButton,
-  IonIcon,
-  IonLabel,
-  IonSegment,
-  IonSegmentButton,
-} from "@ionic/react";
-import { chevronBackOutline, chevronForwardOutline } from "ionicons/icons";
 import Button from "../components/universe/Button";
+import Pagination from "../components/video/Pagination";
+import Segment from "../components/video/Segment";
 import TopBar from "../components/universe/TopBar";
 
 type Segment = "all" | "history";
@@ -71,21 +65,7 @@ const VideoPage: React.FC = () => {
   return (
     <div className="p-4 space-y-6">
       <TopBar title="Videos" />
-      {/* Segment */}
-      <div className="bg-white rounded-2xl shadow-md overflow-hidden">
-        <IonSegment
-          value={segment}
-          style={{ fontSize: "1rem" }}
-          onIonChange={(e) => setSegment((e.detail.value as Segment) || "all")}
-        >
-          <IonSegmentButton value="all" style={{ fontSize: "1rem" }}>
-            <IonLabel>All videos</IonLabel>
-          </IonSegmentButton>
-          <IonSegmentButton value="history" style={{ fontSize: "1rem" }}>
-            <IonLabel>History</IonLabel>
-          </IonSegmentButton>
-        </IonSegment>
-      </div>
+      <Segment value={segment} onChange={setSegment} />
       <Button
         text="User Instruction"
         onClick={() => console.log("Instruction of video page presented")}
@@ -125,28 +105,12 @@ const VideoPage: React.FC = () => {
           No videos watched yet
         </div>
       )}
-      {/* Pagination */}
-      <div className="flex items-center justify-center gap-4">
-        <IonButton
-          fill="clear"
-          onClick={goPrev}
-          disabled={page === 1}
-          aria-label="Previous page"
-        >
-          <IonIcon icon={chevronBackOutline} />
-        </IonButton>
-        <div className="text-sm font-semibold text-gray-700">
-          Page {page} of {totalPages}
-        </div>
-        <IonButton
-          fill="clear"
-          onClick={goNext}
-          disabled={page === totalPages}
-          aria-label="Next page"
-        >
-          <IonIcon icon={chevronForwardOutline} />
-        </IonButton>
-      </div>
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        onPrev={goPrev}
+        onNext={goNext}
+      />
     </div>
   );
 };
