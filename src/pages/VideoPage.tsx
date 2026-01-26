@@ -8,7 +8,7 @@ import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
 type VideoSegment = "all" | "history";
 
-export interface VideoItem {
+interface VideoItem {
   id: string;
   title: string;
   description: string;
@@ -172,15 +172,16 @@ const VideoPage: React.FC<VideoPageProps> = ({
     { value: "history", label: "History" },
   ] as const;
 
+  const [segment, setSegment] = useState<VideoSegment>("all");
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | undefined>(
     undefined,
   );
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const [segment, setSegment] = useState<VideoSegment>("all");
   const [page, setPage] = useState(1);
 
   const sourceList = segment === "all" ? dummyVideos : historyVideos;
   const totalPages = Math.max(1, Math.ceil(sourceList.length / PAGE_SIZE));
+
   const goPrev = () => {
     setPage((prev) => {
       const next = Math.max(1, prev - 1);
@@ -197,16 +198,16 @@ const VideoPage: React.FC<VideoPageProps> = ({
     });
   };
 
-  const handleOpenInstruction = () => {
-    setSelectedVideo(instructionVideo);
-    setIsVideoOpen(true);
-  };
-
   // Slice current page items
   const pagedVideos = useMemo(() => {
     const start = (page - 1) * PAGE_SIZE;
     return sourceList.slice(start, start + PAGE_SIZE);
   }, [sourceList, page]);
+
+  const handleOpenInstruction = () => {
+    setSelectedVideo(instructionVideo);
+    setIsVideoOpen(true);
+  };
 
   const handleOpenVideo = (video: VideoItem) => {
     addToVideoHistory(video);
