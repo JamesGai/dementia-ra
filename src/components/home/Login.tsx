@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../universe/Button";
+import Button from "../universal/Button";
 
 interface LoginProps {
   onNavigate: (tab: "profile") => void;

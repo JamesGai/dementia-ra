@@ -1,6 +1,6 @@
 import React from "react";
 import { IonButton } from "@ionic/react";
-import Button from "../universe/Button";
+import Button from "../universal/Button";
 
 interface TheTeamProps {
   onNavigate: (tab: "team") => void;

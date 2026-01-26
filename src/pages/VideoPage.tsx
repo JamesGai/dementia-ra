@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
-import Button from "../components/universe/Button";
+import Button from "../components/universal/Button";
 import Pagination from "../components/video/Pagination";
 import Segment from "../components/video/Segment";
-import TopBar from "../components/universe/TopBar";
+import TopBar from "../components/universal/TopBar";
 import VideoContent from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
 

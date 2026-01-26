@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
-import AccordionCard from "../universe/AccordionCard";
-import Button from "../universe/Button";
-import TextButton from "../universe/TextButton";
+import AccordionCard from "../universal/AccordionCard";
+import Button from "../universal/Button";
+import TextButton from "../universal/TextButton";
 
 type FontSizeOption = "standard" | "large" | "xlarge";
 const STORAGE_KEY = "settings.fontSize";
@@ -59,9 +59,7 @@ const Settings: React.FC = () => {
   }, [fontSize, sizeMap]);
 
   return (
-    <AccordionCard
-      title="FONT SIZE"
-    >
+    <AccordionCard title="FONT SIZE">
       <div className="pt-5 space-y-4">
         <div className="space-y-3">
           {FONT_SIZE_OPTIONS.map((option) => (

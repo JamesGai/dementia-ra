@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { ManualDetailId } from "../subPages/ManualDetailPage";
-import TopBar from "../components/universe/TopBar";
+import TopBar from "../components/universal/TopBar";
 
 interface ManualPageProps {
   onNavigate: (tab: "manualDetail", sectionId: ManualDetailId) => void;

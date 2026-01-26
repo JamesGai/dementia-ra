@@ -1,6 +1,6 @@
 import React from "react";
-import AccordionCard from "../universe/AccordionCard";
-import Button from "../universe/Button";
+import AccordionCard from "../universal/AccordionCard";
+import Button from "../universal/Button";
 
 interface QuickAccessProps {
   onNavigate: (tab: "aboutUs" | "manual") => void;

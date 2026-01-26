@@ -1,8 +1,8 @@
 import React from "react";
-import Button from "../components/universe/Button";
+import Button from "../components/universal/Button";
 import Email from "../components/profile/Email";
 import GetStarted from "../components/profile/GetStarted";
-import TextButton from "../components/universe/TextButton";
+import TextButton from "../components/universal/TextButton";
 
 interface ForgotPasswordPageProps {
   onBack: () => void;

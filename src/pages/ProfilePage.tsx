@@ -1,10 +1,10 @@
 import React from "react";
-import Button from "../components/universe/Button";
+import Button from "../components/universal/Button";
 import Email from "../components/profile/Email";
 import Password from "../components/profile/Password";
-import TextButton from "../components/universe/TextButton";
+import TextButton from "../components/universal/TextButton";
 import Settings from "../components/profile/Settings";
-import TopBar from "../components/universe/TopBar";
+import TopBar from "../components/universal/TopBar";
 
 interface ProfilePageProps {
   onNavigate: (tab: "createAccount" | "forgotPassword") => void;

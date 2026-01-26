@@ -3,7 +3,7 @@ import ContactUs from "../components/aboutUs/ContactUs";
 import TheTeam from "../components/aboutUs/TheTeam";
 import TheProject from "../components/aboutUs/TheProject";
 import ThePurpose from "../components/aboutUs/ThePurpose";
-import TopBar from "../components/universe/TopBar";
+import TopBar from "../components/universal/TopBar";
 
 interface AboutUsPageProps {
   onNavigate: (tab: "contactUs" | "team") => void;

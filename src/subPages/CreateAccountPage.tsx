@@ -1,12 +1,12 @@
 import React from "react";
-import Button from "../components/universe/Button";
+import Button from "../components/universal/Button";
 import ConfirmPassword from "../components/profile/createAccount/ConfirmPassword";
 import Email from "../components/profile/Email";
 import FullName from "../components/profile/createAccount/fullname";
 import GetStarted from "../components/profile/GetStarted";
 import Password from "../components/profile/Password";
 import Terms from "../components/profile/createAccount/Terms";
-import TextButton from "../components/universe/TextButton";
+import TextButton from "../components/universal/TextButton";
 
 interface CreateAccountPageProps {
   onBack: () => void;

@@ -1,11 +1,9 @@
 import React from "react";
-import AccordionCard from "../universe/AccordionCard";
+import AccordionCard from "../universal/AccordionCard";
 
 const TheProject: React.FC = () => {
   return (
-    <AccordionCard
-      title="THE PROJECT"
-    >
+    <AccordionCard title="THE PROJECT">
       <p className="text-gray-700 leading-relaxed">
         Starting in 2021, this project culturally and contextually adapts the
         iSupport for dementia programme, that was developed by The World Health

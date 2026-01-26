@@ -1,5 +1,5 @@
 import React from "react";
-import AccordionCard from "../universe/AccordionCard";
+import AccordionCard from "../universal/AccordionCard";
 
 interface IntroductionProps {
   isLoggedIn: boolean;
@@ -7,9 +7,7 @@ interface IntroductionProps {
 
 const Introduction: React.FC<IntroductionProps> = ({ isLoggedIn }) => {
   return (
-    <AccordionCard
-      title="WELCOME TO E-DIVA"
-    >
+    <AccordionCard title="WELCOME TO E-DIVA">
       {/* Logged out state */}
       {!isLoggedIn && (
         <>
@@ -81,8 +79,8 @@ const Introduction: React.FC<IntroductionProps> = ({ isLoggedIn }) => {
               .
             </p>
             <p className="text-gray-700 leading-relaxed">
-              You will also find instructional videos throughout the app to
-              help you navigate its features. You can refer to the{" "}
+              You will also find instructional videos throughout the app to help
+              you navigate its features. You can refer to the{" "}
               <span className="font-semibold text-[#2e6f73]">
                 e-DiVA user guide
               </span>{" "}

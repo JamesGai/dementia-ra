@@ -1,11 +1,9 @@
 import React from "react";
-import AccordionCard from "../universe/AccordionCard";
+import AccordionCard from "../universal/AccordionCard";
 
 const ThePurpose: React.FC = () => {
   return (
-    <AccordionCard
-      title="THE PURPOSE"
-    >
+    <AccordionCard title="THE PURPOSE">
       <p className="text-gray-700 leading-relaxed">
         e-DiVA aims to empower carers of people with dementia with an iSupport
         Virtual Assistant. The e-DiVA website allows you to interact with other
