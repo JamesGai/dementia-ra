@@ -45,13 +45,6 @@ const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const contentRef = useRef<HTMLIonContentElement | null>(null);
 
-  const addToVideoHistory = (video: VideoItem) => {
-    setVideoHistory((prev) => {
-      const filtered = prev.filter((v) => v.id !== video.id);
-      return [video, ...filtered];
-    });
-  };
-
   const renderContent = () => {
     switch (activeTab) {
       case "home":
@@ -94,6 +87,7 @@ const App: React.FC = () => {
           <VideoPage
             addToVideoHistory={(video: VideoItem) => addToVideoHistory(video)}
             historyVideos={videoHistory}
+            scrollToTop={scrollToTop}
           />
         );
       case "contactUs":
@@ -121,9 +115,19 @@ const App: React.FC = () => {
     }
   };
 
-  // Reset scroll whenever you switch pages
-  useEffect(() => {
+  const addToVideoHistory = (video: VideoItem) => {
+    setVideoHistory((prev) => {
+      const filtered = prev.filter((v) => v.id !== video.id);
+      return [video, ...filtered];
+    });
+  };
+
+  const scrollToTop = () => {
     contentRef.current?.scrollToTop(0);
+  };
+
+  useEffect(() => {
+    scrollToTop();
   }, [activeTab]);
 
   return (

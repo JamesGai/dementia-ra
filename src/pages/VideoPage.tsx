@@ -20,6 +20,7 @@ export interface VideoItem {
 interface VideoPageProps {
   addToVideoHistory: (video: VideoItem) => void;
   historyVideos: VideoItem[];
+  scrollToTop: () => void;
 }
 
 // How many videos can be displayed per page
@@ -28,6 +29,7 @@ const PAGE_SIZE = 5;
 const VideoPage: React.FC<VideoPageProps> = ({
   addToVideoHistory,
   historyVideos,
+  scrollToTop,
 }) => {
   const instructionVideo: VideoItem = {
     id: "instruction",
@@ -174,19 +176,32 @@ const VideoPage: React.FC<VideoPageProps> = ({
 
   const sourceList = segment === "all" ? dummyVideos : historyVideos;
   const totalPages = Math.max(1, Math.ceil(sourceList.length / PAGE_SIZE));
-  const goPrev = () => setPage((prev) => Math.max(1, prev - 1));
-  const goNext = () => setPage((prev) => Math.min(totalPages, prev + 1));
+  const goPrev = () => {
+    setPage((prev) => {
+      const next = Math.max(1, prev - 1);
+      if (next !== prev) scrollToTop();
+      return next;
+    });
+  };
+
+  const goNext = () => {
+    setPage((prev) => {
+      const next = Math.min(totalPages, prev + 1);
+      if (next !== prev) scrollToTop();
+      return next;
+    });
+  };
+
+  const handleOpenInstruction = () => {
+    setSelectedVideo(instructionVideo);
+    setIsVideoOpen(true);
+  };
 
   // Slice current page items
   const pagedVideos = useMemo(() => {
     const start = (page - 1) * PAGE_SIZE;
     return sourceList.slice(start, start + PAGE_SIZE);
   }, [sourceList, page]);
-
-  const handleOpenInstruction = () => {
-    setSelectedVideo(instructionVideo);
-    setIsVideoOpen(true);
-  };
 
   const handleOpenVideo = (video: VideoItem) => {
     addToVideoHistory(video);
