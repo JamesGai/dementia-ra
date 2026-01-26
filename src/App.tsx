@@ -7,16 +7,22 @@ import {
   informationCircleOutline,
   library,
   libraryOutline,
+  map,
+  mapOutline,
   person,
   personOutline,
+  school,
+  schoolOutline,
   videocam,
   videocamOutline,
 } from "ionicons/icons";
 // Main pages
 import AboutUsPage from "./pages/AboutUsPage";
+import CoursePage from "./pages/CoursePage";
 import HomePage from "./pages/HomePage";
 import ManualPage from "./pages/ManualPage";
 import ProfilePage from "./pages/ProfilePage";
+import ServicesPage from "./pages/ServicesPage";
 import VideoPage, { VideoItem } from "./pages/VideoPage";
 // Sub pages
 import ContactUsPage from "./subPages/ContactUsPage";
@@ -29,12 +35,14 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
     | "aboutUs"
     | "contactUs"
+    | "course"
     | "createAccount"
     | "forgotPassword"
     | "home"
     | "manual"
     | "manualDetail"
     | "profile"
+    | "services"
     | "team"
     | "video"
   >("home");
@@ -51,6 +59,8 @@ const App: React.FC = () => {
         return <AboutUsPage onNavigate={(tab: any) => setActiveTab(tab)} />;
       case "contactUs":
         return <ContactUsPage onBack={() => setActiveTab("aboutUs")} />;
+      case "course":
+        return <CoursePage />;
       case "createAccount":
         return <CreateAccountPage onBack={() => setActiveTab("profile")} />;
       case "forgotPassword":
@@ -95,6 +105,8 @@ const App: React.FC = () => {
             }}
           />
         );
+      case "services":
+        return <ServicesPage />;
       case "team":
         return <TeamPage onBack={() => setActiveTab("aboutUs")} />;
       case "video":
@@ -139,6 +151,40 @@ const App: React.FC = () => {
       {/* Footer */}
       <IonFooter className="ion-no-border">
         <div className="flex justify-around items-center bg-white border-t border-gray-100 py-3 px-2 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+          {/* Home */}
+          <button
+            onClick={() => setActiveTab("home")}
+            className={`flex flex-col items-center flex-1 py-1 transition-all ${
+              activeTab === "home" ? "text-blue-600" : "text-gray-400"
+            }`}
+          >
+            <IonIcon
+              icon={activeTab === "home" ? home : homeOutline}
+              className="text-2xl mb-1"
+            />
+            <span className="text-[10px] font-medium">Home</span>
+            {activeTab === "home" && (
+              <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
+            )}
+          </button>
+          {/* Videos (logged in) */}
+          {isLoggedIn && (
+            <button
+              onClick={() => setActiveTab("video")}
+              className={`flex flex-col items-center flex-1 py-1 transition-all ${
+                activeTab === "video" ? "text-blue-600" : "text-gray-400"
+              }`}
+            >
+              <IonIcon
+                icon={activeTab === "video" ? videocam : videocamOutline}
+                className="text-2xl mb-1"
+              />
+              <span className="text-[10px] font-medium">Videos</span>
+              {activeTab === "video" && (
+                <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
+              )}
+            </button>
+          )}
           {/* About Us (logged out) */}
           {!isLoggedIn && (
             <button
@@ -161,22 +207,42 @@ const App: React.FC = () => {
               )}
             </button>
           )}
-          {/* Home */}
-          <button
-            onClick={() => setActiveTab("home")}
-            className={`flex flex-col items-center flex-1 py-1 transition-all ${
-              activeTab === "home" ? "text-blue-600" : "text-gray-400"
-            }`}
-          >
-            <IonIcon
-              icon={activeTab === "home" ? home : homeOutline}
-              className="text-2xl mb-1"
-            />
-            <span className="text-[10px] font-medium">Home</span>
-            {activeTab === "home" && (
-              <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
-            )}
-          </button>
+          {/* Course (logged in) */}
+          {isLoggedIn && (
+            <button
+              onClick={() => setActiveTab("course")}
+              className={`flex flex-col items-center flex-1 py-1 transition-all ${
+                activeTab === "course" ? "text-blue-600" : "text-gray-400"
+              }`}
+            >
+              <IonIcon
+                icon={activeTab === "course" ? school : schoolOutline}
+                className="text-2xl mb-1"
+              />
+              <span className="text-[10px] font-medium">Course</span>
+              {activeTab === "course" && (
+                <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
+              )}
+            </button>
+          )}
+          {/* Services (logged in) */}
+          {isLoggedIn && (
+            <button
+              onClick={() => setActiveTab("services")}
+              className={`flex flex-col items-center flex-1 py-1 transition-all ${
+                activeTab === "services" ? "text-blue-600" : "text-gray-400"
+              }`}
+            >
+              <IonIcon
+                icon={activeTab === "services" ? map : mapOutline}
+                className="text-2xl mb-1"
+              />
+              <span className="text-[10px] font-medium">Services</span>
+              {activeTab === "services" && (
+                <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
+              )}
+            </button>
+          )}
           {/* Manual (logged out) */}
           {!isLoggedIn && (
             <button
@@ -211,24 +277,6 @@ const App: React.FC = () => {
               <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
             )}
           </button>
-          {/* Videos (logged in) */}
-          {isLoggedIn && (
-            <button
-              onClick={() => setActiveTab("video")}
-              className={`flex flex-col items-center flex-1 py-1 transition-all ${
-                activeTab === "video" ? "text-blue-600" : "text-gray-400"
-              }`}
-            >
-              <IonIcon
-                icon={activeTab === "video" ? videocam : videocamOutline}
-                className="text-2xl mb-1"
-              />
-              <span className="text-[10px] font-medium">Videos</span>
-              {activeTab === "video" && (
-                <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
-              )}
-            </button>
-          )}
         </div>
       </IonFooter>
     </IonApp>
