@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Button from "../components/universal/Button";
 import Pagination from "../components/video/Pagination";
-import Segment from "../components/video/Segment";
+import Segment from "../components/universal/Segment";
 import TopBar from "../components/universal/TopBar";
 import VideoContent from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
-type SegmentType = "all" | "history";
+type VideoSegment = "all" | "history";
 
 export interface VideoItem {
   id: string;
@@ -167,11 +167,16 @@ const VideoPage: React.FC<VideoPageProps> = ({
     [],
   );
 
+  const videoSegmentOptions = [
+    { value: "all", label: "All videos" },
+    { value: "history", label: "History" },
+  ] as const;
+
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | undefined>(
     undefined,
   );
   const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const [segment, setSegment] = useState<SegmentType>("all");
+  const [segment, setSegment] = useState<VideoSegment>("all");
   const [page, setPage] = useState(1);
 
   const sourceList = segment === "all" ? dummyVideos : historyVideos;
@@ -227,7 +232,11 @@ const VideoPage: React.FC<VideoPageProps> = ({
   return (
     <div className="p-4 space-y-6">
       <TopBar title="Videos" />
-      <Segment value={segment} onChange={setSegment} />
+      <Segment
+        value={segment}
+        segmentOptions={videoSegmentOptions}
+        setSegment={setSegment}
+      />
       <Button text="User Instruction" onClick={handleOpenInstruction} />
       <VideoContent
         segment={segment}
