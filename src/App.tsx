@@ -27,16 +27,16 @@ import TeamPage from "./subPages/TeamPage";
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
-    | "home"
     | "aboutUs"
-    | "manual"
-    | "profile"
-    | "video"
     | "contactUs"
     | "createAccount"
     | "forgotPassword"
+    | "home"
+    | "manual"
     | "manualDetail"
+    | "profile"
     | "team"
+    | "video"
   >("home");
 
   const [activeManualDetail, setActiveManualDetail] =
@@ -47,6 +47,14 @@ const App: React.FC = () => {
 
   const renderContent = () => {
     switch (activeTab) {
+      case "aboutUs":
+        return <AboutUsPage onNavigate={(tab: any) => setActiveTab(tab)} />;
+      case "contactUs":
+        return <ContactUsPage onBack={() => setActiveTab("aboutUs")} />;
+      case "createAccount":
+        return <CreateAccountPage onBack={() => setActiveTab("profile")} />;
+      case "forgotPassword":
+        return <ForgotPasswordPage onBack={() => setActiveTab("profile")} />;
       case "home":
         return (
           <HomePage
@@ -54,8 +62,6 @@ const App: React.FC = () => {
             isLoggedIn={isLoggedIn}
           />
         );
-      case "aboutUs":
-        return <AboutUsPage onNavigate={(tab: any) => setActiveTab(tab)} />;
       case "manual":
         return (
           <ManualPage
@@ -63,6 +69,13 @@ const App: React.FC = () => {
               setActiveManualDetail(sectionId);
               setActiveTab(tab);
             }}
+          />
+        );
+      case "manualDetail":
+        return (
+          <ManualDetailPage
+            onBack={() => setActiveTab("manual")}
+            sectionId={activeManualDetail!}
           />
         );
       case "profile":
@@ -82,6 +95,8 @@ const App: React.FC = () => {
             }}
           />
         );
+      case "team":
+        return <TeamPage onBack={() => setActiveTab("aboutUs")} />;
       case "video":
         return (
           <VideoPage
@@ -90,21 +105,6 @@ const App: React.FC = () => {
             scrollToTop={scrollToTop}
           />
         );
-      case "contactUs":
-        return <ContactUsPage onBack={() => setActiveTab("aboutUs")} />;
-      case "createAccount":
-        return <CreateAccountPage onBack={() => setActiveTab("profile")} />;
-      case "forgotPassword":
-        return <ForgotPasswordPage onBack={() => setActiveTab("profile")} />;
-      case "manualDetail":
-        return (
-          <ManualDetailPage
-            onBack={() => setActiveTab("manual")}
-            sectionId={activeManualDetail!}
-          />
-        );
-      case "team":
-        return <TeamPage onBack={() => setActiveTab("aboutUs")} />;
       default:
         return (
           <HomePage
@@ -139,7 +139,29 @@ const App: React.FC = () => {
       {/* Footer */}
       <IonFooter className="ion-no-border">
         <div className="flex justify-around items-center bg-white border-t border-gray-100 py-3 px-2 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
-          {/* Home page */}
+          {/* About Us (logged out) */}
+          {!isLoggedIn && (
+            <button
+              onClick={() => setActiveTab("aboutUs")}
+              className={`flex flex-col items-center flex-1 py-1 transition-all ${
+                activeTab === "aboutUs" ? "text-blue-600" : "text-gray-400"
+              }`}
+            >
+              <IonIcon
+                icon={
+                  activeTab === "aboutUs"
+                    ? informationCircle
+                    : informationCircleOutline
+                }
+                className="text-2xl mb-1"
+              />
+              <span className="text-[10px] font-medium">About Us</span>
+              {activeTab === "aboutUs" && (
+                <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
+              )}
+            </button>
+          )}
+          {/* Home */}
           <button
             onClick={() => setActiveTab("home")}
             className={`flex flex-col items-center flex-1 py-1 transition-all ${
@@ -155,7 +177,41 @@ const App: React.FC = () => {
               <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
             )}
           </button>
-          {/* Video page (login) */}
+          {/* Manual (logged out) */}
+          {!isLoggedIn && (
+            <button
+              onClick={() => setActiveTab("manual")}
+              className={`flex flex-col items-center flex-1 py-1 transition-all ${
+                activeTab === "manual" ? "text-blue-600" : "text-gray-400"
+              }`}
+            >
+              <IonIcon
+                icon={activeTab === "manual" ? library : libraryOutline}
+                className="text-2xl mb-1"
+              />
+              <span className="text-[10px] font-medium">Manual</span>
+              {activeTab === "manual" && (
+                <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
+              )}
+            </button>
+          )}
+          {/* Profile */}
+          <button
+            onClick={() => setActiveTab("profile")}
+            className={`flex flex-col items-center flex-1 py-1 transition-all ${
+              activeTab === "profile" ? "text-blue-600" : "text-gray-400"
+            }`}
+          >
+            <IonIcon
+              icon={activeTab === "profile" ? person : personOutline}
+              className="text-2xl mb-1"
+            />
+            <span className="text-[10px] font-medium">Profile</span>
+            {activeTab === "profile" && (
+              <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
+            )}
+          </button>
+          {/* Videos (logged in) */}
           {isLoggedIn && (
             <button
               onClick={() => setActiveTab("video")}
@@ -173,62 +229,6 @@ const App: React.FC = () => {
               )}
             </button>
           )}
-          {!isLoggedIn && (
-            <>
-              {/* About us page */}
-              <button
-                onClick={() => setActiveTab("aboutUs")}
-                className={`flex flex-col items-center flex-1 py-1 transition-all ${
-                  activeTab === "aboutUs" ? "text-blue-600" : "text-gray-400"
-                }`}
-              >
-                <IonIcon
-                  icon={
-                    activeTab === "aboutUs"
-                      ? informationCircle
-                      : informationCircleOutline
-                  }
-                  className="text-2xl mb-1"
-                />
-                <span className="text-[10px] font-medium">About Us</span>
-                {activeTab === "aboutUs" && (
-                  <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
-                )}
-              </button>
-              {/* Manual page */}
-              <button
-                onClick={() => setActiveTab("manual")}
-                className={`flex flex-col items-center flex-1 py-1 transition-all ${
-                  activeTab === "manual" ? "text-blue-600" : "text-gray-400"
-                }`}
-              >
-                <IonIcon
-                  icon={activeTab === "manual" ? library : libraryOutline}
-                  className="text-2xl mb-1"
-                />
-                <span className="text-[10px] font-medium">Manual</span>
-                {activeTab === "manual" && (
-                  <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
-                )}
-              </button>
-            </>
-          )}
-          {/* Profile page */}
-          <button
-            onClick={() => setActiveTab("profile")}
-            className={`flex flex-col items-center flex-1 py-1 transition-all ${
-              activeTab === "profile" ? "text-blue-600" : "text-gray-400"
-            }`}
-          >
-            <IonIcon
-              icon={activeTab === "profile" ? person : personOutline}
-              className="text-2xl mb-1"
-            />
-            <span className="text-[10px] font-medium">Profile</span>
-            {activeTab === "profile" && (
-              <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
-            )}
-          </button>
         </div>
       </IonFooter>
     </IonApp>
