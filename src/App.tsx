@@ -121,8 +121,8 @@ const App: React.FC = () => {
     }
   };
 
+  // Reset scroll whenever you switch pages
   useEffect(() => {
-    // Reset scroll whenever you switch pages
     contentRef.current?.scrollToTop(0);
   }, [activeTab]);
 
