@@ -34,7 +34,7 @@ import ManualDetailPage, { ManualDetailId } from "./subPages/ManualDetailPage";
 import TeamPage from "./subPages/TeamPage";
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<
+  const [activePage, setActivePage] = useState<
     | "aboutUs"
     | "contactUs"
     | "course"
@@ -56,24 +56,24 @@ const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const contentRef = useRef<HTMLIonContentElement | null>(null);
 
-  const isCourseActive = activeTab === "course" || activeTab === "iSupportNZ";
+  const isCourseActive = activePage === "course" || activePage === "iSupportNZ";
 
   const renderContent = () => {
-    switch (activeTab) {
+    switch (activePage) {
       case "aboutUs":
-        return <AboutUsPage onNavigate={(tab: any) => setActiveTab(tab)} />;
+        return <AboutUsPage onNavigate={(tab: any) => setActivePage(tab)} />;
       case "contactUs":
-        return <ContactUsPage onBack={() => setActiveTab("aboutUs")} />;
+        return <ContactUsPage onBack={() => setActivePage("aboutUs")} />;
       case "course":
-        return <CoursePage onNavigate={(tab: any) => setActiveTab(tab)} />;
+        return <CoursePage onNavigate={(tab: any) => setActivePage(tab)} />;
       case "createAccount":
-        return <CreateAccountPage onBack={() => setActiveTab("profile")} />;
+        return <CreateAccountPage onBack={() => setActivePage("profile")} />;
       case "forgotPassword":
-        return <ForgotPasswordPage onBack={() => setActiveTab("profile")} />;
+        return <ForgotPasswordPage onBack={() => setActivePage("profile")} />;
       case "home":
         return (
           <HomePage
-            onNavigate={(tab: any) => setActiveTab(tab)}
+            onNavigate={(tab: any) => setActivePage(tab)}
             isLoggedIn={isLoggedIn}
           />
         );
@@ -84,38 +84,38 @@ const App: React.FC = () => {
           <ManualPage
             onNavigate={(tab, sectionId) => {
               setActiveManualDetail(sectionId);
-              setActiveTab(tab);
+              setActivePage(tab);
             }}
           />
         );
       case "manualDetail":
         return (
           <ManualDetailPage
-            onBack={() => setActiveTab("manual")}
+            onBack={() => setActivePage("manual")}
             sectionId={activeManualDetail!}
           />
         );
       case "profile":
         return (
           <ProfilePage
-            onNavigate={(tab: any) => setActiveTab(tab)}
+            onNavigate={(tab: any) => setActivePage(tab)}
             isLoggedIn={isLoggedIn}
             onLogin={() => {
               setIsLoggedIn(true);
               console.log("Successfully logged in");
-              setActiveTab("home");
+              setActivePage("home");
             }}
             onLogout={() => {
               setIsLoggedIn(false);
               console.log("Successfully logged out");
-              setActiveTab("home");
+              setActivePage("home");
             }}
           />
         );
       case "services":
         return <ServicesPage />;
       case "team":
-        return <TeamPage onBack={() => setActiveTab("aboutUs")} />;
+        return <TeamPage onBack={() => setActivePage("aboutUs")} />;
       case "video":
         return (
           <VideoPage
@@ -127,7 +127,7 @@ const App: React.FC = () => {
       default:
         return (
           <HomePage
-            onNavigate={(tab: any) => setActiveTab(tab)}
+            onNavigate={(tab: any) => setActivePage(tab)}
             isLoggedIn={isLoggedIn}
           />
         );
@@ -147,7 +147,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     scrollToTop();
-  }, [activeTab]);
+  }, [activePage]);
 
   return (
     <IonApp>
@@ -160,34 +160,34 @@ const App: React.FC = () => {
         <div className="flex justify-around items-center bg-white border-t border-gray-100 py-3 px-2 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
           {/* Home */}
           <button
-            onClick={() => setActiveTab("home")}
+            onClick={() => setActivePage("home")}
             className={`flex flex-col items-center flex-1 py-1 transition-all ${
-              activeTab === "home" ? "text-blue-600" : "text-gray-400"
+              activePage === "home" ? "text-blue-600" : "text-gray-400"
             }`}
           >
             <IonIcon
-              icon={activeTab === "home" ? home : homeOutline}
+              icon={activePage === "home" ? home : homeOutline}
               className="text-2xl mb-1"
             />
             <span className="text-[10px] font-medium">Home</span>
-            {activeTab === "home" && (
+            {activePage === "home" && (
               <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
             )}
           </button>
           {/* Videos (logged in) */}
           {isLoggedIn && (
             <button
-              onClick={() => setActiveTab("video")}
+              onClick={() => setActivePage("video")}
               className={`flex flex-col items-center flex-1 py-1 transition-all ${
-                activeTab === "video" ? "text-blue-600" : "text-gray-400"
+                activePage === "video" ? "text-blue-600" : "text-gray-400"
               }`}
             >
               <IonIcon
-                icon={activeTab === "video" ? videocam : videocamOutline}
+                icon={activePage === "video" ? videocam : videocamOutline}
                 className="text-2xl mb-1"
               />
               <span className="text-[10px] font-medium">Videos</span>
-              {activeTab === "video" && (
+              {activePage === "video" && (
                 <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
               )}
             </button>
@@ -195,21 +195,21 @@ const App: React.FC = () => {
           {/* About Us (logged out) */}
           {!isLoggedIn && (
             <button
-              onClick={() => setActiveTab("aboutUs")}
+              onClick={() => setActivePage("aboutUs")}
               className={`flex flex-col items-center flex-1 py-1 transition-all ${
-                activeTab === "aboutUs" ? "text-blue-600" : "text-gray-400"
+                activePage === "aboutUs" ? "text-blue-600" : "text-gray-400"
               }`}
             >
               <IonIcon
                 icon={
-                  activeTab === "aboutUs"
+                  activePage === "aboutUs"
                     ? informationCircle
                     : informationCircleOutline
                 }
                 className="text-2xl mb-1"
               />
               <span className="text-[10px] font-medium">About Us</span>
-              {activeTab === "aboutUs" && (
+              {activePage === "aboutUs" && (
                 <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
               )}
             </button>
@@ -217,7 +217,7 @@ const App: React.FC = () => {
           {/* Course (logged in) */}
           {isLoggedIn && (
             <button
-              onClick={() => setActiveTab("course")}
+              onClick={() => setActivePage("course")}
               className={`flex flex-col items-center flex-1 py-1 transition-all ${
                 isCourseActive ? "text-blue-600" : "text-gray-400"
               }`}
@@ -236,17 +236,17 @@ const App: React.FC = () => {
           {/* Services (logged in) */}
           {isLoggedIn && (
             <button
-              onClick={() => setActiveTab("services")}
+              onClick={() => setActivePage("services")}
               className={`flex flex-col items-center flex-1 py-1 transition-all ${
-                activeTab === "services" ? "text-blue-600" : "text-gray-400"
+                activePage === "services" ? "text-blue-600" : "text-gray-400"
               }`}
             >
               <IonIcon
-                icon={activeTab === "services" ? map : mapOutline}
+                icon={activePage === "services" ? map : mapOutline}
                 className="text-2xl mb-1"
               />
               <span className="text-[10px] font-medium">Services</span>
-              {activeTab === "services" && (
+              {activePage === "services" && (
                 <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
               )}
             </button>
@@ -254,34 +254,34 @@ const App: React.FC = () => {
           {/* Manual (logged out) */}
           {!isLoggedIn && (
             <button
-              onClick={() => setActiveTab("manual")}
+              onClick={() => setActivePage("manual")}
               className={`flex flex-col items-center flex-1 py-1 transition-all ${
-                activeTab === "manual" ? "text-blue-600" : "text-gray-400"
+                activePage === "manual" ? "text-blue-600" : "text-gray-400"
               }`}
             >
               <IonIcon
-                icon={activeTab === "manual" ? library : libraryOutline}
+                icon={activePage === "manual" ? library : libraryOutline}
                 className="text-2xl mb-1"
               />
               <span className="text-[10px] font-medium">Manual</span>
-              {activeTab === "manual" && (
+              {activePage === "manual" && (
                 <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
               )}
             </button>
           )}
           {/* Profile */}
           <button
-            onClick={() => setActiveTab("profile")}
+            onClick={() => setActivePage("profile")}
             className={`flex flex-col items-center flex-1 py-1 transition-all ${
-              activeTab === "profile" ? "text-blue-600" : "text-gray-400"
+              activePage === "profile" ? "text-blue-600" : "text-gray-400"
             }`}
           >
             <IonIcon
-              icon={activeTab === "profile" ? person : personOutline}
+              icon={activePage === "profile" ? person : personOutline}
               className="text-2xl mb-1"
             />
             <span className="text-[10px] font-medium">Profile</span>
-            {activeTab === "profile" && (
+            {activePage === "profile" && (
               <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
             )}
           </button>
