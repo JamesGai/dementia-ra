@@ -148,7 +148,7 @@ const ISupportNZPage: React.FC = () => {
     },
     {
       number: "4",
-      title: "PROVnumberING EVERYDAY CARE",
+      title: "PROVIDING EVERYDAY CARE",
       imageSrc: "Module 4.png",
       sections: [
         {
