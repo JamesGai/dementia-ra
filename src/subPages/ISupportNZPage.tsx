@@ -15,6 +15,69 @@ const ISupportNZPage: React.FC = () => {
           carers) living with dementia.
         </p>
       </AccordionCard>
+      <AccordionCard
+        title={
+          <div className="leading-tight pt-3 pb-3">
+            <div className="text-xs font-semibold tracking-widest text-gray-500">
+              MODULE 1
+            </div>
+            <div>Introduction to Dementia</div>
+          </div>
+        }
+      >
+        <></>
+      </AccordionCard>
+      <AccordionCard
+        title={
+          <div className="leading-tight pt-3 pb-3">
+            <div className="text-xs font-semibold tracking-widest text-gray-500">
+              MODULE 2
+            </div>
+            <div>BEING A CARER</div>
+          </div>
+        }
+      >
+        <></>
+      </AccordionCard>
+      <AccordionCard
+        title={
+          <div className="leading-tight pt-3 pb-3">
+            <div className="text-xs font-semibold tracking-widest text-gray-500">
+              MODULE 3
+            </div>
+            <div>CARING FOR ME</div>
+          </div>
+        }
+      >
+        <></>
+      </AccordionCard>
+      <AccordionCard
+        title={
+          <div className="leading-tight pt-3 pb-3">
+            <div className="text-xs font-semibold tracking-widest text-gray-500">
+              MODULE 4
+            </div>
+            <div>PROVIDING EVERYDAY CARE</div>
+          </div>
+        }
+      >
+        <></>
+      </AccordionCard>
+      <AccordionCard
+        title={
+          <div className="leading-tight pt-3 pb-3">
+            <div className="text-xs font-semibold tracking-widest text-gray-500">
+              MODULE 5
+            </div>
+            <div>UNDERSTANDING CHANGES IN BEHAVIOUR</div>
+          </div>
+        }
+      >
+        <></>
+      </AccordionCard>
+      <AccordionCard title="NEW ZEALAND LOCAL RESOURCES">
+        <></>
+      </AccordionCard>
     </div>
   );
 };

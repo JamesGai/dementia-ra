@@ -7,7 +7,7 @@ import {
 } from "@ionic/react";
 
 interface AccordionCardProps {
-  title: string;
+  title: React.ReactNode;
   children: React.ReactNode;
 }
 
