@@ -14,14 +14,14 @@ interface CourseContentProps {
   segment: CourseSegment;
   courses: CourseItem[];
   progressCourses: CourseItem[];
-  startCourse: (course: CourseItem) => void;
+  onNavigate: (tab: "iSupportNZ") => void;
 }
 
 const CourseContent: React.FC<CourseContentProps> = ({
   segment,
   courses,
   progressCourses,
-  startCourse,
+  onNavigate,
 }) => {
   if (segment === "all") {
     return (
@@ -30,7 +30,7 @@ const CourseContent: React.FC<CourseContentProps> = ({
           <button
             key={c.id}
             type="button"
-            onClick={() => startCourse(c)}
+            onClick={() => onNavigate("iSupportNZ")}
             className="w-full bg-white rounded-2xl shadow-md overflow-hidden text-left active:opacity-90"
           >
             <div className="relative">
@@ -56,19 +56,17 @@ const CourseContent: React.FC<CourseContentProps> = ({
       </div>
     );
   }
-
   // My progress
   if (progressCourses.length > 0) {
     return (
       <div className="space-y-4">
         {progressCourses.map((c) => {
           const pct = Math.max(0, Math.min(100, c.progressPercent ?? 0));
-
           return (
             <button
               key={c.id}
               type="button"
-              onClick={() => startCourse(c)}
+              onClick={() => onNavigate("iSupportNZ")}
               className="w-full bg-white rounded-2xl shadow-md overflow-hidden text-left active:opacity-90"
             >
               <div className="flex items-center gap-4 p-4">
@@ -80,7 +78,6 @@ const CourseContent: React.FC<CourseContentProps> = ({
                 />
                 <div className="flex-1 space-y-2">
                   <div className="text-[#2e6f73] font-bold">{c.title}</div>
-
                   {/* progress bar */}
                   <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                     <div
@@ -97,7 +94,6 @@ const CourseContent: React.FC<CourseContentProps> = ({
       </div>
     );
   }
-
   // Empty progress
   return (
     <div className="bg-white rounded-2xl p-4 shadow-md text-center text-sm text-gray-500">

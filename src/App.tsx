@@ -23,11 +23,13 @@ import HomePage from "./pages/HomePage";
 import ManualPage from "./pages/ManualPage";
 import ProfilePage from "./pages/ProfilePage";
 import ServicesPage from "./pages/ServicesPage";
-import VideoPage, { VideoItem } from "./pages/VideoPage";
+import { VideoItem } from "./components/video/VideoContent";
+import VideoPage from "./pages/VideoPage";
 // Sub pages
 import ContactUsPage from "./subPages/ContactUsPage";
 import CreateAccountPage from "./subPages/CreateAccountPage";
 import ForgotPasswordPage from "./subPages/ForgotPasswordPage";
+import ISupportNZPage from "./subPages/iSupportNZPage";
 import ManualDetailPage, { ManualDetailId } from "./subPages/ManualDetailPage";
 import TeamPage from "./subPages/TeamPage";
 
@@ -39,6 +41,7 @@ const App: React.FC = () => {
     | "createAccount"
     | "forgotPassword"
     | "home"
+    | "iSupportNZ"
     | "manual"
     | "manualDetail"
     | "profile"
@@ -60,7 +63,7 @@ const App: React.FC = () => {
       case "contactUs":
         return <ContactUsPage onBack={() => setActiveTab("aboutUs")} />;
       case "course":
-        return <CoursePage />;
+        return <CoursePage onNavigate={(tab: any) => setActiveTab(tab)} />;
       case "createAccount":
         return <CreateAccountPage onBack={() => setActiveTab("profile")} />;
       case "forgotPassword":
@@ -72,6 +75,8 @@ const App: React.FC = () => {
             isLoggedIn={isLoggedIn}
           />
         );
+      case "iSupportNZ":
+        return <ISupportNZPage />;
       case "manual":
         return (
           <ManualPage
@@ -144,7 +149,7 @@ const App: React.FC = () => {
 
   return (
     <IonApp>
-      {/* Main content/page */}
+      {/* Main content/page (no subpages)*/}
       <IonContent ref={contentRef}>
         <div className="pb-24">{renderContent()}</div>
       </IonContent>

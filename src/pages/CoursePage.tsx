@@ -9,7 +9,11 @@ import TopBar from "../components/universal/TopBar";
 import { VideoItem } from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
-const CoursePage: React.FC = () => {
+interface CoursePageProps {
+  onNavigate: (tab: "iSupportNZ") => void;
+}
+
+const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
   const instructionVideo: VideoItem = {
     id: "instruction",
     title: "How to use the Course page",
@@ -54,10 +58,6 @@ const CoursePage: React.FC = () => {
     setIsVideoOpen(true);
   };
 
-  const handleOpenCourse = (course: CourseItem) => {
-    console.log("hi");
-  };
-
   return (
     <div className="p-4 space-y-6">
       <TopBar title="Course" />
@@ -71,7 +71,7 @@ const CoursePage: React.FC = () => {
         segment={segment as CourseSegment}
         courses={dummyCourses}
         progressCourses={progressCourses}
-        startCourse={handleOpenCourse}
+        onNavigate={onNavigate}
       />
       <VideoPlayerModal
         isVideoOpen={isVideoOpen}
