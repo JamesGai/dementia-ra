@@ -1,7 +1,7 @@
 import React from "react";
 import AccordionCard from "../universal/AccordionCard";
 import Button from "../universal/Button";
-import ModuleTitle from "./ModuleTitle";
+import CourseTitle from "./CourseTitle";
 import { SectionItem } from "../../subPages/iSupportNZPage";
 
 interface SectionAccordionListProps {
@@ -15,22 +15,30 @@ const SectionAccordionList: React.FC<SectionAccordionListProps> = ({
     <div className="space-y-3">
       {sections.map((section) => (
         <AccordionCard
-          key={section.id}
-          title={<ModuleTitle number={section.id} title={section.text} />}
+          key={section.number}
+          title={
+            <CourseTitle
+              variant="section"
+              number={section.number}
+              title={section.title}
+            />
+          }
         >
           {section.subsections && section.subsections.length > 0 ? (
             <div className="space-y-2 pt-2">
               {section.subsections.map((sub) => (
-                <div key={sub.id}>
+                <div key={sub.number}>
                   <Button
-                    text={`${sub.id}. ${sub.text}`}
+                    text={`${sub.number}. ${sub.title}`}
                     onClick={sub.onClick}
                   />
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-sm text-gray-500 py-2">No subsections yet</div>
+            <div className="title-sm title-gray-500 py-2">
+              No subsections yet
+            </div>
           )}
         </AccordionCard>
       ))}
