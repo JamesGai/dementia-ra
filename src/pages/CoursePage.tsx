@@ -12,7 +12,7 @@ export interface CourseItem {
   id: string;
   title: string;
   image: string;
-  progressPercent?: number;
+  moduleProgress?: [number, number, number, number, number];
 }
 
 interface CoursePageProps {
@@ -36,6 +36,7 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
         id: "iSupport-NZ",
         title: "iSupport New Zealand",
         image: "iSupport.png",
+        moduleProgress: [100, 60, 0, 0, 0],
       },
     ],
     [],

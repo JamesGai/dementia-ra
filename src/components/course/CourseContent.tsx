@@ -27,7 +27,7 @@ const CourseContent: React.FC<CourseContentProps> = ({
   if (progressCourses.length > 0) {
     return (
       <MyProgress
-        progressCourses={progressCourses}
+        courses={progressCourses}
         onOpenCourse={() => onNavigate("iSupportNZ")}
       />
     );
