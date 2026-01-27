@@ -1,6 +1,6 @@
 import React from "react";
 
-type CourseSegmentValue = "all" | "progress";
+export type CourseSegment = "all" | "progress";
 
 export interface CourseItem {
   id: string;
@@ -11,7 +11,7 @@ export interface CourseItem {
 }
 
 interface CourseContentProps {
-  segment: CourseSegmentValue;
+  segment: CourseSegment;
   courses: CourseItem[];
   progressCourses: CourseItem[];
   onOpenCourse: (course: CourseItem) => void;

@@ -1,16 +1,8 @@
 import React, { useState } from "react";
 import TopBar from "../components/universal/TopBar";
 import Button from "../components/universal/Button";
+import { VideoItem } from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
-
-interface VideoItem {
-  id: string;
-  title: string;
-  description: string;
-  duration: string;
-  thumbnail: string;
-  src: string;
-}
 
 const ServicesPage: React.FC = () => {
   const instructionVideo: VideoItem = {

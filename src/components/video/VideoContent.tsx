@@ -1,10 +1,18 @@
 import React from "react";
-import type { VideoItem } from "../../pages/VideoPage";
 
-type SegmentValue = "all" | "history";
+export type VideoSegment = "all" | "history";
+
+export interface VideoItem {
+  id: string;
+  title: string;
+  description: string;
+  duration: string;
+  thumbnail: string;
+  src: string;
+}
 
 interface VideoContentProps {
-  segment: SegmentValue;
+  segment: VideoSegment;
   videos: VideoItem[];
   historyVideos: VideoItem[];
   playVideo: (video: VideoItem) => void;

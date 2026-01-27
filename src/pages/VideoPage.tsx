@@ -3,19 +3,11 @@ import Button from "../components/universal/Button";
 import Pagination from "../components/video/Pagination";
 import Segment from "../components/universal/Segment";
 import TopBar from "../components/universal/TopBar";
-import VideoContent from "../components/video/VideoContent";
+import VideoContent, {
+  VideoSegment,
+  VideoItem,
+} from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
-
-type VideoSegment = "all" | "history";
-
-export interface VideoItem {
-  id: string;
-  title: string;
-  description: string;
-  duration: string;
-  thumbnail: string;
-  src: string;
-}
 
 interface VideoPageProps {
   addToVideoHistory: (video: VideoItem) => void;

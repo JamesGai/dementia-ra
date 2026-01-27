@@ -2,27 +2,12 @@ import React, { useMemo, useState } from "react";
 import Button from "../components/universal/Button";
 import Segment from "../components/universal/Segment";
 import TopBar from "../components/universal/TopBar";
+import { VideoItem } from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
-import CourseContent from "../components/course/CourseContent";
-
-type CourseSegment = "all" | "progress";
-
-export interface CourseItem {
-  id: string;
-  title: string;
-  thumbnail: string;
-  subtitle?: string;
-  progressPercent?: number;
-}
-
-interface VideoItem {
-  id: string;
-  title: string;
-  description: string;
-  duration: string;
-  thumbnail: string;
-  src: string;
-}
+import CourseContent, {
+  CourseSegment,
+  CourseItem,
+} from "../components/course/CourseContent";
 
 const CoursePage: React.FC = () => {
   const instructionVideo: VideoItem = {
