@@ -29,8 +29,6 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
       {
         id: "iSupport-NZ",
         title: "iSupport New Zealand",
-        subtitle:
-          "iSupport NZ is a self-help skills and training programme wtih 5 moduiles for carers of people living with dementia. It aims to prevent and/or decrease mental and physical health problems associated with caregiving and to improve the quality of life of people (family carers) living with dementia.",
         image: "iSupport.png",
       },
     ],

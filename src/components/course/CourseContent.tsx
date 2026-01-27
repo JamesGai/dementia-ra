@@ -6,7 +6,6 @@ export interface CourseItem {
   id: string;
   title: string;
   image: string;
-  subtitle?: string;
   progressPercent?: number;
 }
 
@@ -45,11 +44,6 @@ const CourseContent: React.FC<CourseContentProps> = ({
               <div className="text-[#2e6f73] font-extrabold tracking-wide">
                 {c.title}
               </div>
-              {c.subtitle && (
-                <div className="text-sm text-gray-600 leading-snug">
-                  {c.subtitle}
-                </div>
-              )}
             </div>
           </button>
         ))}
