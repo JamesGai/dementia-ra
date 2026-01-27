@@ -7,7 +7,15 @@ const ISupportNZPage: React.FC = () => {
   return (
     <div className="p-4 space-y-6">
       <TopBar title="iSupport NZ" />
-      <AccordionCard title="COURSE INTRODUCTION">
+      <AccordionCard
+        title={
+          <ModuleTitle
+            moduleNumber={0}
+            title="COURSE INTRODUCTION"
+            imageSrc="Course Introduction.png"
+          />
+        }
+      >
         <p>
           iSupport NZ is a self-help skills and training programme wtih 5
           moduiles for carers of people living with dementia. It aims to prevent
@@ -18,24 +26,45 @@ const ISupportNZPage: React.FC = () => {
       </AccordionCard>
       <AccordionCard
         title={
-          <ModuleTitle moduleNumber={1} title="INTRODUCTION TO DEMENTIA" />
+          <ModuleTitle
+            moduleNumber={1}
+            title="INTRODUCTION TO DEMENTIA"
+            imageSrc="Module 1.png"
+          />
         }
       >
         <></>
       </AccordionCard>
-
       <AccordionCard
-        title={<ModuleTitle moduleNumber={2} title="BEING A CAERE" />}
+        title={
+          <ModuleTitle
+            moduleNumber={2}
+            title="BEING A CAERE"
+            imageSrc="Module 2.png"
+          />
+        }
       >
         <></>
       </AccordionCard>
       <AccordionCard
-        title={<ModuleTitle moduleNumber={3} title="CARING FOR ME" />}
+        title={
+          <ModuleTitle
+            moduleNumber={3}
+            title="CARING FOR ME"
+            imageSrc="Module 3.png"
+          />
+        }
       >
         <></>
       </AccordionCard>
       <AccordionCard
-        title={<ModuleTitle moduleNumber={4} title="PROVIDING EVERYDAY CARE" />}
+        title={
+          <ModuleTitle
+            moduleNumber={4}
+            title="PROVIDING EVERYDAY CARE"
+            imageSrc="Module 4.png"
+          />
+        }
       >
         <></>
       </AccordionCard>
@@ -44,6 +73,7 @@ const ISupportNZPage: React.FC = () => {
           <ModuleTitle
             moduleNumber={5}
             title="UNDERSTANDING CHANGES IN BEHAVIOUR"
+            imageSrc="Module 5.png"
           />
         }
       >
