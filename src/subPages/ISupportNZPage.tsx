@@ -1,34 +1,41 @@
 import React from "react";
 import AccordionCard from "../components/universal/AccordionCard";
 import ModuleTitle from "../components/course/ModuleTitle";
-import SectionList from "../components/course/SectionList";
+import SubSectionList from "../components/course/SubSectionList";
 import TopBar from "../components/universal/TopBar";
 
-type Section = {
-  id: string;
-  text: string;
-  onClick: () => void;
-};
-
 type Module = {
-  moduleNumber: number;
+  number: string;
   title: string;
   imageSrc: string;
   introText?: string;
   sections?: Section[];
 };
 
+type Section = {
+  id: string;
+  text: string;
+  onClick: () => void;
+  subsections?: Subsection[];
+};
+
+type Subsection = {
+  id: string;
+  text: string;
+  onClick: () => void;
+};
+
 const ISupportNZPage: React.FC = () => {
   const modules: Module[] = [
     {
-      moduleNumber: 0,
+      number: "0",
       title: "COURSE INTRODUCTION",
       imageSrc: "Course Introduction.png",
       introText:
         "iSupport NZ is a self-help skills and training programme with 5 modules for carers of people living with dementia. It aims to prevent and/or decrease mental and physical health problems associated with caregiving and to improve the quality of life of people (family carers) living with dementia.",
     },
     {
-      moduleNumber: 1,
+      number: "1",
       title: "INTRODUCTION TO DEMENTIA",
       imageSrc: "Module 1.png",
       sections: [
@@ -36,6 +43,38 @@ const ISupportNZPage: React.FC = () => {
           id: "1.1",
           text: "Types of dementia and the progression",
           onClick: () => console.log("1.1"),
+          subsections: [
+            {
+              id: "1.1.0",
+              text: "Why is this section important?",
+              onClick: () => console.log("1.1.0"),
+            },
+            {
+              id: "1.1.1",
+              text: "What is dementia?",
+              onClick: () => console.log("1.1.1"),
+            },
+            {
+              id: "1.1.2",
+              text: "What causes dementia?",
+              onClick: () => console.log("1.1.2"),
+            },
+            {
+              id: "1.1.3",
+              text: "What happens to people with dementia as the disease progresses?",
+              onClick: () => console.log("1.1.3"),
+            },
+            {
+              id: "1.1.4",
+              text: "What to do if you think that your family/whānau member or friend has dementia",
+              onClick: () => console.log("1.1.4"),
+            },
+            {
+              id: "1.1.5",
+              text: "How to reach out for help",
+              onClick: () => console.log("1.1.5"),
+            },
+          ],
         },
         {
           id: "1.2",
@@ -56,7 +95,7 @@ const ISupportNZPage: React.FC = () => {
     },
 
     {
-      moduleNumber: 2,
+      number: "2",
       title: "BEING A CARER",
       imageSrc: "Module 2.png",
       sections: [
@@ -83,7 +122,7 @@ const ISupportNZPage: React.FC = () => {
       ],
     },
     {
-      moduleNumber: 3,
+      number: "3",
       title: "CARING FOR ME",
       imageSrc: "Module 3.png",
       sections: [
@@ -105,7 +144,7 @@ const ISupportNZPage: React.FC = () => {
       ],
     },
     {
-      moduleNumber: 4,
+      number: "4",
       title: "PROVIDING EVERYDAY CARE",
       imageSrc: "Module 4.png",
       sections: [
@@ -133,7 +172,7 @@ const ISupportNZPage: React.FC = () => {
       ],
     },
     {
-      moduleNumber: 5,
+      number: "5",
       title: "UNDERSTANDING CHANGES IN BEHAVIOUR",
       imageSrc: "Module 5.png",
       sections: [
@@ -188,10 +227,10 @@ const ISupportNZPage: React.FC = () => {
       <TopBar title="iSupport NZ" />
       {modules.map((m) => (
         <AccordionCard
-          key={`module-${m.moduleNumber}`}
+          key={`module-${m.number}`}
           title={
             <ModuleTitle
-              moduleNumber={m.moduleNumber}
+              number={m.number}
               title={m.title}
               imageSrc={m.imageSrc}
             />
@@ -202,7 +241,7 @@ const ISupportNZPage: React.FC = () => {
               {m.introText}
             </p>
           ) : m.sections && m.sections.length > 0 ? (
-            <SectionList sections={m.sections} />
+            <SubSectionList sections={m.sections} />
           ) : (
             <></>
           )}

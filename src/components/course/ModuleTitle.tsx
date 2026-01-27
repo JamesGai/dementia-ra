@@ -1,14 +1,14 @@
 import React from "react";
 
 interface ModuleTitleProps {
-  moduleNumber: number;
+  number: string;
   title: string;
   imageSrc?: string;
   imageAlt?: string;
 }
 
 const ModuleTitle: React.FC<ModuleTitleProps> = ({
-  moduleNumber,
+  number,
   title,
   imageSrc,
   imageAlt = "Module image",
@@ -17,7 +17,7 @@ const ModuleTitle: React.FC<ModuleTitleProps> = ({
     <div className="leading-tight py-3">
       {imageSrc && <img src={imageSrc} alt={imageAlt} />}
       <div className="text-xs font-semibold tracking-widest text-gray-500">
-        MODULE {moduleNumber}
+        MODULE {number}
       </div>
 
       <div className="text-[#2e6f73] font-extrabold">{title}</div>
