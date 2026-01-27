@@ -1,13 +1,19 @@
 import React, { useMemo, useState } from "react";
 import Button from "../components/universal/Button";
-import CourseContent, {
-  CourseSegment,
-  CourseItem,
-} from "../components/course/CourseContent";
+import CourseContent from "../components/course/CourseContent";
 import Segment from "../components/universal/Segment";
 import TopBar from "../components/universal/TopBar";
-import { VideoItem } from "../components/video/VideoContent";
+import { VideoItem } from "./VideoPage";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
+
+export type CourseSegment = "all" | "progress";
+
+export interface CourseItem {
+  id: string;
+  title: string;
+  image: string;
+  progressPercent?: number;
+}
 
 interface CoursePageProps {
   onNavigate: (tab: "iSupportNZ") => void;

@@ -1,13 +1,5 @@
 import React from "react";
-
-export type CourseSegment = "all" | "progress";
-
-export interface CourseItem {
-  id: string;
-  title: string;
-  image: string;
-  progressPercent?: number;
-}
+import { CourseSegment, CourseItem } from "../../pages/CoursePage";
 
 interface CourseContentProps {
   segment: CourseSegment;

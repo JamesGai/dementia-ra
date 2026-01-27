@@ -3,11 +3,19 @@ import Button from "../components/universal/Button";
 import Pagination from "../components/video/Pagination";
 import Segment from "../components/universal/Segment";
 import TopBar from "../components/universal/TopBar";
-import VideoContent, {
-  VideoSegment,
-  VideoItem,
-} from "../components/video/VideoContent";
+import VideoContent from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
+
+export type VideoSegment = "all" | "history";
+
+export interface VideoItem {
+  id: string;
+  title: string;
+  description: string;
+  duration: string;
+  image: string;
+  src: string;
+}
 
 interface VideoPageProps {
   addToVideoHistory: (video: VideoItem) => void;
@@ -15,8 +23,7 @@ interface VideoPageProps {
   scrollToTop: () => void;
 }
 
-// How many videos can be displayed per page
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 5; // How many videos can be displayed per page
 
 const VideoPage: React.FC<VideoPageProps> = ({
   addToVideoHistory,

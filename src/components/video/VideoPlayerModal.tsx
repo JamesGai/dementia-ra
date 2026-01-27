@@ -9,7 +9,7 @@ import {
   IonButton,
 } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
-import type { VideoItem } from "../../pages/VideoPage";
+import { VideoItem } from "../../pages/VideoPage";
 
 interface VideoPlayerModalProps {
   isVideoOpen: boolean;

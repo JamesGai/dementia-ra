@@ -2,19 +2,7 @@ import React from "react";
 import AccordionCard from "../universal/AccordionCard";
 import Button from "../universal/Button";
 import ModuleTitle from "./ModuleTitle";
-
-export type SubsectionItem = {
-  id: string;
-  text: string;
-  onClick: () => void;
-};
-
-export type SectionItem = {
-  id: string;
-  text: string;
-  onClick?: () => void;
-  subsections?: SubsectionItem[];
-};
+import { SectionItem } from "../../subPages/iSupportNZPage";
 
 interface SectionAccordionListProps {
   sections: SectionItem[];

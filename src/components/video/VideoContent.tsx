@@ -1,15 +1,5 @@
 import React from "react";
-
-export type VideoSegment = "all" | "history";
-
-export interface VideoItem {
-  id: string;
-  title: string;
-  description: string;
-  duration: string;
-  image: string;
-  src: string;
-}
+import { VideoSegment, VideoItem } from "../../pages/VideoPage";
 
 interface VideoContentProps {
   segment: VideoSegment;

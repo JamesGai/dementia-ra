@@ -9,17 +9,17 @@ type Module = {
   title: string;
   imageSrc: string;
   introText?: string;
-  sections?: Section[];
+  sections?: SectionItem[];
 };
 
-type Section = {
+export type SectionItem = {
   id: string;
   text: string;
   onClick: () => void;
-  subsections?: Subsection[];
+  subsections?: SubsectionItem[];
 };
 
-type Subsection = {
+type SubsectionItem = {
   id: string;
   text: string;
   onClick: () => void;
