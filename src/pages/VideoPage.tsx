@@ -8,7 +8,7 @@ import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
 type VideoSegment = "all" | "history";
 
-interface VideoItem {
+export interface VideoItem {
   id: string;
   title: string;
   description: string;
