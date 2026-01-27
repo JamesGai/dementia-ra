@@ -174,6 +174,12 @@ const VideoPage: React.FC<VideoPageProps> = ({
   const sourceList = segment === "all" ? dummyVideos : historyVideos;
   const totalPages = Math.max(1, Math.ceil(sourceList.length / PAGE_SIZE));
 
+  // Slice current page items
+  const pagedVideos = useMemo(() => {
+    const start = (page - 1) * PAGE_SIZE;
+    return sourceList.slice(start, start + PAGE_SIZE);
+  }, [sourceList, page]);
+
   const goPrev = () => {
     setPage((prev) => {
       const next = Math.max(1, prev - 1);
@@ -189,12 +195,6 @@ const VideoPage: React.FC<VideoPageProps> = ({
       return next;
     });
   };
-
-  // Slice current page items
-  const pagedVideos = useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE;
-    return sourceList.slice(start, start + PAGE_SIZE);
-  }, [sourceList, page]);
 
   const handleOpenInstruction = () => {
     setSelectedVideo(instructionVideo);

@@ -56,6 +56,8 @@ const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const contentRef = useRef<HTMLIonContentElement | null>(null);
 
+  const isCourseActive = activeTab === "course" || activeTab === "iSupportNZ";
+
   const renderContent = () => {
     switch (activeTab) {
       case "aboutUs":
@@ -217,15 +219,16 @@ const App: React.FC = () => {
             <button
               onClick={() => setActiveTab("course")}
               className={`flex flex-col items-center flex-1 py-1 transition-all ${
-                activeTab === "course" ? "text-blue-600" : "text-gray-400"
+                isCourseActive ? "text-blue-600" : "text-gray-400"
               }`}
             >
               <IonIcon
-                icon={activeTab === "course" ? school : schoolOutline}
+                icon={isCourseActive ? school : schoolOutline}
                 className="text-2xl mb-1"
               />
               <span className="text-[10px] font-medium">Course</span>
-              {activeTab === "course" && (
+
+              {isCourseActive && (
                 <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
               )}
             </button>
