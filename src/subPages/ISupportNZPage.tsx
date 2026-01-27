@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import AccordionCard from "../components/universal/AccordionCard";
-import ModuleTitle from "../components/course/CourseTitle";
-import SubSectionList from "../components/course/SubSectionList";
-import TopBar from "../components/universal/TopBar";
 import CourseTitle from "../components/course/CourseTitle";
+import SubSectionList from "../components/course/SubSectionList";
+import SubsectionModal from "../components/course/SubsectionModal";
+import TopBar from "../components/universal/TopBar";
 
 type Module = {
   number: string;
@@ -20,7 +20,7 @@ export type SectionItem = {
   subsections?: SubsectionItem[];
 };
 
-type SubsectionItem = {
+export type SubsectionItem = {
   number: string;
   title: string;
   onClick: () => void;
@@ -237,6 +237,16 @@ const ISupportNZPage: React.FC = () => {
     },
   ];
 
+  const [isSubsectionOpen, setIsSubsectionOpen] = useState(false);
+  const [selectedSubsection, setSelectedSubsection] = useState<
+    SubsectionItem | undefined
+  >(undefined);
+
+  const openSubsection = (sub: SubsectionItem) => {
+    setSelectedSubsection(sub);
+    setIsSubsectionOpen(true);
+  };
+
   return (
     <div className="p-4 space-y-6">
       <TopBar title="iSupport NZ" />
@@ -257,7 +267,10 @@ const ISupportNZPage: React.FC = () => {
               {m.introtitle}
             </p>
           ) : m.sections && m.sections.length > 0 ? (
-            <SubSectionList sections={m.sections} />
+            <SubSectionList
+              sections={m.sections}
+              openSubsection={openSubsection}
+            />
           ) : (
             <></>
           )}
@@ -266,6 +279,11 @@ const ISupportNZPage: React.FC = () => {
       <AccordionCard title="NEW ZEALAND LOCAL RESOURCES">
         <></>
       </AccordionCard>
+      <SubsectionModal
+        isOpen={isSubsectionOpen}
+        onClose={() => setIsSubsectionOpen(false)}
+        subsection={selectedSubsection}
+      />
     </div>
   );
 };
