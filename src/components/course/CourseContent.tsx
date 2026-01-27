@@ -5,7 +5,7 @@ export type CourseSegment = "all" | "progress";
 export interface CourseItem {
   id: string;
   title: string;
-  thumbnail: string;
+  image: string;
   subtitle?: string;
   progressPercent?: number;
 }
@@ -14,14 +14,14 @@ interface CourseContentProps {
   segment: CourseSegment;
   courses: CourseItem[];
   progressCourses: CourseItem[];
-  onOpenCourse: (course: CourseItem) => void;
+  startCourse: (course: CourseItem) => void;
 }
 
 const CourseContent: React.FC<CourseContentProps> = ({
   segment,
   courses,
   progressCourses,
-  onOpenCourse,
+  startCourse,
 }) => {
   if (segment === "all") {
     return (
@@ -30,18 +30,17 @@ const CourseContent: React.FC<CourseContentProps> = ({
           <button
             key={c.id}
             type="button"
-            onClick={() => onOpenCourse(c)}
+            onClick={() => startCourse(c)}
             className="w-full bg-white rounded-2xl shadow-md overflow-hidden text-left active:opacity-90"
           >
             <div className="relative">
               <img
-                src={c.thumbnail}
+                src={c.image}
                 alt={c.title}
                 className="w-full h-40 object-cover"
                 loading="lazy"
               />
             </div>
-
             <div className="p-4 space-y-1">
               <div className="text-[#2e6f73] font-extrabold tracking-wide">
                 {c.title}
@@ -69,12 +68,12 @@ const CourseContent: React.FC<CourseContentProps> = ({
             <button
               key={c.id}
               type="button"
-              onClick={() => onOpenCourse(c)}
+              onClick={() => startCourse(c)}
               className="w-full bg-white rounded-2xl shadow-md overflow-hidden text-left active:opacity-90"
             >
               <div className="flex items-center gap-4 p-4">
                 <img
-                  src={c.thumbnail}
+                  src={c.image}
                   alt={c.title}
                   className="w-24 h-16 object-cover rounded-lg"
                   loading="lazy"

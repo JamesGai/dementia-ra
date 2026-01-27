@@ -11,7 +11,7 @@ const ServicesPage: React.FC = () => {
     description:
       "This short video explains how to find a medical centre nearby.",
     duration: "02:30",
-    thumbnail: "",
+    image: "",
     src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
   };
 

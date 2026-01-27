@@ -29,7 +29,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
     description:
       "This short video explains how to browse videos, play them, and review your watch history.",
     duration: "02:30",
-    thumbnail: "",
+    image: "",
     src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
   };
 
@@ -40,7 +40,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "Understanding Dementia",
         description: "A gentle introduction to dementia and what to expect.",
         duration: "08:45",
-        thumbnail: "https://picsum.photos/seed/dementia1/640/360",
+        image: "https://picsum.photos/seed/dementia1/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
@@ -48,7 +48,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "Communication Tips for Care Partners",
         description: "Practical ways to reduce frustration and connect.",
         duration: "06:12",
-        thumbnail: "https://picsum.photos/seed/dementia2/640/360",
+        image: "https://picsum.photos/seed/dementia2/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
@@ -56,7 +56,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "Daily Routines That Help",
         description: "Small routine changes that can support wellbeing.",
         duration: "10:03",
-        thumbnail: "https://picsum.photos/seed/dementia3/640/360",
+        image: "https://picsum.photos/seed/dementia3/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
@@ -64,7 +64,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "Managing Stress as a Carer",
         description: "Simple strategies to prevent burnout and stay balanced.",
         duration: "07:28",
-        thumbnail: "https://picsum.photos/seed/dementia4/640/360",
+        image: "https://picsum.photos/seed/dementia4/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
@@ -72,7 +72,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "Safety at Home Checklist",
         description: "A quick checklist to reduce risks and improve safety.",
         duration: "05:50",
-        thumbnail: "https://picsum.photos/seed/dementia5/640/360",
+        image: "https://picsum.photos/seed/dementia5/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
@@ -80,7 +80,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "Eating and Nutrition Basics",
         description: "Helpful tips for meals, hydration, and routine.",
         duration: "09:10",
-        thumbnail: "https://picsum.photos/seed/dementia6/640/360",
+        image: "https://picsum.photos/seed/dementia6/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
@@ -88,7 +88,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "Supporting Sleep and Night Routine",
         description: "Common sleep issues and what can help.",
         duration: "07:05",
-        thumbnail: "https://picsum.photos/seed/dementia7/640/360",
+        image: "https://picsum.photos/seed/dementia7/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
@@ -96,7 +96,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "What to Do During Sundowning",
         description: "Steps to reduce agitation in late afternoon and evening.",
         duration: "06:40",
-        thumbnail: "https://picsum.photos/seed/dementia8/640/360",
+        image: "https://picsum.photos/seed/dementia8/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
@@ -104,7 +104,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "Medication Safety Tips",
         description: "How to organize and safely manage medications.",
         duration: "04:55",
-        thumbnail: "https://picsum.photos/seed/dementia9/640/360",
+        image: "https://picsum.photos/seed/dementia9/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
@@ -112,7 +112,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "Handling Repetition and Memory Gaps",
         description: "Communication strategies for repeated questions.",
         duration: "08:02",
-        thumbnail: "https://picsum.photos/seed/dementia10/640/360",
+        image: "https://picsum.photos/seed/dementia10/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
@@ -120,7 +120,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "Activities That Build Connection",
         description: "Simple activity ideas for different energy levels.",
         duration: "11:20",
-        thumbnail: "https://picsum.photos/seed/dementia11/640/360",
+        image: "https://picsum.photos/seed/dementia11/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
@@ -128,7 +128,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "Preparing for Appointments",
         description: "What to bring and how to communicate concerns.",
         duration: "05:35",
-        thumbnail: "https://picsum.photos/seed/dementia12/640/360",
+        image: "https://picsum.photos/seed/dementia12/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
@@ -136,7 +136,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "Home Safety: Bathroom and Kitchen",
         description: "Practical changes to reduce accidents at home.",
         duration: "07:58",
-        thumbnail: "https://picsum.photos/seed/dementia13/640/360",
+        image: "https://picsum.photos/seed/dementia13/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
@@ -144,7 +144,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "When to Ask for Help",
         description: "Recognizing burnout and accessing support services.",
         duration: "06:30",
-        thumbnail: "https://picsum.photos/seed/dementia14/640/360",
+        image: "https://picsum.photos/seed/dementia14/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
       {
@@ -152,7 +152,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
         title: "Self-care Micro Habits",
         description: "Tiny daily habits that reduce stress over time.",
         duration: "04:20",
-        thumbnail: "https://picsum.photos/seed/dementia15/640/360",
+        image: "https://picsum.photos/seed/dementia15/640/360",
         src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       },
     ],

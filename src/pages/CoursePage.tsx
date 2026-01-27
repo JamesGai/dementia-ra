@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from "react";
 import Button from "../components/universal/Button";
-import Segment from "../components/universal/Segment";
-import TopBar from "../components/universal/TopBar";
-import { VideoItem } from "../components/video/VideoContent";
-import VideoPlayerModal from "../components/video/VideoPlayerModal";
 import CourseContent, {
   CourseSegment,
   CourseItem,
 } from "../components/course/CourseContent";
+import Segment from "../components/universal/Segment";
+import TopBar from "../components/universal/TopBar";
+import { VideoItem } from "../components/video/VideoContent";
+import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
 const CoursePage: React.FC = () => {
   const instructionVideo: VideoItem = {
@@ -16,9 +16,22 @@ const CoursePage: React.FC = () => {
     description:
       "This short video explains how to start a course module and review your progress.",
     duration: "02:30",
-    thumbnail: "",
+    image: "",
     src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
   };
+
+  const dummyCourses: CourseItem[] = useMemo(
+    () => [
+      {
+        id: "iSupport-NZ",
+        title: "iSupport New Zealand",
+        subtitle:
+          "iSupport NZ is a self-help skills and training programme wtih 5 moduiles for carers of people living with dementia. It aims to prevent and/or decrease mental and physical health problems associated with caregiving and to improve the quality of life of people (family carers) living with dementia.",
+        image: "iSupport.png",
+      },
+    ],
+    [],
+  );
 
   const courseSegmentOptions = [
     { value: "all", label: "All courses" },
@@ -31,30 +44,15 @@ const CoursePage: React.FC = () => {
     undefined,
   );
 
-  const handleOpenInstruction = () => {
-    setSelectedVideo(instructionVideo);
-    setIsVideoOpen(true);
-  };
-
-  // Dummy data (replace with real API/data store later)
-  const dummyCourses: CourseItem[] = useMemo(
-    () => [
-      {
-        id: "understanding-dementia",
-        title: "Understanding Dementia",
-        subtitle: "Key concepts and what to expect over time",
-        thumbnail:
-          "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=60",
-      },
-    ],
-    [],
-  );
-
-  // Example: progress list could be derived from stored progress records
   const progressCourses: CourseItem[] = useMemo(
     () => [{ ...dummyCourses[0], progressPercent: 35 }],
     [dummyCourses],
   );
+
+  const handleOpenInstruction = () => {
+    setSelectedVideo(instructionVideo);
+    setIsVideoOpen(true);
+  };
 
   const handleOpenCourse = (course: CourseItem) => {
     console.log("hi");
@@ -73,7 +71,7 @@ const CoursePage: React.FC = () => {
         segment={segment as CourseSegment}
         courses={dummyCourses}
         progressCourses={progressCourses}
-        onOpenCourse={handleOpenCourse}
+        startCourse={handleOpenCourse}
       />
       <VideoPlayerModal
         isVideoOpen={isVideoOpen}

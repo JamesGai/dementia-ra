@@ -7,7 +7,7 @@ export interface VideoItem {
   title: string;
   description: string;
   duration: string;
-  thumbnail: string;
+  image: string;
   src: string;
 }
 
@@ -37,7 +37,7 @@ const VideoContent: React.FC<VideoContentProps> = ({
           >
             <div className="relative">
               <img
-                src={v.thumbnail}
+                src={v.image}
                 alt={v.title}
                 className="w-full h-40 object-cover"
                 loading="lazy"
@@ -69,7 +69,7 @@ const VideoContent: React.FC<VideoContentProps> = ({
           >
             <div className="flex items-center gap-4 p-4">
               <img
-                src={v.thumbnail}
+                src={v.image}
                 alt={v.title}
                 className="w-24 h-16 object-cover rounded-lg"
                 loading="lazy"
