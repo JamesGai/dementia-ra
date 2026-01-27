@@ -1,5 +1,6 @@
 import React from "react";
 import AccordionCard from "../components/universal/AccordionCard";
+import ModuleTitle from "../components/course/ModuleTitle";
 import TopBar from "../components/universal/TopBar";
 
 const ISupportNZPage: React.FC = () => {
@@ -17,60 +18,33 @@ const ISupportNZPage: React.FC = () => {
       </AccordionCard>
       <AccordionCard
         title={
-          <div className="leading-tight pt-3 pb-3">
-            <div className="text-xs font-semibold tracking-widest text-gray-500">
-              MODULE 1
-            </div>
-            <div>Introduction to Dementia</div>
-          </div>
+          <ModuleTitle moduleNumber={1} title="INTRODUCTION TO DEMENTIA" />
         }
+      >
+        <></>
+      </AccordionCard>
+
+      <AccordionCard
+        title={<ModuleTitle moduleNumber={2} title="BEING A CAERE" />}
+      >
+        <></>
+      </AccordionCard>
+      <AccordionCard
+        title={<ModuleTitle moduleNumber={3} title="CARING FOR ME" />}
+      >
+        <></>
+      </AccordionCard>
+      <AccordionCard
+        title={<ModuleTitle moduleNumber={4} title="PROVIDING EVERYDAY CARE" />}
       >
         <></>
       </AccordionCard>
       <AccordionCard
         title={
-          <div className="leading-tight pt-3 pb-3">
-            <div className="text-xs font-semibold tracking-widest text-gray-500">
-              MODULE 2
-            </div>
-            <div>BEING A CARER</div>
-          </div>
-        }
-      >
-        <></>
-      </AccordionCard>
-      <AccordionCard
-        title={
-          <div className="leading-tight pt-3 pb-3">
-            <div className="text-xs font-semibold tracking-widest text-gray-500">
-              MODULE 3
-            </div>
-            <div>CARING FOR ME</div>
-          </div>
-        }
-      >
-        <></>
-      </AccordionCard>
-      <AccordionCard
-        title={
-          <div className="leading-tight pt-3 pb-3">
-            <div className="text-xs font-semibold tracking-widest text-gray-500">
-              MODULE 4
-            </div>
-            <div>PROVIDING EVERYDAY CARE</div>
-          </div>
-        }
-      >
-        <></>
-      </AccordionCard>
-      <AccordionCard
-        title={
-          <div className="leading-tight pt-3 pb-3">
-            <div className="text-xs font-semibold tracking-widest text-gray-500">
-              MODULE 5
-            </div>
-            <div>UNDERSTANDING CHANGES IN BEHAVIOUR</div>
-          </div>
+          <ModuleTitle
+            moduleNumber={5}
+            title="UNDERSTANDING CHANGES IN BEHAVIOUR"
+          />
         }
       >
         <></>
