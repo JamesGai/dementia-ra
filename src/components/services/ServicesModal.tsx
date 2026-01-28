@@ -8,8 +8,33 @@ import {
   IonToolbar,
   IonButton,
 } from "@ionic/react";
-import { closeOutline } from "ionicons/icons";
+import {
+  closeOutline,
+  locationOutline,
+  mailOutline,
+  callOutline,
+  linkOutline,
+} from "ionicons/icons";
 import { Service } from "../../pages/ServicesPage";
+
+type InfoRowProps = {
+  icon: string;
+  children: React.ReactNode;
+  className?: string;
+};
+
+const InfoRow: React.FC<InfoRowProps> = ({ icon, children, className }) => {
+  return (
+    <div className={`flex items-start gap-3 ${className ?? ""}`}>
+      <IonIcon
+        icon={icon}
+        className="w-5 h-5 text-gray-500 shrink-0 mt-1"
+        aria-hidden="true"
+      />
+      <div className="min-w-0">{children}</div>
+    </div>
+  );
+};
 
 interface ServicesModalProps {
   isOpen: boolean;
@@ -56,39 +81,29 @@ const ServicesModal: React.FC<ServicesModalProps> = ({
                 {service.title}
               </div>
               <div className="h-px w-full bg-gray-300" />
-              <div className="space-y-2 text-gray-700 leading-relaxed">
-                {service.description ? (
-                  <div className="text-gray-700">{service.description}</div>
-                ) : null}
+              <div className="space-y-4 text-gray-700 leading-relaxed">
+                {service.description ? <div>{service.description}</div> : null}
                 {service.address ? (
-                  <div>
-                    <span className="font-semibold text-gray-900">
-                      Address:{" "}
-                    </span>
-                    {service.address}
-                  </div>
+                  <InfoRow icon={locationOutline}>
+                    <div>{service.address}</div>
+                  </InfoRow>
                 ) : null}
                 {service.email ? (
-                  <div>
-                    <span className="font-semibold text-gray-900">Email: </span>
-                    {service.email}
-                  </div>
+                  <InfoRow icon={mailOutline}>
+                    <div>{service.email}</div>
+                  </InfoRow>
                 ) : null}
                 {service.mobile ? (
-                  <div>
-                    <span className="font-semibold text-gray-900">Phone: </span>
-                    {service.mobile}
-                  </div>
+                  <InfoRow icon={callOutline}>
+                    <div>{service.mobile}</div>
+                  </InfoRow>
                 ) : null}
                 {service.link ? (
-                  <div className="break-words">
-                    <span className="font-semibold text-gray-900">
-                      Website:{" "}
-                    </span>
+                  <InfoRow icon={linkOutline} className="break-words">
                     <span className="font-semibold text-[#2e6f73]">
                       {service.link}
                     </span>
-                  </div>
+                  </InfoRow>
                 ) : null}
               </div>
             </div>
