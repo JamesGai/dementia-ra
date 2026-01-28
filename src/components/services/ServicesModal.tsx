@@ -81,6 +81,14 @@ const ServicesModal: React.FC<ServicesModalProps> = ({
                 {service.title}
               </div>
               <div className="h-px w-full bg-gray-300" />
+              {/* Map placeholder (icon only)*/}
+              <div className="flex justify-center py-3">
+                <IonIcon
+                  icon={locationOutline}
+                  className="w-8 h-8 text-gray-400"
+                  aria-hidden="true"
+                />
+              </div>
               <div className="space-y-4 text-gray-700 leading-relaxed">
                 {service.description ? <div>{service.description}</div> : null}
                 {service.address ? (
