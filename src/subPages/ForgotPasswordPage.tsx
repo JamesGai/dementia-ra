@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "../components/universal/Button";
-import Email from "../components/profile/Email";
 import GetStarted from "../components/profile/GetStarted";
 import TextButton from "../components/universal/TextButton";
 
@@ -17,7 +16,6 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onBack }) => {
     <div className="p-4 space-y-6">
       <GetStarted content="Enter your email to reset password" />
       <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
-        <Email />
         <Button text="Send" onClick={handleEmail} />
         <div className="text-center">
           <TextButton text="Already have an account?" onClick={onBack} />

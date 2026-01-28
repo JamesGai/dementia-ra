@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "../components/universal/Button";
-import Email from "../components/profile/Email";
-import Password from "../components/profile/Password";
+import LabeledInput from "../components/profile/LabeledInput";
 import TextButton from "../components/universal/TextButton";
 import Settings from "../components/profile/Settings";
 import TopBar from "../components/universal/TopBar";
@@ -25,8 +24,13 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
       {/* Logged out state */}
       {!isLoggedIn && (
         <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
-          <Email />
-          <Password />
+          <LabeledInput label="Email" type="email" placeholder="Enter email" />
+          <LabeledInput
+            label="Password"
+            type="password"
+            placeholder="Enter password"
+            showToggle
+          />
           <TextButton
             text="Forgot password?"
             onClick={() => onNavigate("forgotPassword")}
