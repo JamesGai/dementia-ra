@@ -55,7 +55,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                 {subsection.number}. {subsection.title}
               </div>
               <div className="h-px w-full bg-gray-300" />
-              <div className="text-gray-500 leading-relaxed">
+              <div className="text-gray-700 leading-relaxed">
                 Content coming soon
               </div>
             </div>

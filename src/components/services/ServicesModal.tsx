@@ -58,9 +58,8 @@ const ServicesModal: React.FC<ServicesModalProps> = ({
               <div className="h-px w-full bg-gray-300" />
               <div className="space-y-2 text-gray-700 leading-relaxed">
                 {service.description ? (
-                  <div className="text-gray-500">{service.description}</div>
+                  <div className="text-gray-700">{service.description}</div>
                 ) : null}
-
                 {service.address ? (
                   <div>
                     <span className="font-semibold text-gray-900">
@@ -69,21 +68,18 @@ const ServicesModal: React.FC<ServicesModalProps> = ({
                     {service.address}
                   </div>
                 ) : null}
-
                 {service.email ? (
                   <div>
                     <span className="font-semibold text-gray-900">Email: </span>
                     {service.email}
                   </div>
                 ) : null}
-
                 {service.mobile ? (
                   <div>
                     <span className="font-semibold text-gray-900">Phone: </span>
                     {service.mobile}
                   </div>
                 ) : null}
-
                 {service.link ? (
                   <div className="break-words">
                     <span className="font-semibold text-gray-900">
