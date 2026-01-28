@@ -45,18 +45,19 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
       {/* Content */}
       <IonContent className="ion-padding">
         {!subsection ? (
-          <div className="bg-white rounded-2xl p-4 shadow-md text-sm text-gray-500">
+          <div className="bg-white rounded-2xl p-4 shadow-md text-gray-500">
             No subsection selected.
           </div>
         ) : (
           <div className="space-y-4">
-            {/* Title + Description (TBD) */}
             <div className="bg-white rounded-2xl p-4 shadow-md space-y-3">
               <div className="text-[#2e6f73] font-extrabold tracking-wide">
                 {subsection.number}. {subsection.title}
               </div>
               <div className="h-px w-full bg-gray-300" />
-              <div className="text-sm text-gray-500">Content coming soon</div>
+              <div className="text-gray-500 leading-relaxed">
+                Content coming soon
+              </div>
             </div>
           </div>
         )}
