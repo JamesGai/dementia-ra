@@ -207,7 +207,7 @@ const ISupportNZPage: React.FC = () => {
     SubsectionItem | undefined
   >(undefined);
 
-  const openSubsection = (sub: SubsectionItem) => {
+  const handleOpenSubsection = (sub: SubsectionItem) => {
     setSelectedSubsection(sub);
     setIsSubsectionOpen(true);
   };
@@ -234,7 +234,7 @@ const ISupportNZPage: React.FC = () => {
           ) : m.sections && m.sections.length > 0 ? (
             <SubSectionList
               sections={m.sections}
-              openSubsection={openSubsection}
+              openSubsection={handleOpenSubsection}
             />
           ) : (
             <></>
