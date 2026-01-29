@@ -18,18 +18,16 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
     <div className="p-4 space-y-6">
       <GetStarted content="Create an account to personalise your experience." />
       <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <LabeledInput
-            label="First name *"
-            type="text"
-            placeholder="Enter first name"
-          />
-          <LabeledInput
-            label="Last name *"
-            type="text"
-            placeholder="Enter last name"
-          />
-        </div>
+        <LabeledInput
+          label="First name *"
+          type="text"
+          placeholder="Enter first name"
+        />
+        <LabeledInput
+          label="Last name *"
+          type="text"
+          placeholder="Enter last name"
+        />
         <LabeledInput label="Email *" type="email" placeholder="Enter email" />
         <LabeledInput
           label="Phone number"
@@ -53,23 +51,22 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           placeholder="Enter confirm password"
           showToggle
         />
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <LabeledInput label="City *" type="text" placeholder="Enter city" />
-          <div className="space-y-2">
-            <div className="text-sm font-bold text-gray-900">Country *</div>
-            <select
-              className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none focus:border-[#2e6f73]"
-              defaultValue=""
-            >
-              <option value="" disabled>
-                Enter Country
-              </option>
-              <option value="us">United States</option>
-              <option value="ca">Canada</option>
-              <option value="uk">United Kingdom</option>
-              <option value="au">Australia</option>
-            </select>
-          </div>
+        <LabeledInput label="City *" type="text" placeholder="Enter city" />
+        {/* Selection */}
+        <div className="space-y-2">
+          <div className="text-sm font-bold text-gray-900">Country *</div>
+          <select
+            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none focus:border-[#2e6f73]"
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Enter Country
+            </option>
+            <option value="us">United States</option>
+            <option value="ca">Canada</option>
+            <option value="uk">United Kingdom</option>
+            <option value="au">Australia</option>
+          </select>
         </div>
         <div className="space-y-2">
           <div className="text-sm font-bold text-gray-900">User Role</div>
