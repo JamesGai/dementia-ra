@@ -1,5 +1,5 @@
-import React from "react";
-import { IonItem, IonLabel, IonSelect, IonSelectOption } from "@ionic/react";
+import React, { useId } from "react";
+import { IonSelect, IonSelectOption } from "@ionic/react";
 
 interface LabeledSelectionInputProps {
   label: string;
@@ -13,24 +13,19 @@ const LabeledSelectionInput: React.FC<LabeledSelectionInputProps> = ({
   options,
 }) => {
   return (
-    <IonItem
-      lines="none"
-      className={"rounded-xl border border-gray-200 bg-white"}
-    >
-      <IonLabel
-        position="stacked"
-        className={"text-sm font-bold text-gray-900 "}
+    <div className="space-y-2">
+      <label className="text-sm font-bold text-gray-900">{label}</label>
+      <IonSelect
+        placeholder={placeholder}
+        className="w-full rounded-xl border border-gray-200 bg-white px-4 py-1.5 text-gray-900 placeholder:text-gray-400 outline-none focus:border-[#2e6f73]"
       >
-        {label}
-      </IonLabel>
-      <IonSelect placeholder={placeholder}>
         {options.map((option) => (
           <IonSelectOption key={option.value} value={option.value}>
             {option.label}
           </IonSelectOption>
         ))}
       </IonSelect>
-    </IonItem>
+    </div>
   );
 };
 
