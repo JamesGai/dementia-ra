@@ -1,5 +1,4 @@
 import React from "react";
-import { IonSelectOption } from "@ionic/react";
 import Button from "../components/universal/Button";
 import GetStarted from "../components/profile/GetStarted";
 import LabeledInput from "../components/profile/LabeledInput";
@@ -17,22 +16,22 @@ const handleCreate = () => {
 
 const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
   const countryOptions = [
-    { value: "us", option: "United States" },
-    { value: "ca", option: "Canada" },
-    { value: "uk", option: "United Kingdom" },
-    { value: "au", option: "Australia" },
+    { value: "us", label: "United States" },
+    { value: "ca", label: "Canada" },
+    { value: "uk", label: "United Kingdom" },
+    { value: "au", label: "Australia" },
   ];
   const userRoleOptions = [
-    { value: "carer", option: "Carer" },
-    { value: "family", option: "Family member" },
-    { value: "professional", option: "Health professional" },
-    { value: "other", option: "Other" },
+    { value: "carer", label: "Carer" },
+    { value: "family", label: "Family member" },
+    { value: "professional", label: "Health professional" },
+    { value: "other", label: "Other" },
   ];
   const purposeOptions = [
-    { value: "personal", option: "For personal support" },
-    { value: "family", option: "For a family member" },
-    { value: "work", option: "For professional use" },
-    { value: "research", option: "For research" },
+    { value: "personal", label: "For personal support" },
+    { value: "family", label: "For a family member" },
+    { value: "work", label: "For professional use" },
+    { value: "research", label: "For research" },
   ];
 
   return (
@@ -73,31 +72,21 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           showToggle
         />
         <LabeledInput label="City *" type="text" placeholder="Enter city" />
-        <LabeledSelectionInput label="Country *" placeholder="Enter Country">
-          {countryOptions.map((option) => (
-            <IonSelectOption key={option.value} value={option.value}>
-              {option.option}
-            </IonSelectOption>
-          ))}
-        </LabeledSelectionInput>
-        <LabeledSelectionInput label="User Role" placeholder="Select role">
-          {userRoleOptions.map((option) => (
-            <IonSelectOption key={option.value} value={option.value}>
-              {option.option}
-            </IonSelectOption>
-          ))}
-        </LabeledSelectionInput>
-
+        <LabeledSelectionInput
+          label="Country *"
+          placeholder="Enter Country"
+          options={countryOptions}
+        />
+        <LabeledSelectionInput
+          label="User Role"
+          placeholder="Select role"
+          options={userRoleOptions}
+        />
         <LabeledSelectionInput
           label="Purpose of Use"
           placeholder="Select purpose"
-        >
-          {purposeOptions.map((option) => (
-            <IonSelectOption key={option.value} value={option.value}>
-              {option.option}
-            </IonSelectOption>
-          ))}
-        </LabeledSelectionInput>
+          options={purposeOptions}
+        />
 
         <Terms />
         <Button text="Create account" onClick={handleCreate} />

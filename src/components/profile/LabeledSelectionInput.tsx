@@ -1,16 +1,16 @@
 import React from "react";
-import { IonItem, IonLabel, IonSelect } from "@ionic/react";
+import { IonItem, IonLabel, IonSelect, IonSelectOption } from "@ionic/react";
 
 interface LabeledSelectionInputProps {
   label: string;
   placeholder?: string;
-  children: React.ReactNode;
+  options: Array<{ value: string; label: string }>;
 }
 
 const LabeledSelectionInput: React.FC<LabeledSelectionInputProps> = ({
   label,
   placeholder,
-  children,
+  options,
 }) => {
   return (
     <IonItem
@@ -23,7 +23,13 @@ const LabeledSelectionInput: React.FC<LabeledSelectionInputProps> = ({
       >
         {label}
       </IonLabel>
-      <IonSelect placeholder={placeholder}>{children}</IonSelect>
+      <IonSelect placeholder={placeholder}>
+        {options.map((option) => (
+          <IonSelectOption key={option.value} value={option.value}>
+            {option.label}
+          </IonSelectOption>
+        ))}
+      </IonSelect>
     </IonItem>
   );
 };
