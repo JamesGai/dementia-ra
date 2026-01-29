@@ -39,39 +39,39 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
       <GetStarted content="Create an account to personalise your experience." />
       <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
         <LabeledInput
-          label="First name *"
           type="text"
+          label="First name *"
           placeholder="Enter first name"
         />
         <LabeledInput
-          label="Last name *"
           type="text"
+          label="Last name *"
           placeholder="Enter last name"
         />
-        <LabeledInput label="Email *" type="email" placeholder="Enter email" />
+        <LabeledInput type="email" label="Email *" placeholder="Enter email" />
         <LabeledInput
-          label="Phone number"
           type="text"
+          label="Phone number"
           placeholder="Enter phone number"
         />
         <LabeledInput
-          label="Username *"
           type="text"
+          label="Username *"
           placeholder="Enter username"
         />
         <LabeledInput
-          label="Password *"
           type="password"
+          label="Password *"
           placeholder="Enter password"
           showToggle
         />
         <LabeledInput
-          label="Confirm password *"
           type="password"
+          label="Confirm password *"
           placeholder="Enter confirm password"
           showToggle
         />
-        <LabeledInput label="City *" type="text" placeholder="Enter city" />
+        <LabeledInput type="text" label="City *" placeholder="Enter city" />
         <LabeledSelectionInput
           label="Country *"
           placeholder="Enter Country"

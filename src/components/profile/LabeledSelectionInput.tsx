@@ -3,7 +3,7 @@ import { IonItem, IonLabel, IonSelect, IonSelectOption } from "@ionic/react";
 
 interface LabeledSelectionInputProps {
   label: string;
-  placeholder?: string;
+  placeholder: string;
   options: Array<{ value: string; label: string }>;
 }
 
