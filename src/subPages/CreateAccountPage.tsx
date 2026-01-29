@@ -1,7 +1,9 @@
 import React from "react";
+import { IonSelectOption } from "@ionic/react";
 import Button from "../components/universal/Button";
 import GetStarted from "../components/profile/GetStarted";
 import LabeledInput from "../components/profile/LabeledInput";
+import LabeledSelectionInput from "../components/profile/LabeledSelectionInput";
 import Terms from "../components/profile/Terms";
 import TextButton from "../components/universal/TextButton";
 
@@ -14,6 +16,25 @@ const handleCreate = () => {
 };
 
 const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
+  const countryOptions = [
+    { value: "us", option: "United States" },
+    { value: "ca", option: "Canada" },
+    { value: "uk", option: "United Kingdom" },
+    { value: "au", option: "Australia" },
+  ];
+  const userRoleOptions = [
+    { value: "carer", option: "Carer" },
+    { value: "family", option: "Family member" },
+    { value: "professional", option: "Health professional" },
+    { value: "other", option: "Other" },
+  ];
+  const purposeOptions = [
+    { value: "personal", option: "For personal support" },
+    { value: "family", option: "For a family member" },
+    { value: "work", option: "For professional use" },
+    { value: "research", option: "For research" },
+  ];
+
   return (
     <div className="p-4 space-y-6">
       <GetStarted content="Create an account to personalise your experience." />
@@ -52,52 +73,32 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           showToggle
         />
         <LabeledInput label="City *" type="text" placeholder="Enter city" />
-        {/* Selection */}
-        <div className="space-y-2">
-          <div className="text-sm font-bold text-gray-900">Country *</div>
-          <select
-            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none focus:border-[#2e6f73]"
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Enter Country
-            </option>
-            <option value="us">United States</option>
-            <option value="ca">Canada</option>
-            <option value="uk">United Kingdom</option>
-            <option value="au">Australia</option>
-          </select>
-        </div>
-        <div className="space-y-2">
-          <div className="text-sm font-bold text-gray-900">User Role</div>
-          <select
-            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none focus:border-[#2e6f73]"
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Select role
-            </option>
-            <option value="carer">Carer</option>
-            <option value="family">Family member</option>
-            <option value="professional">Health professional</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div className="space-y-2">
-          <div className="text-sm font-bold text-gray-900">Purpose of Use</div>
-          <select
-            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none focus:border-[#2e6f73]"
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Select purpose
-            </option>
-            <option value="personal">For personal support</option>
-            <option value="family">For a family member</option>
-            <option value="work">For professional use</option>
-            <option value="research">For research</option>
-          </select>
-        </div>
+        <LabeledSelectionInput label="Country *" placeholder="Enter Country">
+          {countryOptions.map((option) => (
+            <IonSelectOption key={option.value} value={option.value}>
+              {option.option}
+            </IonSelectOption>
+          ))}
+        </LabeledSelectionInput>
+        <LabeledSelectionInput label="User Role" placeholder="Select role">
+          {userRoleOptions.map((option) => (
+            <IonSelectOption key={option.value} value={option.value}>
+              {option.option}
+            </IonSelectOption>
+          ))}
+        </LabeledSelectionInput>
+
+        <LabeledSelectionInput
+          label="Purpose of Use"
+          placeholder="Select purpose"
+        >
+          {purposeOptions.map((option) => (
+            <IonSelectOption key={option.value} value={option.value}>
+              {option.option}
+            </IonSelectOption>
+          ))}
+        </LabeledSelectionInput>
+
         <Terms />
         <Button text="Create account" onClick={handleCreate} />
         <div className="text-center">
