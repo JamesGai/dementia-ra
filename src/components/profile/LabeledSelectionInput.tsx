@@ -12,12 +12,21 @@ const LabeledSelectionInput: React.FC<LabeledSelectionInputProps> = ({
   placeholder,
   options,
 }) => {
+  const customModalOptions = {
+    header: label,
+    breakpoints: [0, 0.5],
+    initialBreakpoint: 0.5,
+  };
+
   return (
     <div className="space-y-2">
-      <label className="text-sm font-bold text-gray-900">{label}</label>
       <IonSelect
+        label={label}
         placeholder={placeholder}
-        className="w-full rounded-xl border border-gray-200 bg-white px-4 py-1.5 text-gray-900 placeholder:text-gray-400 outline-none focus:border-[#2e6f73]"
+        interface="modal"
+        interfaceOptions={customModalOptions}
+        justify="space-between"
+        className="rounded-xl border border-gray-200 bg-white px-4 py-1.5 text-gray-900 focus:border-[#2e6f73]"
       >
         {options.map((option) => (
           <IonSelectOption key={option.value} value={option.value}>

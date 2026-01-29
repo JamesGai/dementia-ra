@@ -16,6 +16,7 @@ const handleCreate = () => {
 
 const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
   const countryOptions = [
+    { value: "nz", label: "New Zealand" },
     { value: "us", label: "United States" },
     { value: "ca", label: "Canada" },
     { value: "uk", label: "United Kingdom" },
@@ -23,15 +24,18 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
   ];
   const userRoleOptions = [
     { value: "carer", label: "Carer" },
-    { value: "family", label: "Family member" },
+    { value: "family", label: "Health Professional" },
     { value: "professional", label: "Health professional" },
+    { value: "researcher", label: "Researcher" },
+    { value: "user", label: "General User" },
     { value: "other", label: "Other" },
   ];
   const purposeOptions = [
     { value: "personal", label: "For personal support" },
     { value: "family", label: "For a family member" },
-    { value: "work", label: "For professional use" },
-    { value: "research", label: "For research" },
+    { value: "researcher", label: "For researcher" },
+    { value: "work", label: "For professional training" },
+    { value: "other", label: "Other" },
   ];
 
   return (
