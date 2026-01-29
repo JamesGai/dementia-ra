@@ -18,24 +18,89 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
     <div className="p-4 space-y-6">
       <GetStarted content="Create an account to personalise your experience." />
       <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <LabeledInput
+            label="First name *"
+            type="text"
+            placeholder="Enter first name"
+          />
+          <LabeledInput
+            label="Last name *"
+            type="text"
+            placeholder="Enter last name"
+          />
+        </div>
+        <LabeledInput label="Email *" type="email" placeholder="Enter email" />
         <LabeledInput
-          label="Full name"
+          label="Phone number"
           type="text"
-          placeholder="Enter your full name"
+          placeholder="Enter phone number"
         />
-        <LabeledInput label="Email" type="email" placeholder="Enter email" />
         <LabeledInput
-          label="Password"
+          label="Username *"
+          type="text"
+          placeholder="Enter username"
+        />
+        <LabeledInput
+          label="Password *"
           type="password"
           placeholder="Enter password"
           showToggle
         />
         <LabeledInput
-          label="Confirm password"
+          label="Confirm password *"
           type="password"
-          placeholder="Re-enter password"
+          placeholder="Enter confirm password"
           showToggle
         />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <LabeledInput label="City *" type="text" placeholder="Enter city" />
+          <div className="space-y-2">
+            <div className="text-sm font-bold text-gray-900">Country *</div>
+            <select
+              className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none focus:border-[#2e6f73]"
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Enter Country
+              </option>
+              <option value="us">United States</option>
+              <option value="ca">Canada</option>
+              <option value="uk">United Kingdom</option>
+              <option value="au">Australia</option>
+            </select>
+          </div>
+        </div>
+        <div className="space-y-2">
+          <div className="text-sm font-bold text-gray-900">User Role</div>
+          <select
+            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none focus:border-[#2e6f73]"
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Select role
+            </option>
+            <option value="carer">Carer</option>
+            <option value="family">Family member</option>
+            <option value="professional">Health professional</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div className="space-y-2">
+          <div className="text-sm font-bold text-gray-900">Purpose of Use</div>
+          <select
+            className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none focus:border-[#2e6f73]"
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Select purpose
+            </option>
+            <option value="personal">For personal support</option>
+            <option value="family">For a family member</option>
+            <option value="work">For professional use</option>
+            <option value="research">For research</option>
+          </select>
+        </div>
         <Terms />
         <Button text="Create account" onClick={handleCreate} />
         <div className="text-center">

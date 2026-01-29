@@ -1,19 +1,19 @@
 import React, { useId, useState } from "react";
 
 interface LabeledInputProps {
+  id?: string;
   label: string;
   type?: "text" | "email" | "password";
   placeholder?: string;
   showToggle?: boolean;
-  id?: string;
 }
 
 const LabeledInput: React.FC<LabeledInputProps> = ({
+  id,
   label,
   type = "text",
   placeholder,
   showToggle = false,
-  id,
 }) => {
   const generatedId = useId();
   const inputId = id ?? generatedId;
