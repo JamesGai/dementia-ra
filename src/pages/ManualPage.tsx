@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { ManualDetailId } from "../subPages/ManualDetailPage";
 import TopBar from "../components/universal/TopBar";
+import TitleButton from "../components/universal/TitleButton";
 
 interface ManualPageProps {
   onNavigate: (tab: "manualDetail", sectionId: ManualDetailId) => void;
@@ -25,23 +26,14 @@ const ManualPage: React.FC<ManualPageProps> = ({ onNavigate }) => {
   return (
     <div className="p-4 space-y-6">
       <TopBar title="User Manual" />
-
       {/* Section cards */}
       {sections.map((s) => (
-        <button
+        <TitleButton
           key={s.id}
           onClick={() => onNavigate("manualDetail", s.id)}
-          className="w-full text-left rounded-2xl shadow-md active:opacity-90"
-        >
-          <div className="px-8 py-7 space-y-3 bg-[#2e6f73]">
-            <div className="text-white font-extrabold tracking-wide uppercase">
-              {s.number}. {s.title}
-            </div>
-            <p className="text-white leading-relaxed">
-              Tap to view instructions.
-            </p>
-          </div>
-        </button>
+          title={`${s.number}. ${s.title}`}
+          text="Tap to view instructions."
+        />
       ))}
     </div>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import AccordionCard from "../universal/AccordionCard";
 import Button from "../universal/Button";
 import CourseTitle from "./CourseTitle";
-import { SectionItem, SubsectionItem } from "../../subPages/iSupportNZPage";
+import { SectionItem, SubsectionItem } from "../../subPages/ISupportNZPage";
 
 interface SectionAccordionListProps {
   sections: SectionItem[];
@@ -30,6 +30,7 @@ const SectionAccordionList: React.FC<SectionAccordionListProps> = ({
             <div className="space-y-2 pt-2">
               {section.subsections.map((sub) => (
                 <div key={sub.number}>
+                  {/* TODO: Replace the following Button component with TitleButton component */}
                   <Button
                     text={`${sub.number}. ${sub.title}`}
                     onClick={() => openSubsection(sub)}
