@@ -16,7 +16,7 @@ const TheTeam: React.FC<TheTeamProps> = ({ onNavigate }) => {
         If you would like to read more about our team members, please see the
         Research Team page.
       </p>
-      <Button text="View research team" onClick={() => onNavigate("team")} />
+      <Button text="View Research Team" onClick={() => onNavigate("team")} />
     </div>
   );
 };

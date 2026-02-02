@@ -19,7 +19,7 @@ const Login: React.FC<LoginProps> = ({ onNavigate }) => {
           </div>
         </div>
         {/* Right */}
-        <Button text="Join now" onClick={() => onNavigate("profile")} />
+        <Button text="Join Now" onClick={() => onNavigate("profile")} />
       </div>
     </div>
   );

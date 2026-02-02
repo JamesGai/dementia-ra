@@ -15,7 +15,7 @@ const ContactUs: React.FC<ContactUsProps> = ({ onNavigate }) => {
         Need help or more information? You can call, email, or send us a
         message.
       </p>
-      <Button text="Contact us" onClick={() => onNavigate("contactUs")} />
+      <Button text="Contact Us" onClick={() => onNavigate("contactUs")} />
     </div>
   );
 };

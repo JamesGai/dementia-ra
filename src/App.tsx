@@ -1,6 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IonApp, IonContent, IonFooter, IonIcon } from "@ionic/react";
 import {
+  IonApp,
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonIcon,
+  IonToolbar,
+} from "@ionic/react";
+import {
+  chatboxEllipses,
+  chatboxEllipsesOutline,
   home,
   homeOutline,
   informationCircle,
@@ -18,6 +29,7 @@ import {
 } from "ionicons/icons";
 // Main pages
 import AboutUsPage from "./pages/AboutUsPage";
+import ChatbotPage from "./pages/ChatbotPage";
 import CoursePage from "./pages/CoursePage";
 import HomePage from "./pages/HomePage";
 import ManualPage from "./pages/ManualPage";
@@ -33,6 +45,7 @@ import ISupportNZPage from "./subPages/ISupportNZPage";
 const App: React.FC = () => {
   const [activePage, setActivePage] = useState<
     | "aboutUs"
+    | "chatbot"
     | "course"
     | "createAccount"
     | "forgotPassword"
@@ -58,6 +71,8 @@ const App: React.FC = () => {
     switch (activePage) {
       case "aboutUs":
         return <AboutUsPage />;
+      case "chatbot":
+        return <ChatbotPage />;
       case "course":
         return <CoursePage onNavigate={(tab: any) => setActivePage(tab)} />;
       case "createAccount":
@@ -129,12 +144,12 @@ const App: React.FC = () => {
 
   return (
     <IonApp>
-      {/* Main content/page (no subpages)*/}
+      {/* Main content/page */}
       <IonContent ref={contentRef}>
-        <div className="pb-24">{renderContent()}</div>
+        <div className="pb-24 pt-5">{renderContent()}</div>
       </IonContent>
       {/* Footer */}
-      <IonFooter className="ion-no-border">
+      <IonFooter>
         <div className="flex justify-around items-center bg-white border-t border-gray-100 py-3 px-2 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
           {/* Home */}
           <button
@@ -260,6 +275,26 @@ const App: React.FC = () => {
             />
             <span className="text-[10px] font-medium">Profile</span>
             {isProfileActive && (
+              <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
+            )}
+          </button>
+          {/* Chatbot */}
+          <button
+            onClick={() => setActivePage("chatbot")}
+            className={`flex flex-col items-center flex-1 py-1 transition-all ${
+              activePage === "chatbot" ? "text-blue-600" : "text-gray-400"
+            }`}
+          >
+            <IonIcon
+              icon={
+                activePage === "chatbot"
+                  ? chatboxEllipses
+                  : chatboxEllipsesOutline
+              }
+              className="text-2xl mb-1"
+            />
+            <span className="text-[10px] font-medium">Chatbot</span>
+            {activePage === "chatbot" && (
               <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
             )}
           </button>
