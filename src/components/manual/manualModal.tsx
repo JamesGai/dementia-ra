@@ -9,19 +9,9 @@ import {
   IonButton,
 } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
+import { ManualSection } from "../../pages/ManualPage";
 
-export type ManualDetailId =
-  | "login"
-  | "profile"
-  | "search"
-  | "course"
-  | "diary"
-  | "peer"
-  | "videos"
-  | "services"
-  | "chatbot";
-
-const SECTION_TITLES: Record<ManualDetailId, string> = {
+const SECTION_TITLES: Record<ManualSection, string> = {
   login: "Log-in",
   profile: "Update your profile",
   search: "Search e-DiVA content",
@@ -36,13 +26,13 @@ const SECTION_TITLES: Record<ManualDetailId, string> = {
 interface ManualModalProps {
   isOpen: boolean;
   onClose: () => void;
-  sectionId?: ManualDetailId;
+  section?: ManualSection;
 }
 
 const ManualModal: React.FC<ManualModalProps> = ({
   isOpen,
   onClose,
-  sectionId,
+  section,
 }) => {
   const handleClose = () => {
     onClose();
@@ -64,20 +54,18 @@ const ManualModal: React.FC<ManualModalProps> = ({
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        {!sectionId ? (
+        {!section ? (
           <div className="bg-white rounded-2xl p-4 shadow-md text-gray-500">
             No manual section selected.
           </div>
         ) : (
           <div className="bg-white rounded-2xl p-6 shadow-md space-y-3">
             <div className="text-[#2e6f73] font-extrabold tracking-wide uppercase">
-              {SECTION_TITLES[sectionId]}
+              {SECTION_TITLES[section]}
             </div>
             <p className="text-gray-700 leading-relaxed">
               Add the instructions for{" "}
-              <span className="font-semibold">
-                {SECTION_TITLES[sectionId]}
-              </span>{" "}
+              <span className="font-semibold">{SECTION_TITLES[section]}</span>{" "}
               here.
             </p>
             <ul className="list-disc pl-5 space-y-2 text-gray-700">

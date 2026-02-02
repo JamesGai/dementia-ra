@@ -1,12 +1,23 @@
 import React, { useMemo, useState } from "react";
 import TitleButton from "../components/universal/TitleButton";
-import ManualModal, { ManualDetailId } from "../components/manual/manualModal";
+import ManualModal from "../components/manual/manualModal";
+
+export type ManualSection =
+  | "login"
+  | "profile"
+  | "search"
+  | "course"
+  | "diary"
+  | "peer"
+  | "videos"
+  | "services"
+  | "chatbot";
 
 const ManualPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeSectionId, setActiveSectionId] = useState<
-    ManualDetailId | undefined
-  >(undefined);
+  const [activeSection, setActiveSection] = useState<ManualSection | undefined>(
+    undefined,
+  );
   const sections = useMemo(
     () => [
       { id: "login" as const, number: "1", title: "Log-in" },
@@ -29,7 +40,7 @@ const ManualPage: React.FC = () => {
         <TitleButton
           key={s.id}
           onClick={() => {
-            setActiveSectionId(s.id);
+            setActiveSection(s.id);
             setIsModalOpen(true);
           }}
           title={`${s.number}. ${s.title}`}
@@ -38,7 +49,7 @@ const ManualPage: React.FC = () => {
       ))}
       <ManualModal
         isOpen={isModalOpen}
-        sectionId={activeSectionId}
+        section={activeSection}
         onClose={() => setIsModalOpen(false)}
       />
     </div>
