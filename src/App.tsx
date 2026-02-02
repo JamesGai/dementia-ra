@@ -23,13 +23,13 @@ import HomePage from "./pages/HomePage";
 import ManualPage from "./pages/ManualPage";
 import ProfilePage from "./pages/ProfilePage";
 import ServicesPage from "./pages/ServicesPage";
-import { VideoItem } from "./components/video/VideoContent";
+import { VideoItem } from "./pages/VideoPage";
 import VideoPage from "./pages/VideoPage";
 // Sub pages
 import ContactUsPage from "./subPages/ContactUsPage";
 import CreateAccountPage from "./subPages/CreateAccountPage";
 import ForgotPasswordPage from "./subPages/ForgotPasswordPage";
-import ISupportNZPage from "./subPages/iSupportNZPage";
+import ISupportNZPage from "./subPages/ISupportNZPage";
 import ManualDetailPage, { ManualDetailId } from "./subPages/ManualDetailPage";
 import TeamPage from "./subPages/TeamPage";
 
@@ -57,6 +57,10 @@ const App: React.FC = () => {
   const contentRef = useRef<HTMLIonContentElement | null>(null);
 
   const isCourseActive = activePage === "course" || activePage === "iSupportNZ";
+  const isProfileActive =
+    activePage === "profile" ||
+    activePage === "createAccount" ||
+    activePage === "forgotPassword";
 
   const renderContent = () => {
     switch (activePage) {
@@ -273,15 +277,15 @@ const App: React.FC = () => {
           <button
             onClick={() => setActivePage("profile")}
             className={`flex flex-col items-center flex-1 py-1 transition-all ${
-              activePage === "profile" ? "text-blue-600" : "text-gray-400"
+              isProfileActive ? "text-blue-600" : "text-gray-400"
             }`}
           >
             <IonIcon
-              icon={activePage === "profile" ? person : personOutline}
+              icon={isProfileActive ? person : personOutline}
               className="text-2xl mb-1"
             />
             <span className="text-[10px] font-medium">Profile</span>
-            {activePage === "profile" && (
+            {isProfileActive && (
               <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
             )}
           </button>
