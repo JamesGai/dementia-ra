@@ -10,7 +10,7 @@ export type ManualSection =
   | "diary"
   | "peer"
   | "videos"
-  | "services"
+  | "service"
   | "chatbot";
 
 const ManualPage: React.FC = () => {
@@ -27,7 +27,7 @@ const ManualPage: React.FC = () => {
       { id: "diary" as const, number: "5", title: "Diary" },
       { id: "peer" as const, number: "6", title: "Peer-Support" },
       { id: "videos" as const, number: "7", title: "Video/Animations" },
-      { id: "services" as const, number: "8", title: "Dementia Services" },
+      { id: "service" as const, number: "8", title: "Dementia Services" },
       { id: "chatbot" as const, number: "9", title: "Chatbot" },
     ],
     [],

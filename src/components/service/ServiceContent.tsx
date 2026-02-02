@@ -1,14 +1,14 @@
 import React from "react";
 import AccordionCard from "../universal/AccordionCard";
 import Button from "../universal/Button";
-import { Service } from "../../pages/ServicesPage";
+import { Service } from "../../pages/ServicePage";
 
 interface ServicesContentProps {
   services: Service[];
   openService: (service: Service) => void;
 }
 
-const ServicesContent: React.FC<ServicesContentProps> = ({
+const ServiceContent: React.FC<ServicesContentProps> = ({
   services,
   openService,
 }) => {
@@ -27,4 +27,4 @@ const ServicesContent: React.FC<ServicesContentProps> = ({
   );
 };
 
-export default ServicesContent;
+export default ServiceContent;

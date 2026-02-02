@@ -25,7 +25,7 @@ import CoursePage from "./pages/CoursePage";
 import HomePage from "./pages/HomePage";
 import ManualPage from "./pages/ManualPage";
 import ProfilePage from "./pages/ProfilePage";
-import ServicesPage from "./pages/ServicesPage";
+import ServicesPage from "./pages/ServicePage";
 import { VideoItem } from "./pages/VideoPage";
 import VideoPage from "./pages/VideoPage";
 // Sub pages
@@ -44,7 +44,7 @@ const App: React.FC = () => {
     | "iSupportNZ"
     | "manual"
     | "profile"
-    | "services"
+    | "service"
     | "video"
   >("home");
 
@@ -98,7 +98,7 @@ const App: React.FC = () => {
             }}
           />
         );
-      case "services":
+      case "service":
         return <ServicesPage />;
       case "video":
         return (
@@ -220,17 +220,17 @@ const App: React.FC = () => {
           {/* Services (logged in) */}
           {isLoggedIn && (
             <button
-              onClick={() => setActivePage("services")}
+              onClick={() => setActivePage("service")}
               className={`flex flex-col items-center flex-1 py-1 transition-all ${
-                activePage === "services" ? "text-blue-600" : "text-gray-400"
+                activePage === "service" ? "text-blue-600" : "text-gray-400"
               }`}
             >
               <IonIcon
-                icon={activePage === "services" ? map : mapOutline}
+                icon={activePage === "service" ? map : mapOutline}
                 className="text-2xl mb-1"
               />
               <span className="text-[10px] font-medium">Services</span>
-              {activePage === "services" && (
+              {activePage === "service" && (
                 <div className="w-1 h-1 bg-blue-600 rounded-full mt-1" />
               )}
             </button>

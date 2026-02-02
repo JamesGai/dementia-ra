@@ -15,7 +15,7 @@ import {
   callOutline,
   linkOutline,
 } from "ionicons/icons";
-import { Service } from "../../pages/ServicesPage";
+import { Service } from "../../pages/ServicePage";
 
 type InfoRowProps = {
   icon: string;
@@ -42,7 +42,7 @@ interface ServicesModalProps {
   service?: Service;
 }
 
-const ServicesModal: React.FC<ServicesModalProps> = ({
+const ServiceModal: React.FC<ServicesModalProps> = ({
   isOpen,
   onClose,
   service,
@@ -122,4 +122,4 @@ const ServicesModal: React.FC<ServicesModalProps> = ({
   );
 };
 
-export default ServicesModal;
+export default ServiceModal;

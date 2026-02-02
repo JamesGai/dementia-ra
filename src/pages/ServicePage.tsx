@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Introduction from "../components/services/Introduction";
+import Introduction from "../components/service/Introduction";
 import Button from "../components/universal/Button";
-import ServicesContent from "../components/services/ServicesContent";
-import ServicesModal from "../components/services/ServicesModal";
+import ServiceContent from "../components/service/ServiceContent";
+import ServiceModal from "../components/service/ServiceModal";
 import { VideoItem } from "./VideoPage";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
@@ -113,13 +113,13 @@ const ServicesPage: React.FC = () => {
     <div className="p-4 space-y-6">
       <Button text="User Instruction" onClick={handleOpenInstruction} />
       <Introduction />
-      <ServicesContent services={services} openService={handleOpenService} />
+      <ServiceContent services={services} openService={handleOpenService} />
       <VideoPlayerModal
         isVideoOpen={isVideoOpen}
         onClose={() => setIsVideoOpen(false)}
         video={selectedVideo}
       />
-      <ServicesModal
+      <ServiceModal
         isOpen={isServiceOpen}
         onClose={() => setIsServiceOpen(false)}
         service={selectedService}

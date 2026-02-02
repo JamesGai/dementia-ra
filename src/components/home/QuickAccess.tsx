@@ -12,7 +12,7 @@ import TitleButton from "../universal/TitleButton";
 
 interface QuickAccessProps {
   onNavigate: (
-    tab: "aboutUs" | "course" | "manual" | "services" | "video",
+    tab: "aboutUs" | "course" | "manual" | "service" | "video",
   ) => void;
 }
 
@@ -20,7 +20,7 @@ type QuickAccessItem = {
   key: string;
   label: string;
   icon: string;
-  tab: "aboutUs" | "course" | "manual" | "services" | "video";
+  tab: "aboutUs" | "course" | "manual" | "service" | "video";
 };
 
 const QuickAccess: React.FC<QuickAccessProps> = ({ onNavigate }) => {
@@ -38,10 +38,10 @@ const QuickAccess: React.FC<QuickAccessProps> = ({ onNavigate }) => {
       tab: "video",
     },
     {
-      key: "services",
+      key: "service",
       label: "Local Support Services",
       icon: map,
-      tab: "services",
+      tab: "service",
     },
     {
       key: "about",

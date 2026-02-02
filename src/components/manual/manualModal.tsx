@@ -19,7 +19,7 @@ const SECTION_TITLES: Record<ManualSection, string> = {
   diary: "Diary",
   peer: "Peer-Support",
   videos: "Video/Animations",
-  services: "Dementia Services",
+  service: "Dementia Services",
   chatbot: "Chatbot",
 };
 
