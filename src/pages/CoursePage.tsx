@@ -2,7 +2,6 @@ import React, { useMemo, useState } from "react";
 import Button from "../components/universal/Button";
 import CourseContent from "../components/course/CourseContent";
 import Segment from "../components/universal/Segment";
-import TopBar from "../components/universal/TopBar";
 import { VideoItem } from "./VideoPage";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
@@ -65,7 +64,6 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
 
   return (
     <div className="p-4 space-y-6">
-      <TopBar title="Course" />
       <Segment
         value={segment as CourseSegment}
         segmentOptions={courseSegmentOptions}

@@ -3,7 +3,6 @@ import ContactUs from "../components/aboutUs/ContactUs";
 import TheTeam from "../components/aboutUs/TheTeam";
 import TheProject from "../components/aboutUs/TheProject";
 import ThePurpose from "../components/aboutUs/ThePurpose";
-import TopBar from "../components/universal/TopBar";
 import ContactUsModal from "../components/aboutUs/ContactUsModal";
 import TeamModal from "../components/aboutUs/TeamModal";
 
@@ -18,7 +17,6 @@ const AboutUsPage: React.FC = () => {
 
   return (
     <div className="p-4 space-y-6">
-      <TopBar title="About Us" />
       <div className="bg-white rounded-2xl shadow-md overflow-hidden">
         <img
           src="Carers.png"

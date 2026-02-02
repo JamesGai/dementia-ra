@@ -3,7 +3,6 @@ import Introduction from "../components/services/Introduction";
 import Button from "../components/universal/Button";
 import ServicesContent from "../components/services/ServicesContent";
 import ServicesModal from "../components/services/ServicesModal";
-import TopBar from "../components/universal/TopBar";
 import { VideoItem } from "./VideoPage";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
@@ -112,7 +111,6 @@ const ServicesPage: React.FC = () => {
 
   return (
     <div className="p-4 space-y-6">
-      <TopBar title="Dementia services" />
       <Button text="User Instruction" onClick={handleOpenInstruction} />
       <Introduction />
       <ServicesContent services={services} openService={handleOpenService} />

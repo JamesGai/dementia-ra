@@ -3,7 +3,6 @@ import AccordionCard from "../components/universal/AccordionCard";
 import CourseTitle from "../components/course/CourseTitle";
 import SubSectionList from "../components/course/SubSectionList";
 import SubsectionModal from "../components/course/SubsectionModal";
-import TopBar from "../components/universal/TopBar";
 
 type Module = {
   number: string;
@@ -214,7 +213,6 @@ const ISupportNZPage: React.FC = () => {
 
   return (
     <div className="p-4 space-y-6">
-      <TopBar title="iSupport NZ" />
       {modules.map((m) => (
         <AccordionCard
           key={`module-${m.number}`}

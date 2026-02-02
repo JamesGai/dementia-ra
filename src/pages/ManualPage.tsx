@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import TopBar from "../components/universal/TopBar";
 import TitleButton from "../components/universal/TitleButton";
 import ManualModal, { ManualDetailId } from "../components/manual/manualModal";
 
@@ -25,7 +24,6 @@ const ManualPage: React.FC = () => {
 
   return (
     <div className="p-4 space-y-6">
-      <TopBar title="User Manual" />
       {/* Section cards */}
       {sections.map((s) => (
         <TitleButton

@@ -3,7 +3,6 @@ import Button from "../components/universal/Button";
 import LabeledInput from "../components/profile/LabeledInput";
 import TextButton from "../components/universal/TextButton";
 import Settings from "../components/profile/Settings";
-import TopBar from "../components/universal/TopBar";
 
 interface ProfilePageProps {
   onNavigate: (tab: "createAccount" | "forgotPassword") => void;
@@ -42,7 +41,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
 
   return (
     <div className="p-4 space-y-6">
-      <TopBar title="Profile" />
       {/* Logged out state */}
       {!isLoggedIn && (
         <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">

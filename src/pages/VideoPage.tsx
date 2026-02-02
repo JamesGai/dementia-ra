@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import Button from "../components/universal/Button";
 import Pagination from "../components/video/Pagination";
 import Segment from "../components/universal/Segment";
-import TopBar from "../components/universal/TopBar";
 import VideoContent from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
@@ -231,7 +230,6 @@ const VideoPage: React.FC<VideoPageProps> = ({
 
   return (
     <div className="p-4 space-y-6">
-      <TopBar title="Videos" />
       <Segment
         value={segment}
         segmentOptions={videoSegmentOptions}
