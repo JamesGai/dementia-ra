@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React from "react";
 import {
   IonButtons,
   IonContent,
@@ -7,12 +7,6 @@ import {
   IonModal,
   IonToolbar,
   IonButton,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonNote,
-  IonTextarea,
 } from "@ionic/react";
 import {
   closeOutline,
@@ -28,28 +22,9 @@ interface ContactUsModalProps {
 
 const ContactUsModal: React.FC<ContactUsModalProps> = ({ isOpen, onClose }) => {
   const mobile = "+64 21 12345678";
-  //   const mobileToCall = "";
   const email = "user123@auckland.uni.ac.nz";
   const address = "The University of Auckland";
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [fromEmail, setFromEmail] = useState("");
-  const [message, setMessage] = useState("");
-
-  const isValidEmail = (val: string) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
-
-  const canSubmit = useMemo(
-    () =>
-      firstName.trim() &&
-      lastName.trim() &&
-      isValidEmail(fromEmail) &&
-      message.trim(),
-    [firstName, lastName, fromEmail, message],
-  );
-
-  // Variables needed to access contact information
   const openCall = () => {
     // window.location.href = `tel:${mobileToCall}`;
     console.log("Mobile retrieved");
@@ -68,22 +43,6 @@ const ContactUsModal: React.FC<ContactUsModalProps> = ({ isOpen, onClose }) => {
     //   "_blank",
     // );
     console.log("Address retrieved");
-  };
-
-  const handleSubmit = () => {
-    // const subject = `e-DiVA Contact Request from ${firstName.trim()} ${lastName.trim()}`;
-    // const body = [
-    //   `Name: ${firstName.trim()} ${lastName.trim()}`,
-    //   `Email: ${fromEmail.trim()}`,
-    //   "",
-    //   "Message:",
-    //   message.trim(),
-    // ].join("\n");
-
-    // window.location.href = `mailto:${email}?subject=${encodeURIComponent(
-    //   subject,
-    // )}&body=${encodeURIComponent(body)}`;
-    console.log("Successfully submitted");
   };
 
   const handleClose = () => {
@@ -152,85 +111,7 @@ const ContactUsModal: React.FC<ContactUsModalProps> = ({ isOpen, onClose }) => {
               </div>
             </div>
           </div>
-          {/* Send message */}
-          <div className="bg-white rounded-2xl p-5 shadow-md">
-            <h2 className="text-lg font-bold text-gray-900 text-center">
-              Send message
-            </h2>
-            <div className="mt-4">
-              <IonList>
-                <IonItem>
-                  <IonLabel position="stacked">
-                    First name <span className="text-red-500">*</span>
-                  </IonLabel>
-                  <IonInput
-                    value={firstName}
-                    placeholder="Enter first name"
-                    onIonInput={(e) =>
-                      setFirstName(String(e.detail.value ?? ""))
-                    }
-                  />
-                </IonItem>
-                <IonItem>
-                  <IonLabel position="stacked">
-                    Last name <span className="text-red-500">*</span>
-                  </IonLabel>
-                  <IonInput
-                    value={lastName}
-                    placeholder="Enter last name"
-                    onIonInput={(e) =>
-                      setLastName(String(e.detail.value ?? ""))
-                    }
-                  />
-                </IonItem>
-                <IonItem>
-                  <IonLabel position="stacked">
-                    Email <span className="text-red-500">*</span>
-                  </IonLabel>
-                  <IonInput
-                    value={fromEmail}
-                    placeholder="Enter email"
-                    type="email"
-                    inputMode="email"
-                    onIonInput={(e) =>
-                      setFromEmail(String(e.detail.value ?? ""))
-                    }
-                  />
-                </IonItem>
-                <IonItem>
-                  <IonLabel position="stacked">
-                    Message <span className="text-red-500">*</span>
-                  </IonLabel>
-                  <IonTextarea
-                    value={message}
-                    placeholder="Enter message"
-                    autoGrow
-                    onIonInput={(e) => setMessage(String(e.detail.value ?? ""))}
-                  />
-                </IonItem>
-              </IonList>
-              {!canSubmit && (
-                <IonNote className="block mt-3 text-gray-500">
-                  Please fill in all required fields with a valid email.
-                </IonNote>
-              )}
-              <IonButton
-                expand="block"
-                className="mt-4"
-                disabled={!canSubmit}
-                onClick={handleSubmit}
-                style={
-                  {
-                    "--background": "#2e6f73",
-                    "--color": "#ffffff",
-                    "--border-radius": "14px",
-                  } as any
-                }
-              >
-                Send
-              </IonButton>
-            </div>
-          </div>
+          {/* TODO: Add input fields (e.g. first name, message) to handle query submission */}
         </div>
       </IonContent>
     </IonModal>
