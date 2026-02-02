@@ -1,6 +1,6 @@
 import React from "react";
 import AccordionCard from "../universal/AccordionCard";
-import Button from "../universal/Button";
+import TitleButton from "../universal/TitleButton";
 import CourseTitle from "./CourseTitle";
 import { SectionItem, SubsectionItem } from "../../subPages/ISupportNZPage";
 
@@ -30,9 +30,13 @@ const SectionAccordionList: React.FC<SectionAccordionListProps> = ({
             <div className="space-y-2 pt-2">
               {section.subsections.map((sub) => (
                 <div key={sub.number}>
-                  {/* TODO: Replace the following Button component with TitleButton component */}
-                  <Button
-                    text={`${sub.number}. ${sub.title}`}
+                  <TitleButton
+                    title={
+                      <>
+                        <div>{`${sub.number}.`}</div>
+                        <div>{sub.title}</div>
+                      </>
+                    }
                     onClick={() => openSubsection(sub)}
                   />
                 </div>

@@ -2,16 +2,12 @@ import React from "react";
 import { IonButton } from "@ionic/react";
 
 interface TitleButtonProps {
-  title: string;
-  text: string;
+  title: React.ReactNode;
+  text?: string;
   onClick: () => void;
 }
 
-const TitleButton: React.FC<TitleButtonProps> = ({
-  title,
-  text,
-  onClick,
-}) => {
+const TitleButton: React.FC<TitleButtonProps> = ({ title, text, onClick }) => {
   return (
     <IonButton
       onClick={onClick}
