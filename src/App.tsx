@@ -1,14 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  IonApp,
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonFooter,
-  IonHeader,
-  IonIcon,
-  IonToolbar,
-} from "@ionic/react";
+import { IonApp, IonContent, IonFooter, IonIcon } from "@ionic/react";
 import {
   chatboxEllipses,
   chatboxEllipsesOutline,
