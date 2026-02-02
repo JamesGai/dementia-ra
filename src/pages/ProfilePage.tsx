@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../components/universal/Button";
 import LabeledInput from "../components/profile/LabeledInput";
 import TextButton from "../components/universal/TextButton";
@@ -18,6 +18,28 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
   onLogin,
   onLogout,
 }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [profile, setProfile] = useState({
+    username: "12345",
+    firstName: "James",
+    lastName: "Gai",
+    phone: "12345",
+    email: "jamesgai@example.com",
+    city: "Auckland",
+  });
+
+  const handleProfileChange = (field: keyof typeof profile, value: string) => {
+    setProfile((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleEditOrSave = () => {
+    if (isEditing) {
+      console.log("Profile saved", profile);
+      // TODO: Save new profile to database
+    }
+    setIsEditing((prev) => !prev);
+  };
+
   return (
     <div className="p-4 space-y-6">
       <TopBar title="Profile" />
@@ -54,23 +76,57 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
           </div>
           <div className="flex items-center justify-between text-sm text-gray-700">
             <span className="font-semibold text-gray-900">Username</span>
-            <span className="text-gray-500">12345</span>
+            <span className="text-gray-500">{profile.username}</span>
           </div>
-          <LabeledInput type="text" label="First name" value="James" readOnly />
-          <LabeledInput type="text" label="Last name" value="Gai" readOnly />
+          <LabeledInput
+            type="text"
+            label="First name"
+            value={profile.firstName}
+            readOnly={!isEditing}
+            onChange={(event) =>
+              handleProfileChange("firstName", event.target.value)
+            }
+          />
+          <LabeledInput
+            type="text"
+            label="Last name"
+            value={profile.lastName}
+            readOnly={!isEditing}
+            onChange={(event) =>
+              handleProfileChange("lastName", event.target.value)
+            }
+          />
           <LabeledInput
             type="text"
             label="Phone number"
-            value="12345"
-            readOnly
+            value={profile.phone}
+            readOnly={!isEditing}
+            onChange={(event) =>
+              handleProfileChange("phone", event.target.value)
+            }
           />
           <LabeledInput
             type="email"
             label="Email"
-            value="jamesgai@example.com"
-            readOnly
+            value={profile.email}
+            readOnly={!isEditing}
+            onChange={(event) =>
+              handleProfileChange("email", event.target.value)
+            }
           />
-          <LabeledInput type="text" label="City" value="Auckland" readOnly />
+          <LabeledInput
+            type="text"
+            label="City"
+            value={profile.city}
+            readOnly={!isEditing}
+            onChange={(event) =>
+              handleProfileChange("city", event.target.value)
+            }
+          />
+          <Button
+            text={isEditing ? "Save Profile" : "Edit Profile"}
+            onClick={handleEditOrSave}
+          />
         </div>
       )}
       <Settings />

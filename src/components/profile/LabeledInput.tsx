@@ -6,7 +6,8 @@ interface LabeledInputProps {
   placeholder?: string;
   value?: string;
   showToggle?: boolean; // Password only
-  readOnly?: boolean;
+  readOnly?: boolean; // Profile edition only
+  onChange?: React.ChangeEventHandler<HTMLInputElement>; // Profile edition only
 }
 
 const LabeledInput: React.FC<LabeledInputProps> = ({
@@ -16,6 +17,7 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
   value,
   showToggle = false,
   readOnly = false,
+  onChange,
 }) => {
   const isPasswordToggle = showToggle && type === "password" && !readOnly;
   const [isRevealed, setIsRevealed] = useState(false);
@@ -27,12 +29,14 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
   return (
     <div className="space-y-2">
       <label className="text-sm font-bold text-gray-900">{label}</label>
+      {/* Password input */}
       {isPasswordToggle ? (
         <div className="flex items-center gap-3 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 focus-within:border-[#2e6f73]">
           <input
             type={type}
             placeholder={placeholder}
             readOnly={readOnly}
+            onChange={onChange}
             {...inputValueProps}
             className="flex-1 bg-transparent text-gray-900 placeholder:text-gray-400 outline-none"
           />
@@ -45,10 +49,12 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
           </button>
         </div>
       ) : (
+        // Non-password input
         <input
           type={type}
           placeholder={placeholder}
           readOnly={readOnly}
+          onChange={onChange}
           {...inputValueProps}
           className={inputClassName}
         />
