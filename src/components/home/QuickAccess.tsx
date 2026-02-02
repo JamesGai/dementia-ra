@@ -1,4 +1,5 @@
 import React from "react";
+import { IonIcon } from "@ionic/react";
 import {
   informationCircle,
   library,
@@ -8,61 +9,64 @@ import {
 } from "ionicons/icons";
 import AccordionCard from "../universal/AccordionCard";
 import TitleButton from "../universal/TitleButton";
-import { IonIcon } from "@ionic/react";
 
 interface QuickAccessProps {
-  onNavigate: (tab: "aboutUs" | "manual") => void;
+  onNavigate: (
+    tab: "aboutUs" | "course" | "manual" | "services" | "video",
+  ) => void;
 }
 
+type QuickAccessItem = {
+  key: string;
+  label: string;
+  icon: string;
+  tab: "aboutUs" | "course" | "manual" | "services" | "video";
+};
+
 const QuickAccess: React.FC<QuickAccessProps> = ({ onNavigate }) => {
+  const items: QuickAccessItem[] = [
+    {
+      key: "course",
+      label: "iSupport Course",
+      icon: school,
+      tab: "course",
+    },
+    {
+      key: "videos",
+      label: "Educational Videos",
+      icon: videocam,
+      tab: "video",
+    },
+    {
+      key: "services",
+      label: "Local Support Services",
+      icon: map,
+      tab: "services",
+    },
+    {
+      key: "about",
+      label: "About Us",
+      icon: informationCircle,
+      tab: "aboutUs",
+    },
+    { key: "manual", label: "User Guide", icon: library, tab: "manual" },
+  ];
+
   return (
     <AccordionCard title="Quick Access">
       <div className="grid grid-cols-1 gap-3">
-        <TitleButton
-          title={
-            <div className="flex items-center gap-6">
-              <IonIcon icon={school} className="text-2xl" />
-              <span>iSupport Course</span>
-            </div>
-          }
-          onClick={() => console.log("Go to iSupport")}
-        />
-        <TitleButton
-          title={
-            <div className="flex items-center gap-6">
-              <IonIcon icon={videocam} className="text-2xl" />
-              <span>Educational Videos</span>
-            </div>
-          }
-          onClick={() => console.log("Go to videos")}
-        />
-        <TitleButton
-          title={
-            <div className="flex items-center gap-6">
-              <IonIcon icon={map} className="text-2xl" />
-              <span>Local Support Services</span>
-            </div>
-          }
-          onClick={() => console.log("Go to services")}
-        />
-        <TitleButton
-          title={
-            <div className="flex items-center gap-6">
-              <IonIcon icon={informationCircle} className="text-2xl" />
-              <span>About Us</span>
-            </div>
-          }
-          onClick={() => onNavigate("aboutUs")}
-        />
-        <TitleButton
-          title={
-            <div className="flex items-center gap-6">
-              <IonIcon icon={library} className="text-2xl" />
-              <span>User Guide</span>
-            </div>
-          }
-          onClick={() => onNavigate("manual")}
-        />
+        {items.map((item) => (
+          <TitleButton
+            key={item.key}
+            title={
+              <div className="flex items-center gap-6">
+                <IonIcon icon={item.icon} className="text-2xl" />
+                <span>{item.label}</span>
+              </div>
+            }
+            onClick={() => onNavigate(item.tab)}
+          />
+        ))}
       </div>
     </AccordionCard>
   );
