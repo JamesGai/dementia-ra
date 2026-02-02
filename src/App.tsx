@@ -26,12 +26,10 @@ import ServicesPage from "./pages/ServicesPage";
 import { VideoItem } from "./pages/VideoPage";
 import VideoPage from "./pages/VideoPage";
 // Sub pages
-import ContactUsPage from "./subPages/ContactUsPage";
 import CreateAccountPage from "./subPages/CreateAccountPage";
 import ForgotPasswordPage from "./subPages/ForgotPasswordPage";
 import ISupportNZPage from "./subPages/ISupportNZPage";
 import ManualDetailPage, { ManualDetailId } from "./subPages/ManualDetailPage";
-import TeamPage from "./subPages/TeamPage";
 
 const App: React.FC = () => {
   const [activePage, setActivePage] = useState<
@@ -65,9 +63,7 @@ const App: React.FC = () => {
   const renderContent = () => {
     switch (activePage) {
       case "aboutUs":
-        return <AboutUsPage onNavigate={(tab: any) => setActivePage(tab)} />;
-      case "contactUs":
-        return <ContactUsPage onBack={() => setActivePage("aboutUs")} />;
+        return <AboutUsPage />;
       case "course":
         return <CoursePage onNavigate={(tab: any) => setActivePage(tab)} />;
       case "createAccount":
@@ -118,8 +114,6 @@ const App: React.FC = () => {
         );
       case "services":
         return <ServicesPage />;
-      case "team":
-        return <TeamPage onBack={() => setActivePage("aboutUs")} />;
       case "video":
         return (
           <VideoPage

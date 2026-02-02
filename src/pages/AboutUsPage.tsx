@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import ContactUs from "../components/aboutUs/ContactUs";
 import TheTeam from "../components/aboutUs/TheTeam";
 import TheProject from "../components/aboutUs/TheProject";
 import ThePurpose from "../components/aboutUs/ThePurpose";
 import TopBar from "../components/universal/TopBar";
+import ContactUsModal from "../components/aboutUs/ContactUsModal";
+import TeamModal from "../components/aboutUs/TeamModal";
 
-interface AboutUsPageProps {
-  onNavigate: (tab: "contactUs" | "team") => void;
-}
+const AboutUsPage: React.FC = () => {
+  const [isTeamOpen, setIsTeamOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
-const AboutUsPage: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
+  const openTeamModal = (_tab: "team") => setIsTeamOpen(true);
+  const closeTeamModal = () => setIsTeamOpen(false);
+  const openContactModal = (_tab: "contactUs") => setIsContactOpen(true);
+  const closeContactModal = () => setIsContactOpen(false);
+
   return (
     <div className="p-4 space-y-6">
       <TopBar title="About Us" />
@@ -22,8 +28,10 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
       </div>
       <ThePurpose />
       <TheProject />
-      <TheTeam onNavigate={onNavigate} />
-      <ContactUs onNavigate={onNavigate} />
+      <TheTeam onNavigate={openTeamModal} />
+      <ContactUs onNavigate={openContactModal} />
+      <TeamModal isOpen={isTeamOpen} onClose={closeTeamModal} />
+      <ContactUsModal isOpen={isContactOpen} onClose={closeContactModal} />
     </div>
   );
 };

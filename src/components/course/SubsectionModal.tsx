@@ -9,7 +9,7 @@ import {
   IonButton,
 } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
-import { SubsectionItem } from "../../subPages/iSupportNZPage";
+import { SubsectionItem } from "../../subPages/ISupportNZPage";
 
 interface SubsectionModalProps {
   isOpen: boolean;
