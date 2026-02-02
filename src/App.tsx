@@ -29,27 +29,21 @@ import VideoPage from "./pages/VideoPage";
 import CreateAccountPage from "./subPages/CreateAccountPage";
 import ForgotPasswordPage from "./subPages/ForgotPasswordPage";
 import ISupportNZPage from "./subPages/ISupportNZPage";
-import ManualDetailPage, { ManualDetailId } from "./subPages/ManualDetailPage";
 
 const App: React.FC = () => {
   const [activePage, setActivePage] = useState<
     | "aboutUs"
-    | "contactUs"
     | "course"
     | "createAccount"
     | "forgotPassword"
     | "home"
     | "iSupportNZ"
     | "manual"
-    | "manualDetail"
     | "profile"
     | "services"
-    | "team"
     | "video"
   >("home");
 
-  const [activeManualDetail, setActiveManualDetail] =
-    useState<ManualDetailId | null>(null);
   const [videoHistory, setVideoHistory] = useState<VideoItem[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const contentRef = useRef<HTMLIonContentElement | null>(null);
@@ -80,21 +74,7 @@ const App: React.FC = () => {
       case "iSupportNZ":
         return <ISupportNZPage />;
       case "manual":
-        return (
-          <ManualPage
-            onNavigate={(tab, sectionId) => {
-              setActiveManualDetail(sectionId);
-              setActivePage(tab);
-            }}
-          />
-        );
-      case "manualDetail":
-        return (
-          <ManualDetailPage
-            onBack={() => setActivePage("manual")}
-            sectionId={activeManualDetail!}
-          />
-        );
+        return <ManualPage />;
       case "profile":
         return (
           <ProfilePage

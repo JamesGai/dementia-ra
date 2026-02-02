@@ -1,13 +1,13 @@
-import React, { useMemo } from "react";
-import { ManualDetailId } from "../subPages/ManualDetailPage";
+import React, { useMemo, useState } from "react";
 import TopBar from "../components/universal/TopBar";
 import TitleButton from "../components/universal/TitleButton";
+import ManualModal, { ManualDetailId } from "../components/manual/manualModal";
 
-interface ManualPageProps {
-  onNavigate: (tab: "manualDetail", sectionId: ManualDetailId) => void;
-}
-
-const ManualPage: React.FC<ManualPageProps> = ({ onNavigate }) => {
+const ManualPage: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeSectionId, setActiveSectionId] = useState<
+    ManualDetailId | undefined
+  >(undefined);
   const sections = useMemo(
     () => [
       { id: "login" as const, number: "1", title: "Log-in" },
@@ -30,11 +30,19 @@ const ManualPage: React.FC<ManualPageProps> = ({ onNavigate }) => {
       {sections.map((s) => (
         <TitleButton
           key={s.id}
-          onClick={() => onNavigate("manualDetail", s.id)}
+          onClick={() => {
+            setActiveSectionId(s.id);
+            setIsModalOpen(true);
+          }}
           title={`${s.number}. ${s.title}`}
           text="Tap to view instructions."
         />
       ))}
+      <ManualModal
+        isOpen={isModalOpen}
+        sectionId={activeSectionId}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };
