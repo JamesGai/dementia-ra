@@ -1,5 +1,4 @@
 import React from "react";
-import ContactUs from "../components/aboutUs/ContactUs";
 import Introduction from "../components/home/Introduction";
 import Login from "../components/home/Login";
 import QuickAccess from "../components/home/QuickAccess";
@@ -7,7 +6,9 @@ import SearchBar from "../components/home/SearchBar";
 import WelcomeCard from "../components/home/WelcomeCard";
 
 interface HomePageProps {
-  onNavigate: (tab: "aboutUs" | "manual" | "profile") => void;
+  onNavigate: (
+    tab: "aboutUs" | "course" | "manual" | "profile" | "service" | "video",
+  ) => void;
   isLoggedIn: boolean;
 }
 
