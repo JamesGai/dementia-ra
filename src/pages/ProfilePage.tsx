@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import Avatar from "../components/profile/Avatar";
 import Button from "../components/universal/Button";
 import LabeledInput from "../components/profile/LabeledInput";
 import TextButton from "../components/universal/TextButton";
@@ -18,6 +19,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
   onLogout,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [profile, setProfile] = useState({
     username: "12345",
     firstName: "James",
@@ -26,6 +28,27 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     email: "jamesgai@example.com",
     city: "Auckland",
   });
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const getInitials = (firstName?: string, lastName?: string) => {
+    const first = firstName?.charAt(0).toUpperCase() ?? "";
+    const last = lastName?.charAt(0).toUpperCase() ?? "";
+    return `${first}${last}` || "U";
+  };
+
+  const openAvatarPicker = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) return;
+    const previewUrl = URL.createObjectURL(file);
+    setAvatarUrl(previewUrl);
+    e.target.value = "";
+  };
 
   const handleProfileChange = (field: keyof typeof profile, value: string) => {
     setProfile((prev) => ({ ...prev, [field]: value }));
@@ -67,20 +90,17 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
       {/* Logged in state */}
       {isLoggedIn && (
         <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
-          <div className="space-y-1">
-            <div className="text-lg font-bold text-gray-900">
-              Personal details
-            </div>
+          <div className="text-lg font-bold text-gray-900">
+            Personal details
           </div>
           <div className="flex items-center justify-between text-sm text-gray-700">
-            {/* Profile avatar */}
-            <div className="flex justify-center py-4">
-              <div className="w-30 h-30 rounded-full bg-gray-200 flex items-center justify-center shadow-md">
-                <span className="text-gray-400 text-3xl font-semibold">
-                  {profile.lastName}
-                </span>
-              </div>
-            </div>
+            <Avatar
+              avatarUrl={avatarUrl}
+              placeholder={getInitials(profile.firstName, profile.lastName)}
+              onClick={openAvatarPicker}
+              onChange={handleAvatarChange}
+              inputRef={fileInputRef}
+            />
             <span className="font-semibold text-gray-900">Username</span>
             <span className="text-gray-500">{profile.username}</span>
           </div>
