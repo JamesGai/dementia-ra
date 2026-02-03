@@ -73,6 +73,14 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
             </div>
           </div>
           <div className="flex items-center justify-between text-sm text-gray-700">
+            {/* Profile avatar */}
+            <div className="flex justify-center py-4">
+              <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center shadow-md">
+                <span className="text-gray-400 text-3xl font-semibold">
+                  {profile.lastName}
+                </span>
+              </div>
+            </div>
             <span className="font-semibold text-gray-900">Username</span>
             <span className="text-gray-500">{profile.username}</span>
           </div>
