@@ -196,7 +196,7 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <IonContent ref={contentRef}>
-        <div className="pb-24 pt-5">{pages[activePage] ?? pages.home}</div>
+        <div>{pages[activePage] ?? pages.home}</div>
       </IonContent>
       <IonFooter>
         <Footer
