@@ -30,13 +30,13 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, contentRef }) => {
                 />
               </div>
               <div className="bg-[#2e6f73] text-white rounded-2xl px-6 py-5 shadow-md max-w-[70%]">
-                <div className="text-xl leading-snug">{msg.text}</div>
+                <div className="text-lg leading-snug">{msg.text}</div>
               </div>
             </div>
           ) : (
             <div key={msg.id} className="flex justify-end">
-              <div className="bg-white text-gray-900 rounded-2xl px-6 py-5 shadow-md max-w-[70%] border">
-                <div className="text-xl leading-snug">{msg.text}</div>
+              <div className="bg-white text-gray-900 rounded-2xl px-6 py-5 shadow-xl max-w-[70%]">
+                <div className="text-lg leading-snug">{msg.text}</div>
               </div>
             </div>
           ),
