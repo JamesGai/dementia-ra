@@ -31,7 +31,7 @@ const ChatbotButton: React.FC<ChatbotProps> = ({ onNavigate }) => {
               className="text-[26px] text-[#1a7dff]"
             />
           </div>
-          <div className="text-[22px] font-extrabold">Support Bot</div>
+          <div className="text-[22px] font-extrabold">e-DiVA chatbot</div>
         </div>
       </button>
     </div>

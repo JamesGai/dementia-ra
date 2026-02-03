@@ -23,9 +23,7 @@ const Header: React.FC<HeaderProps> = ({
             <span className="absolute -right-0.5 bottom-1 w-3.5 h-3.5 rounded-full bg-[#47d147] ring-2 ring-white" />
           </div>
           <div className="min-w-0 flex-1">
-            <div className="text-2xl font-extrabold text-gray-900 truncate">
-              {title}
-            </div>
+            <div className="text-2xl font-bold text-gray-900">{title}</div>
             <div className="text-base text-gray-400">{status}</div>
           </div>
         </div>
