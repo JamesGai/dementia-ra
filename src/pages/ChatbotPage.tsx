@@ -4,11 +4,10 @@ import {
   IonHeader,
   IonToolbar,
   IonContent,
-  IonFooter,
   IonIcon,
-  IonInput,
 } from "@ionic/react";
-import { chatbubbleEllipses, send } from "ionicons/icons";
+import { chatbubbleEllipses } from "ionicons/icons";
+import InputBar from "../components/chatbot/InputBar";
 
 type Sender = "bot" | "user";
 
@@ -102,33 +101,7 @@ const ChatbotPage: React.FC = () => {
           )}
         </div>
       </IonContent>
-      {/* Input bar */}
-      <IonFooter className="ion-no-border">
-        <div className="px-4 py-3 bg-white border-t border-gray-100">
-          <div className="flex items-center gap-3">
-            <div className="flex-1 rounded-2xl border-2 border-green-600 bg-white px-4 py-2">
-              <input
-                value={input}
-                type="text"
-                placeholder="Type a message..."
-                className="w-full text-lg bg-transparent outline-none"
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") handleSendMessage();
-                }}
-              />
-            </div>
-            {/* Send button */}
-            <button
-              type="button"
-              onClick={handleSendMessage}
-              className="w-12 h-12 rounded-full flex items-center justify-center text-gray-600 active:scale-95 transition"
-            >
-              <IonIcon icon={send} className="text-3xl" />
-            </button>
-          </div>
-        </div>
-      </IonFooter>
+      <InputBar value={input} onChange={setInput} onSend={handleSendMessage} />
     </IonPage>
   );
 };
