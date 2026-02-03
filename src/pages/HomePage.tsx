@@ -1,13 +1,21 @@
 import React from "react";
+import BecomeMember from "../components/home/BecomeMember";
+import ChatbotButton from "../components/home/ChatbotButton";
 import Introduction from "../components/home/Introduction";
-import Login from "../components/home/Login";
 import QuickAccess from "../components/home/QuickAccess";
 import SearchBar from "../components/home/SearchBar";
-import WelcomeCard from "../components/home/WelcomeCard";
+import Welcome from "../components/home/Welcome";
 
 interface HomePageProps {
   onNavigate: (
-    tab: "aboutUs" | "course" | "manual" | "profile" | "service" | "video",
+    tab:
+      | "aboutUs"
+      | "chatbot"
+      | "course"
+      | "manual"
+      | "profile"
+      | "service"
+      | "video",
   ) => void;
   isLoggedIn: boolean;
 }
@@ -15,13 +23,14 @@ interface HomePageProps {
 const HomePage: React.FC<HomePageProps> = ({ onNavigate, isLoggedIn }) => {
   return (
     <div className="p-4 space-y-6">
-      <WelcomeCard />
+      <Welcome />
       <SearchBar />
+      <ChatbotButton onNavigate={onNavigate} />
       <Introduction isLoggedIn={isLoggedIn} />
       {/* Logged in state */}
       {isLoggedIn && <QuickAccess onNavigate={onNavigate} />}
       {/* Logged out state */}
-      {!isLoggedIn && <Login onNavigate={onNavigate} />}
+      {!isLoggedIn && <BecomeMember onNavigate={onNavigate} />}
     </div>
   );
 };

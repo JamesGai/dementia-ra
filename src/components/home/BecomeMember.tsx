@@ -1,11 +1,11 @@
 import React from "react";
 import Button from "../universal/Button";
 
-interface LoginProps {
+interface BecomeMemberProps {
   onNavigate: (tab: "profile") => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onNavigate }) => {
+const BecomeMember: React.FC<BecomeMemberProps> = ({ onNavigate }) => {
   return (
     <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-md">
       <div className="flex items-center justify-between gap-4">
@@ -25,4 +25,4 @@ const Login: React.FC<LoginProps> = ({ onNavigate }) => {
   );
 };
 
-export default Login;
+export default BecomeMember;
