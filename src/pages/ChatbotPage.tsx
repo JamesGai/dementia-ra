@@ -1,12 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonContent,
-  IonIcon,
-} from "@ionic/react";
-import { chatbubbleEllipses } from "ionicons/icons";
+import { IonPage } from "@ionic/react";
 import ChatArea from "../components/chatbot/ChatArea";
 import Header from "../components/chatbot/Header";
 import InputBar from "../components/chatbot/InputBar";
@@ -17,7 +10,7 @@ type ChatMessage = {
   id: number;
   sender: Sender;
   text: string;
-  createdAt: number; // timestamp for ordering if needed
+  createdAt: number;
 };
 
 const ChatbotPage: React.FC = () => {
