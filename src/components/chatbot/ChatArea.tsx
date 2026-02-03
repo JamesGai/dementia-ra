@@ -29,7 +29,6 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, contentRef }) => {
                   className="text-white text-xl"
                 />
               </div>
-
               <div className="bg-[#2e6f73] text-white rounded-2xl px-6 py-5 shadow-md max-w-[70%]">
                 <div className="text-xl leading-snug">{msg.text}</div>
               </div>

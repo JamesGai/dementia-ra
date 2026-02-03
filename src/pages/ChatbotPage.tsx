@@ -18,7 +18,7 @@ const ChatbotPage: React.FC = () => {
     {
       id: 1,
       sender: "bot",
-      text: "Hi! How can I help you today?",
+      text: "The chatbot is being developed",
       createdAt: Date.now(),
     },
   ]);
@@ -34,16 +34,29 @@ const ChatbotPage: React.FC = () => {
       ...prev,
       { id: now, sender: "user", text, createdAt: now },
     ]);
+    // Automatic replay after a short delay
+    setTimeout(() => {
+      const now = Date.now();
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: now,
+          sender: "bot",
+          text: "The chatbot is being developed",
+          createdAt: now,
+        },
+      ]);
+    }, 600);
     setInput("");
   };
 
-  const scrollToTop = React.useCallback(() => {
-    contentRef.current?.scrollToTop(0);
+  const scrollToBottom = React.useCallback(() => {
+    contentRef.current?.scrollToBottom(250);
   }, []);
 
   useEffect(() => {
-    scrollToTop();
-  }, [messages, scrollToTop]);
+    scrollToBottom();
+  }, [messages, scrollToBottom]);
 
   return (
     <IonPage>
