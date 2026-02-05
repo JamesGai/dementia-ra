@@ -1,10 +1,9 @@
 import React, { useRef, useState } from "react";
-import Avatar from "../components/profile/Avatar";
-import Button from "../components/universal/Button";
-import LabeledInput from "../components/profile/LabeledInput";
-import TextButton from "../components/universal/TextButton";
-import Settings from "../components/profile/Settings";
 import { signIn } from "../services/authService";
+import Button from "../components/universal/Button";
+import ProfileLoggedIn from "../components/profile/ProfileLoggedIn";
+import ProfileLoggedOut from "../components/profile/ProfileLoggedOut";
+import Settings from "../components/profile/Settings";
 
 interface ProfilePageProps {
   onNavigate: (tab: "createAccount" | "forgotPassword") => void;
@@ -65,113 +64,34 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
 
   return (
     <div className="p-4 space-y-6">
-      {/* Logged out state */}
       {!isLoggedIn && (
-        <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
-          <LabeledInput label="Email" type="email" placeholder="Enter email" />
-          <LabeledInput
-            label="Password"
-            type="password"
-            placeholder="Enter password"
-            showToggle
-          />
-          <TextButton
-            text="Forgot password?"
-            onClick={() => onNavigate("forgotPassword")}
-          />
-          {/* <Button text="Login" onClick={onLogin} /> */}
-          {/* Test Login from Firebase Auth */}
-          <Button
-            text="Test Login"
-            onClick={async () => {
-              try {
-                const cred = await signIn("test@email.com", "password123");
-                console.log("✅ Logged in:", cred.user.email, cred.user.uid);
-                // update your app state so it switches to logged-in UI
-                // onLogin();
-              } catch (err) {
-                console.error("❌ Login failed:", err);
-              }
-            }}
-          />
-          <div className="text-center">
-            <TextButton
-              text="Don't have account?"
-              onClick={() => onNavigate("createAccount")}
-            />
-          </div>
-        </div>
+        <ProfileLoggedOut
+          onNavigate={onNavigate}
+          onTestLogin={async () => {
+            try {
+              const cred = await signIn("test@email.com", "password123");
+              console.log("✅ Logged in:", cred.user.email, cred.user.uid);
+              // onLogin();
+            } catch (err) {
+              console.error("❌ Login failed:", err);
+            }
+          }}
+        />
       )}
-      {/* Logged in state */}
       {isLoggedIn && (
-        <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
-          <div className="text-lg font-bold text-gray-900">
-            Personal details
-          </div>
-          <div className="flex items-center justify-between text-sm text-gray-700">
-            <Avatar
-              avatarUrl={avatarUrl}
-              placeholder={getInitials(profile.firstName, profile.lastName)}
-              onClick={openAvatarPicker}
-              onChange={handleAvatarChange}
-              inputRef={fileInputRef}
-            />
-            <span className="font-semibold text-gray-900">Username</span>
-            <span className="text-gray-500">{profile.username}</span>
-          </div>
-          <LabeledInput
-            type="text"
-            label="First name"
-            value={profile.firstName}
-            readOnly={!isEditing}
-            onChange={(event) =>
-              handleProfileChange("firstName", event.target.value)
-            }
-          />
-          <LabeledInput
-            type="text"
-            label="Last name"
-            value={profile.lastName}
-            readOnly={!isEditing}
-            onChange={(event) =>
-              handleProfileChange("lastName", event.target.value)
-            }
-          />
-          <LabeledInput
-            type="text"
-            label="Phone number"
-            value={profile.phone}
-            readOnly={!isEditing}
-            onChange={(event) =>
-              handleProfileChange("phone", event.target.value)
-            }
-          />
-          <LabeledInput
-            type="email"
-            label="Email"
-            value={profile.email}
-            readOnly={!isEditing}
-            onChange={(event) =>
-              handleProfileChange("email", event.target.value)
-            }
-          />
-          <LabeledInput
-            type="text"
-            label="City"
-            value={profile.city}
-            readOnly={!isEditing}
-            onChange={(event) =>
-              handleProfileChange("city", event.target.value)
-            }
-          />
-          <Button
-            text={isEditing ? "Save Profile" : "Edit Profile"}
-            onClick={handleEditOrSave}
-          />
-        </div>
+        <ProfileLoggedIn
+          isEditing={isEditing}
+          avatarUrl={avatarUrl}
+          profile={profile}
+          inputRef={fileInputRef}
+          getInitials={getInitials}
+          onOpenAvatarPicker={openAvatarPicker}
+          onAvatarChange={handleAvatarChange}
+          onProfileChange={handleProfileChange}
+          onEditOrSave={handleEditOrSave}
+        />
       )}
       <Settings />
-      {/* Logged in state */}
       {isLoggedIn && <Button text="Logout" onClick={onLogout} />}
     </div>
   );
