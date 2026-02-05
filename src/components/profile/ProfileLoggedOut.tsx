@@ -1,17 +1,14 @@
 import React, { useState } from "react";
+import { signIn } from "../../services/authService";
 import Button from "../universal/Button";
 import LabeledInput from "./LabeledInput";
 import TextButton from "../universal/TextButton";
 
 type ProfileLoggedOutProps = {
-  onNavigate: (tab: "createAccount" | "forgotPassword") => void;
-  onLogin: (email: string, password: string) => Promise<void> | void;
+  onNavigate: (tab: "home" | "createAccount" | "forgotPassword") => void;
 };
 
-const ProfileLoggedOut: React.FC<ProfileLoggedOutProps> = ({
-  onNavigate,
-  onLogin,
-}) => {
+const ProfileLoggedOut: React.FC<ProfileLoggedOutProps> = ({ onNavigate }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,7 +23,8 @@ const ProfileLoggedOut: React.FC<ProfileLoggedOutProps> = ({
     }
     try {
       setIsSubmitting(true);
-      await onLogin(trimmedEmail, password);
+      const cred = await signIn(trimmedEmail, password);
+      onNavigate("home");
     } catch (e) {
       setError("Login failed. Please check your details.");
     } finally {

@@ -1,22 +1,18 @@
 import React, { useRef, useState } from "react";
-import { signIn } from "../services/authService";
+import { signOutUser } from "../services/authService";
 import Button from "../components/universal/Button";
 import ProfileLoggedIn from "../components/profile/ProfileLoggedIn";
 import ProfileLoggedOut from "../components/profile/ProfileLoggedOut";
 import Settings from "../components/profile/Settings";
 
 interface ProfilePageProps {
-  onNavigate: (tab: "createAccount" | "forgotPassword") => void;
+  onNavigate: (tab: "home" | "createAccount" | "forgotPassword") => void;
   isLoggedIn: boolean;
-  onLogin: () => void;
-  onLogout: () => void;
 }
 
 const ProfilePage: React.FC<ProfilePageProps> = ({
   onNavigate,
   isLoggedIn,
-  onLogin,
-  onLogout,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -64,16 +60,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
 
   return (
     <div className="p-4 space-y-6">
-      {!isLoggedIn && (
-        <ProfileLoggedOut
-          onNavigate={onNavigate}
-          onLogin={async (email, password) => {
-            const cred = await signIn(email, password);
-            console.log("✅ Logged in:", cred.user.email, cred.user.uid);
-            onLogin();
-          }}
-        />
-      )}
+      {!isLoggedIn && <ProfileLoggedOut onNavigate={onNavigate} />}
       {isLoggedIn && (
         <ProfileLoggedIn
           isEditing={isEditing}
@@ -88,7 +75,15 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
         />
       )}
       <Settings />
-      {isLoggedIn && <Button text="Logout" onClick={onLogout} />}
+      {isLoggedIn && (
+        <Button
+          text="Logout"
+          onClick={async () => {
+            await signOutUser();
+            onNavigate("home");
+          }}
+        />
+      )}
     </div>
   );
 };

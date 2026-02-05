@@ -166,22 +166,7 @@ const App: React.FC = () => {
     home: <HomePage onNavigate={setActivePage} isLoggedIn={isLoggedIn} />,
     iSupportNZ: <ISupportNZPage />,
     manual: <ManualPage />,
-    profile: (
-      <ProfilePage
-        onNavigate={setActivePage}
-        isLoggedIn={isLoggedIn}
-        onLogin={() => {
-          // Firebase Auth listener in the useEffect hook will handle isLoggedIn
-          setActivePage("home");
-          console.log("Login triggered");
-        }}
-        onLogout={async () => {
-          await signOutUser();
-          setActivePage("home");
-          console.log("Logout triggered");
-        }}
-      />
-    ),
+    profile: <ProfilePage onNavigate={setActivePage} isLoggedIn={isLoggedIn} />,
     service: <ServicesPage />,
     video: (
       <VideoPage
