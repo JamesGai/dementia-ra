@@ -67,14 +67,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
       {!isLoggedIn && (
         <ProfileLoggedOut
           onNavigate={onNavigate}
-          onTestLogin={async () => {
-            try {
-              const cred = await signIn("test@email.com", "password123");
-              console.log("✅ Logged in:", cred.user.email, cred.user.uid);
-              // onLogin();
-            } catch (err) {
-              console.error("❌ Login failed:", err);
-            }
+          onLogin={async (email, password) => {
+            const cred = await signIn(email, password);
+            console.log("✅ Logged in:", cred.user.email, cred.user.uid);
+            onLogin();
           }}
         />
       )}
