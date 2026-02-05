@@ -4,6 +4,7 @@ import Button from "../components/universal/Button";
 import LabeledInput from "../components/profile/LabeledInput";
 import TextButton from "../components/universal/TextButton";
 import Settings from "../components/profile/Settings";
+import { signIn } from "../services/authService";
 
 interface ProfilePageProps {
   onNavigate: (tab: "createAccount" | "forgotPassword") => void;
@@ -78,7 +79,21 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
             text="Forgot password?"
             onClick={() => onNavigate("forgotPassword")}
           />
-          <Button text="Login" onClick={onLogin} />
+          {/* <Button text="Login" onClick={onLogin} /> */}
+          {/* Test Login from Firebase Auth */}
+          <Button
+            text="Test Login"
+            onClick={async () => {
+              try {
+                const cred = await signIn("test@email.com", "password123");
+                console.log("✅ Logged in:", cred.user.email, cred.user.uid);
+                // update your app state so it switches to logged-in UI
+                // onLogin();
+              } catch (err) {
+                console.error("❌ Login failed:", err);
+              }
+            }}
+          />
           <div className="text-center">
             <TextButton
               text="Don't have account?"
