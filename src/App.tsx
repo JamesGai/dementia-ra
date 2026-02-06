@@ -18,6 +18,9 @@ import {
   videocam,
   videocamOutline,
 } from "ionicons/icons";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
+import { signOutUser } from "./services/authService";
 import Footer from "./components/footer/Footer";
 // Main pages
 import AboutUsPage from "./pages/AboutUsPage";
@@ -163,22 +166,7 @@ const App: React.FC = () => {
     home: <HomePage onNavigate={setActivePage} isLoggedIn={isLoggedIn} />,
     iSupportNZ: <ISupportNZPage />,
     manual: <ManualPage />,
-    profile: (
-      <ProfilePage
-        onNavigate={setActivePage}
-        isLoggedIn={isLoggedIn}
-        onLogin={() => {
-          setIsLoggedIn(true);
-          setActivePage("home");
-          console.log("Successfully logged in");
-        }}
-        onLogout={() => {
-          setIsLoggedIn(false);
-          setActivePage("home");
-          console.log("Successfully logged out");
-        }}
-      />
-    ),
+    profile: <ProfilePage onNavigate={setActivePage} isLoggedIn={isLoggedIn} />,
     service: <ServicesPage />,
     video: (
       <VideoPage
@@ -192,6 +180,20 @@ const App: React.FC = () => {
   useEffect(() => {
     scrollToTop();
   }, [activePage, scrollToTop]);
+
+  // Firebase Auth listener automatically detects login state (logged in or out)
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Auth state: logged in", user.email);
+        setIsLoggedIn(true);
+      } else {
+        console.log("Auth state: logged out");
+        setIsLoggedIn(false);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <IonApp>

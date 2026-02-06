@@ -33,7 +33,7 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
       {isPasswordToggle ? (
         <div className="flex items-center gap-3 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 focus-within:border-[#2e6f73]">
           <input
-            type={type}
+            type={isRevealed ? "text" : "password"}
             placeholder={placeholder}
             readOnly={readOnly}
             onChange={onChange}
