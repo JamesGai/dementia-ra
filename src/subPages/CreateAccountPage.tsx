@@ -66,11 +66,11 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           firstName: firstName.trim(),
           lastName: lastName.trim(),
           username: username.trim(),
-          ...(phone.trim() ? { phone: phone.trim() } : {}),
+          phone: phone.trim(),
           city: city.trim(),
           country: country.trim(),
-          ...(userRole ? { userRole } : {}),
-          ...(purposeOfUse ? { purposeOfUse } : {}),
+          userRole: userRole.trim(),
+          purposeOfUse: purposeOfUse.trim(),
         },
       });
       console.log("✅ Account created");
