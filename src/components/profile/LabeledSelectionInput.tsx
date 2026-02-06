@@ -4,13 +4,17 @@ import { IonSelect, IonSelectOption } from "@ionic/react";
 interface LabeledSelectionInputProps {
   label: string;
   placeholder: string;
+  value?: string;
   options: Array<{ value: string; label: string }>;
+  onChange: (value: string) => void;
 }
 
 const LabeledSelectionInput: React.FC<LabeledSelectionInputProps> = ({
   label,
   placeholder,
+  value,
   options,
+  onChange,
 }) => {
   const customModalOptions = {
     header: label,
@@ -23,6 +27,8 @@ const LabeledSelectionInput: React.FC<LabeledSelectionInputProps> = ({
       <IonSelect
         label={label}
         placeholder={placeholder}
+        value={value}
+        onIonChange={(e) => onChange(e.detail.value)}
         interface="modal"
         interfaceOptions={customModalOptions}
         justify="space-between"

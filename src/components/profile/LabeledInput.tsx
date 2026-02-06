@@ -7,7 +7,7 @@ interface LabeledInputProps {
   value?: string;
   showToggle?: boolean; // Password only
   readOnly?: boolean; // Profile edition only
-  onChange?: React.ChangeEventHandler<HTMLInputElement>; // Profile edition only
+  onChange: React.ChangeEventHandler<HTMLInputElement>; // Profile edition only
 }
 
 const LabeledInput: React.FC<LabeledInputProps> = ({
@@ -21,10 +21,6 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
 }) => {
   const isPasswordToggle = showToggle && type === "password" && !readOnly;
   const [isRevealed, setIsRevealed] = useState(false);
-  const inputClassName = readOnly
-    ? "w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 placeholder:text-gray-400 outline-none cursor-default"
-    : "w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 placeholder:text-gray-400 outline-none focus:border-[#2e6f73]";
-  const inputValueProps = value !== undefined ? { value } : {};
 
   return (
     <div className="space-y-2">
@@ -35,9 +31,9 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
           <input
             type={isRevealed ? "text" : "password"}
             placeholder={placeholder}
+            value={value}
             readOnly={readOnly}
             onChange={onChange}
-            {...inputValueProps}
             className="flex-1 bg-transparent text-gray-900 placeholder:text-gray-400 outline-none"
           />
           <button
@@ -53,10 +49,14 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
         <input
           type={type}
           placeholder={placeholder}
+          value={value}
           readOnly={readOnly}
           onChange={onChange}
-          {...inputValueProps}
-          className={inputClassName}
+          className={
+            readOnly
+              ? "w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 placeholder:text-gray-400 outline-none cursor-default"
+              : "w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 placeholder:text-gray-400 outline-none focus:border-[#2e6f73]"
+          }
         />
       )}
     </div>

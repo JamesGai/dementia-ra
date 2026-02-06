@@ -1,4 +1,3 @@
-// src/services/authService.ts
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -9,11 +8,19 @@ import {
 import { doc, serverTimestamp, setDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
-export type UserProfile = {
-  fullName: string;
-  username?: string;
+/**
+ * User collection fields (password is stored in Firebase Auth)
+ */
+type UserProfile = {
+  firstName: string;
+  lastName: string;
+  username: string;
   email: string;
-  createdAt?: unknown;
+  phone?: string;
+  city: string;
+  country: string;
+  userRole?: string;
+  purposeOfUse?: string;
 };
 
 /**
@@ -24,24 +31,15 @@ export type UserProfile = {
 export async function signUpWithProfile(params: {
   email: string;
   password: string;
-  fullName: string;
-  username?: string;
-}): Promise<UserCredential> {
-  const { email, password, fullName, username } = params;
-
-  // Create Auth user
+  // Profile object must contain all fields of UserProfile except email. This is because email field is handled by Firebase Auth not Firestore
+  profile: Omit<UserProfile, "email">;
+}) {
+  const { email, password, profile } = params;
   const cred = await createUserWithEmailAndPassword(auth, email, password);
-
-  // Create Firestore profile (NO password stored here)
-  const profile: UserProfile = {
-    fullName,
-    username,
+  await setDoc(doc(db, "users", cred.user.uid), {
+    ...profile,
     email,
-    createdAt: serverTimestamp(),
-  };
-
-  await setDoc(doc(db, "users", cred.user.uid), profile, { merge: true });
-
+  });
   return cred;
 }
 
