@@ -23,7 +23,7 @@ const ProfileLoggedOut: React.FC<ProfileLoggedOutProps> = ({ onNavigate }) => {
     }
     try {
       setIsSubmitting(true);
-      const cred = await signIn(trimmedEmail, password);
+      await signIn(trimmedEmail, password);
       onNavigate("home");
     } catch (e) {
       setError("Login failed. Please check your details.");
