@@ -7,7 +7,8 @@ interface LabeledInputProps {
   value?: string;
   showToggle?: boolean; // Password only
   readOnly?: boolean; // Profile edition only
-  onChange?: React.ChangeEventHandler<HTMLInputElement>; // Profile edition only
+  error?: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 const LabeledInput: React.FC<LabeledInputProps> = ({
@@ -17,27 +18,35 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
   value,
   showToggle = false,
   readOnly = false,
+  error,
   onChange,
 }) => {
   const isPasswordToggle = showToggle && type === "password" && !readOnly;
   const [isRevealed, setIsRevealed] = useState(false);
-  const inputClassName = readOnly
-    ? "w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 placeholder:text-gray-400 outline-none cursor-default"
-    : "w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 placeholder:text-gray-400 outline-none focus:border-[#2e6f73]";
-  const inputValueProps = value !== undefined ? { value } : {};
+
+  const baseInput =
+    "w-full rounded-xl border bg-white px-4 py-3 text-gray-900 placeholder:text-gray-400 outline-none";
+  const focus = readOnly ? "" : " focus:border-[#2e6f73]";
+  const errorBorder = error ? " border-red-500" : " border-gray-200";
 
   return (
     <div className="space-y-2">
       <label className="text-sm font-bold text-gray-900">{label}</label>
       {/* Password input */}
       {isPasswordToggle ? (
-        <div className="flex items-center gap-3 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 focus-within:border-[#2e6f73]">
+        <div
+          className={[
+            "flex items-center gap-3 w-full rounded-xl border bg-white px-4 py-3",
+            error ? "border-red-500" : "border-gray-200",
+            "focus-within:border-[#2e6f73]",
+          ].join(" ")}
+        >
           <input
             type={isRevealed ? "text" : "password"}
             placeholder={placeholder}
+            value={value}
             readOnly={readOnly}
             onChange={onChange}
-            {...inputValueProps}
             className="flex-1 bg-transparent text-gray-900 placeholder:text-gray-400 outline-none"
           />
           <button
@@ -53,12 +62,20 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
         <input
           type={type}
           placeholder={placeholder}
+          value={value}
           readOnly={readOnly}
           onChange={onChange}
-          {...inputValueProps}
-          className={inputClassName}
+          className={
+            readOnly
+              ? [
+                  "w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 placeholder:text-gray-400 outline-none cursor-default",
+                  error ? " border-red-500" : "",
+                ].join(" ")
+              : [baseInput, errorBorder, focus].join(" ")
+          }
         />
       )}
+      {error && <div className="text-sm text-red-600">{error}</div>}
     </div>
   );
 };

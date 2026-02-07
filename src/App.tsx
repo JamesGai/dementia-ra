@@ -20,7 +20,6 @@ import {
 } from "ionicons/icons";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
-import { signOutUser } from "./services/authService";
 import Footer from "./components/footer/Footer";
 // Main pages
 import AboutUsPage from "./pages/AboutUsPage";
