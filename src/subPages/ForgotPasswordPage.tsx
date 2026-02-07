@@ -16,19 +16,25 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onBack }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const emailError = useMemo(() => {
-    if (!submitAttempted) return undefined;
-    if (!email.trim()) return "Email is required";
-    if (!/^\S+@\S+\.\S+$/.test(email.trim()))
-      return "Please enter a valid email";
-    return undefined;
-  }, [email, submitAttempted]);
+  const fieldErrors = useMemo(() => {
+    const errs: Record<string, string> = {};
+    if (!email.trim()) {
+      errs.email = "Email is required";
+    } else if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
+      errs.email = "Please enter a valid email";
+    }
+    return errs;
+  }, [email]);
+
+  const hasErrors = Object.keys(fieldErrors).length > 0;
+  const show = (key: string) =>
+    submitAttempted ? fieldErrors[key] : undefined;
 
   const handleEmail = async () => {
     setSubmitAttempted(true);
     setError(null);
     setSuccess(null);
-    if (emailError) return;
+    if (hasErrors) return;
     try {
       console.log("aaaaaaaaaaaa");
       setIsSending(true);
@@ -54,7 +60,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onBack }) => {
           placeholder="Enter email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          error={emailError}
+          error={show("email")}
         />
         {success && <div className="text-sm text-green-600">{success}</div>}
         {error && <div className="text-sm text-red-600">{error}</div>}
