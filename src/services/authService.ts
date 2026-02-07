@@ -3,15 +3,14 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
-  UserCredential,
+  onAuthStateChanged,
+  User as FirebaseUser,
 } from "firebase/auth";
-import { doc, serverTimestamp, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
-/**
- * User collection fields (password is stored in Firebase Auth)
- */
-type UserProfile = {
+// User collection fields (password is stored in Firebase Auth)
+export type User = {
   firstName: string;
   lastName: string;
   username: string;
@@ -32,7 +31,7 @@ export async function signUpWithProfile(params: {
   email: string;
   password: string;
   // Profile object must contain all fields of UserProfile except email. This is because email field is handled by Firebase Auth not Firestore
-  profile: Omit<UserProfile, "email">;
+  profile: Omit<User, "email">;
 }) {
   const { email, password, profile } = params;
   const cred = await createUserWithEmailAndPassword(auth, email, password);
@@ -67,7 +66,16 @@ export function signOutUser() {
 /**
  * Fetch current user's profile from Firestore
  */
-export async function fetchMyProfile(uid: string): Promise<UserProfile | null> {
+export async function fetchMyProfile(uid: string): Promise<User | null> {
   const snap = await getDoc(doc(db, "users", uid));
-  return snap.exists() ? (snap.data() as UserProfile) : null;
+  return snap.exists() ? (snap.data() as User) : null;
+}
+
+/**
+ * Listen to Firebase Auth state changes
+ */
+export function subscribeToAuthChanges(
+  callback: (user: FirebaseUser | null) => void,
+) {
+  return onAuthStateChanged(auth, callback);
 }

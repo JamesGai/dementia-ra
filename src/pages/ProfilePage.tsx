@@ -1,9 +1,23 @@
-import React, { useRef, useState } from "react";
-import { signOutUser } from "../services/authService";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  signOutUser,
+  fetchMyProfile,
+  subscribeToAuthChanges,
+  User as FirestoreUser,
+} from "../services/authService";
 import Button from "../components/universal/Button";
 import ProfileLoggedIn from "../components/profile/ProfileLoggedIn";
 import ProfileLoggedOut from "../components/profile/ProfileLoggedOut";
 import Settings from "../components/profile/Settings";
+
+type ProfileUser = {
+  username: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  city: string;
+};
 
 interface ProfilePageProps {
   onNavigate: (tab: "home" | "createAccount" | "forgotPassword") => void;
@@ -16,14 +30,9 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [profile, setProfile] = useState({
-    username: "12345",
-    firstName: "James",
-    lastName: "Gai",
-    phone: "12345",
-    email: "jamesgai@example.com",
-    city: "Auckland",
-  });
+  const [profile, setProfile] = useState<ProfileUser | null>(null);
+  const [loadingProfile, setLoadingProfile] = useState(false);
+  const [profileError, setProfileError] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -46,8 +55,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     e.target.value = "";
   };
 
-  const handleProfileChange = (field: keyof typeof profile, value: string) => {
-    setProfile((prev) => ({ ...prev, [field]: value }));
+  const handleProfileChange = (field: keyof ProfileUser, value: string) => {
+    setProfile((prev) => (prev ? { ...prev, [field]: value } : prev));
   };
 
   const handleEditOrSave = () => {
@@ -58,21 +67,77 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     setIsEditing((prev) => !prev);
   };
 
+  // Load Firestore profile for the currently logged-in user
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setProfile(null);
+      setProfileError(null);
+      setLoadingProfile(false);
+      setIsEditing(false);
+      return;
+    }
+    setLoadingProfile(true);
+    setProfileError(null);
+    const unsubscribe = subscribeToAuthChanges(async (fbUser) => {
+      if (!fbUser) {
+        setProfile(null);
+        setLoadingProfile(false);
+        return;
+      }
+      try {
+        const data: FirestoreUser | null = await fetchMyProfile(fbUser.uid);
+        if (!data) {
+          setProfile(null);
+          setProfileError("Profile not found in Firestore.");
+        } else {
+          setProfile({
+            username: data.username ?? "",
+            firstName: data.firstName ?? "",
+            lastName: data.lastName ?? "",
+            phone: data.phone ?? "",
+            email: data.email ?? fbUser.email ?? "",
+            city: data.city ?? "",
+          });
+        }
+      } catch (e) {
+        console.error("❌ Failed to load profile:", e);
+        setProfileError("Failed to load profile. Please try again.");
+      } finally {
+        setLoadingProfile(false);
+      }
+    });
+    return () => unsubscribe();
+  }, [isLoggedIn]);
+
   return (
     <div className="p-4 space-y-6">
       {!isLoggedIn && <ProfileLoggedOut onNavigate={onNavigate} />}
       {isLoggedIn && (
-        <ProfileLoggedIn
-          isEditing={isEditing}
-          avatarUrl={avatarUrl}
-          profile={profile}
-          inputRef={fileInputRef}
-          getInitials={getInitials}
-          onOpenAvatarPicker={openAvatarPicker}
-          onAvatarChange={handleAvatarChange}
-          onProfileChange={handleProfileChange}
-          onEditOrSave={handleEditOrSave}
-        />
+        <>
+          {loadingProfile && (
+            <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
+              Loading profile...
+            </div>
+          )}
+          {profileError && (
+            <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-red-600">
+              {profileError}
+            </div>
+          )}
+          {!loadingProfile && !profileError && profile && (
+            <ProfileLoggedIn
+              isEditing={isEditing}
+              avatarUrl={avatarUrl}
+              profile={profile}
+              inputRef={fileInputRef}
+              getInitials={getInitials}
+              onOpenAvatarPicker={openAvatarPicker}
+              onAvatarChange={handleAvatarChange}
+              onProfileChange={handleProfileChange}
+              onEditOrSave={handleEditOrSave}
+            />
+          )}
+        </>
       )}
       <Settings />
       {isLoggedIn && (
