@@ -94,8 +94,8 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
         profile: {
           firstName: firstName.trim(),
           lastName: lastName.trim(),
-          username: username.trim(),
           phone: phone.trim(),
+          username: username.trim(),
           city: city.trim(),
           country: country.trim(),
           userRole: userRole.trim(),
