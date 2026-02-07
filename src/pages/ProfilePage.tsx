@@ -11,12 +11,13 @@ import ProfileLoggedIn from "../components/profile/ProfileLoggedIn";
 import ProfileLoggedOut from "../components/profile/ProfileLoggedOut";
 import Settings from "../components/profile/Settings";
 
-type ProfileUser = {
-  username: string;
+// User information that needs to be displayed only
+export type ProfileUser = {
   firstName: string;
   lastName: string;
-  phone: string;
   email: string;
+  phone: string;
+  username: string;
   city: string;
 };
 
@@ -35,9 +36,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
   const [isSaving, setIsSaving] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [profile, setProfile] = useState<ProfileUser | null>(null);
-  const [originalProfile, setOriginalProfile] = useState<ProfileUser | null>(
-    null,
-  );
   const [uid, setUid] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -68,7 +66,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
   const handleEditOrSave = async () => {
     setProfileError(null);
     if (!isEditing) {
-      setOriginalProfile(profile); // snapshot for cancel/revert if needed later
       setIsEditing(true);
       return;
     }
@@ -81,18 +78,16 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
       const updates: Partial<ProfileUser> = {
         firstName: profile.firstName.trim(),
         lastName: profile.lastName.trim(),
+        phone: profile.phone.trim(),
         username: profile.username.trim(),
         city: profile.city.trim(),
-        phone: profile.phone.trim(),
       };
       await updateMyProfile(uid, updates);
       console.log("✅ Profile updated in Firestore");
-      setOriginalProfile(profile);
       setIsEditing(false);
     } catch (e) {
       console.error("❌ Failed to save profile:", e);
       setProfileError("Failed to save profile. Please try again.");
-      if (originalProfile) setProfile(originalProfile);
     } finally {
       setIsSaving(false);
     }
@@ -102,7 +97,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
   useEffect(() => {
     if (!isLoggedIn) {
       setProfile(null);
-      setOriginalProfile(null);
       setProfileError(null);
       setLoadingProfile(false);
       setIsEditing(false);
@@ -114,7 +108,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     const unsubscribe = subscribeToAuthChanges(async (fbUser) => {
       if (!fbUser) {
         setProfile(null);
-        setOriginalProfile(null);
         setUid(null);
         setLoadingProfile(false);
         return;
@@ -122,22 +115,19 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
       setUid(fbUser.uid);
       try {
         const data: FirestoreUser | null = await fetchMyProfile(fbUser.uid);
-
         if (!data) {
           setProfile(null);
-          setOriginalProfile(null);
           setProfileError("Profile not found in Firestore.");
         } else {
           const mapped: ProfileUser = {
-            username: data.username ?? "",
             firstName: data.firstName ?? "",
             lastName: data.lastName ?? "",
-            phone: data.phone ?? "",
             email: data.email ?? fbUser.email ?? "",
+            phone: data.phone ?? "",
+            username: data.username ?? "",
             city: data.city ?? "",
           };
           setProfile(mapped);
-          setOriginalProfile(mapped);
         }
       } catch (e) {
         console.error("❌ Failed to load profile:", e);

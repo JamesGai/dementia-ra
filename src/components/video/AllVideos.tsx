@@ -1,5 +1,5 @@
 import React from "react";
-import type { VideoItem } from "../../pages/VideoPage";
+import { VideoItem } from "../../pages/VideoPage";
 
 interface AllVideosProps {
   videos: VideoItem[];

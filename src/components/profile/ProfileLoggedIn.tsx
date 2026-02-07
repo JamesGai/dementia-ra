@@ -1,27 +1,19 @@
 import React from "react";
+import { ProfileUser } from "../../pages/ProfilePage";
 import Avatar from "./Avatar";
 import Button from "../universal/Button";
 import LabeledInput from "./LabeledInput";
-
-type Profile = {
-  username: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  email: string;
-  city: string;
-};
 
 type ProfileLoggedInProps = {
   isEditing: boolean;
   isSaving: boolean;
   avatarUrl: string | null;
-  profile: Profile;
+  profile: ProfileUser;
   inputRef: React.RefObject<HTMLInputElement | null>;
   getInitials: (firstName?: string, lastName?: string) => string;
   onOpenAvatarPicker: () => void;
   onAvatarChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onProfileChange: (field: keyof Profile, value: string) => void;
+  onProfileChange: (field: keyof ProfileUser, value: string) => void;
   onEditOrSave: () => void;
 };
 
