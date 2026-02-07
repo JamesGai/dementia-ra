@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { ProfileUser } from "../../pages/ProfilePage";
 import Avatar from "./Avatar";
 import Button from "../universal/Button";
@@ -29,6 +29,33 @@ const ProfileLoggedIn: React.FC<ProfileLoggedInProps> = ({
   onProfileChange,
   onEditOrSave,
 }) => {
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+  const fieldErrors = useMemo(() => {
+    const errs: Record<string, string> = {};
+    if (!profile.firstName.trim()) errs.firstName = "First name is required";
+    if (!profile.lastName.trim()) errs.lastName = "Last name is required";
+    if (!profile.username.trim()) errs.username = "Username is required";
+    if (!profile.email.trim()) errs.email = "Email is required";
+    if (!profile.city.trim()) errs.city = "City is required";
+    return errs;
+  }, [profile]);
+
+  const hasErrors = Object.keys(fieldErrors).length > 0;
+  const showError = (key: keyof ProfileUser) =>
+    isEditing && submitAttempted ? fieldErrors[key] : undefined;
+  const req = (label: string) => (isEditing ? `${label} *` : label);
+
+  const handleEditOrSave = () => {
+    if (!isEditing) {
+      setSubmitAttempted(false);
+      onEditOrSave();
+      return;
+    }
+    setSubmitAttempted(true);
+    if (hasErrors) return;
+    onEditOrSave();
+  };
+
   return (
     <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
       <div className="text-lg font-bold text-gray-900">Personal details</div>
@@ -45,24 +72,27 @@ const ProfileLoggedIn: React.FC<ProfileLoggedInProps> = ({
       </div>
       <LabeledInput
         type="text"
-        label="First name"
+        label={req("Username")}
         value={profile.firstName}
         readOnly={!isEditing}
         onChange={(event) => onProfileChange("firstName", event.target.value)}
+        error={showError("firstName")}
       />
       <LabeledInput
         type="text"
-        label="Last name"
+        label={req("Last name")}
         value={profile.lastName}
         readOnly={!isEditing}
         onChange={(event) => onProfileChange("lastName", event.target.value)}
+        error={showError("lastName")}
       />
       <LabeledInput
         type="text"
-        label="Phone number"
+        label={req("Phone number")}
         value={profile.phone}
         readOnly={!isEditing}
         onChange={(event) => onProfileChange("phone", event.target.value)}
+        error={showError("phone")}
       />
       <LabeledInput
         type="email"
@@ -73,16 +103,17 @@ const ProfileLoggedIn: React.FC<ProfileLoggedInProps> = ({
       />
       <LabeledInput
         type="text"
-        label="City"
+        label={req("City")}
         value={profile.city}
         readOnly={!isEditing}
         onChange={(event) => onProfileChange("city", event.target.value)}
+        error={showError("city")}
       />
       <Button
         text={
           isSaving ? "Saving..." : isEditing ? "Save Profile" : "Edit Profile"
         }
-        onClick={onEditOrSave}
+        onClick={handleEditOrSave}
       />
     </div>
   );
