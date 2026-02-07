@@ -11,11 +11,12 @@ interface ForgotPasswordPageProps {
 
 const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onBack }) => {
   const [email, setEmail] = useState("");
-  const [submitAttempted, setSubmitAttempted] = useState(false);
-  const [isSending, setIsSending] = useState(false);
+  const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Empty field examination
   const fieldErrors = useMemo(() => {
     const errs: Record<string, string> = {};
     if (!email.trim()) {
@@ -27,17 +28,16 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onBack }) => {
   }, [email]);
 
   const hasErrors = Object.keys(fieldErrors).length > 0;
-  const show = (key: string) =>
-    submitAttempted ? fieldErrors[key] : undefined;
+  const showError = (key: string) =>
+    isSubmitAttempted ? fieldErrors[key] : undefined;
 
   const handleEmail = async () => {
-    setSubmitAttempted(true);
+    setIsSubmitAttempted(true);
     setError(null);
     setSuccess(null);
     if (hasErrors) return;
     try {
-      console.log("aaaaaaaaaaaa");
-      setIsSending(true);
+      setIsSubmitting(true);
       await resetPassword(email.trim());
       setSuccess(
         "If an account exists for this email, a reset link has been sent.",
@@ -46,7 +46,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onBack }) => {
       console.error("❌ Reset password failed:", e);
       setError("Could not send reset email. Please try again.");
     } finally {
-      setIsSending(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -60,12 +60,12 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onBack }) => {
           placeholder="Enter email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          error={show("email")}
+          error={showError("email")}
         />
         {success && <div className="text-sm text-green-600">{success}</div>}
         {error && <div className="text-sm text-red-600">{error}</div>}
         <Button
-          text={isSending ? "Sending..." : "Send"}
+          text={isSubmitting ? "Sending..." : "Send"}
           onClick={handleEmail}
         />
         <div className="text-center">
