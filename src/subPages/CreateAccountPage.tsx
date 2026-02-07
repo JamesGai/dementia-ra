@@ -41,12 +41,13 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
   const [country, setCountry] = useState("");
   const [userRole, setUserRole] = useState("");
   const [purposeOfUse, setPurposeOfUse] = useState("");
-
   const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [submitAttempted, setSubmitAttempted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
+  const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Empty field examination
   const fieldErrors = useMemo(() => {
     const errs: Record<string, string> = {};
     if (!firstName.trim()) errs.firstName = "First name is required";
@@ -77,13 +78,13 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
   ]);
 
   const hasErrors = Object.keys(fieldErrors).length > 0;
-  const show = (key: string) =>
-    submitAttempted ? fieldErrors[key] : undefined;
+  const showError = (key: string) =>
+    isSubmitAttempted ? fieldErrors[key] : undefined;
 
   // Firebase Auth creates an account and automatically signs in
   const handleCreate = async () => {
     setError(null);
-    setSubmitAttempted(true);
+    setIsSubmitAttempted(true);
     if (hasErrors) return;
     try {
       setIsSubmitting(true);
@@ -122,7 +123,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           // Should keep the value field so React remains the single source of truth for the input, ensuring the UI, state, validation, and resets always stay in sync.
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
-          error={show("firstName")}
+          error={showError("firstName")}
         />
         <LabeledInput
           type="text"
@@ -130,7 +131,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           placeholder="Enter last name"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
-          error={show("lastName")}
+          error={showError("lastName")}
         />
         <LabeledInput
           type="email"
@@ -138,7 +139,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           placeholder="Enter email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          error={show("email")}
+          error={showError("email")}
         />
         <LabeledInput
           type="text"
@@ -153,7 +154,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           placeholder="Enter username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          error={show("username")}
+          error={showError("username")}
         />
         <LabeledInput
           type="password"
@@ -162,7 +163,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           showToggle
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          error={show("password")}
+          error={showError("password")}
         />
         <LabeledInput
           type="password"
@@ -171,7 +172,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           showToggle
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          error={show("confirmPassword")}
+          error={showError("confirmPassword")}
         />
         <LabeledInput
           type="text"
@@ -179,7 +180,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           placeholder="Enter city"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          error={show("city")}
+          error={showError("city")}
         />
         <LabeledSelectionInput
           label="Country *"
@@ -187,7 +188,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           options={countryOptions}
           value={country}
           onChange={setCountry}
-          error={show("country")}
+          error={showError("country")}
         />
         <LabeledSelectionInput
           label="User Role"
@@ -204,7 +205,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           onChange={setPurposeOfUse}
         />
         <Terms checked={acceptedTerms} onChange={setAcceptedTerms} />
-        {submitAttempted && fieldErrors.terms && (
+        {isSubmitAttempted && fieldErrors.terms && (
           <div className="text-sm text-red-600">{fieldErrors.terms}</div>
         )}
         {error && <div className="text-sm text-red-600">{error}</div>}
