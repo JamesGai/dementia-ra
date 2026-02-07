@@ -80,6 +80,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
   const show = (key: string) =>
     submitAttempted ? fieldErrors[key] : undefined;
 
+  // Firebase Auth creates an account and automatically signs in
   const handleCreate = async () => {
     setError(null);
     setSubmitAttempted(true);
