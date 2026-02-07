@@ -6,6 +6,7 @@ interface LabeledSelectionInputProps {
   placeholder: string;
   value?: string;
   options: Array<{ value: string; label: string }>;
+  error?: string;
   onChange: (value: string) => void;
 }
 
@@ -14,6 +15,7 @@ const LabeledSelectionInput: React.FC<LabeledSelectionInputProps> = ({
   placeholder,
   value,
   options,
+  error,
   onChange,
 }) => {
   const customModalOptions = {
@@ -32,7 +34,10 @@ const LabeledSelectionInput: React.FC<LabeledSelectionInputProps> = ({
         interface="modal"
         interfaceOptions={customModalOptions}
         justify="space-between"
-        className="rounded-xl border border-gray-200 bg-white px-4 py-1.5 text-gray-900 focus:border-[#2e6f73]"
+        className={[
+          "rounded-xl border bg-white px-4 py-1.5 text-gray-900 focus:border-[#2e6f73]",
+          error ? "border-red-500" : "border-gray-200",
+        ].join(" ")}
       >
         {options.map((option) => (
           <IonSelectOption key={option.value} value={option.value}>
@@ -40,6 +45,7 @@ const LabeledSelectionInput: React.FC<LabeledSelectionInputProps> = ({
           </IonSelectOption>
         ))}
       </IonSelect>
+      {error && <div className="text-sm text-red-600">{error}</div>}
     </div>
   );
 };

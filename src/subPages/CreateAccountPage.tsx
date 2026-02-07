@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { signUpWithProfile } from "../services/authService";
 import Button from "../components/universal/Button";
 import GetStarted from "../components/profile/GetStarted";
@@ -43,23 +43,47 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
   const [purposeOfUse, setPurposeOfUse] = useState("");
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const fieldErrors = useMemo(() => {
+    const errs: Record<string, string> = {};
+    if (!firstName.trim()) errs.firstName = "First name is required";
+    if (!lastName.trim()) errs.lastName = "Last name is required";
+    if (!email.trim()) errs.email = "Email is required";
+    if (!username.trim()) errs.username = "Username is required";
+    if (!password) errs.password = "Password is required";
+    if (!confirmPassword) {
+      errs.confirmPassword = "Confirm password is required";
+    } else if (password && password !== confirmPassword) {
+      errs.confirmPassword = "Passwords do not match";
+    }
+    if (!city.trim()) errs.city = "City is required";
+    if (!country) errs.country = "Country is required";
+    if (!acceptedTerms)
+      errs.terms = "You must agree to the Terms and Privacy Policy.";
+    return errs;
+  }, [
+    firstName,
+    lastName,
+    email,
+    username,
+    password,
+    confirmPassword,
+    city,
+    country,
+    acceptedTerms,
+  ]);
+
+  const hasErrors = Object.keys(fieldErrors).length > 0;
+  const show = (key: string) =>
+    submitAttempted ? fieldErrors[key] : undefined;
+
   const handleCreate = async () => {
     setError(null);
-    // Field validation
-    if (!firstName.trim() || !lastName.trim())
-      return setError("Please enter your name.");
-    if (!email.trim()) return setError("Please enter an email.");
-    if (!username.trim()) return setError("Please enter a username.");
-    if (!password) return setError("Please enter a password.");
-    if (password !== confirmPassword)
-      return setError("Passwords do not match.");
-    if (!city.trim()) return setError("Please enter a city.");
-    if (!country) return setError("Please select a country.");
-    if (!acceptedTerms)
-      return setError("You must agree to the Terms and Privacy Policy.");
+    setSubmitAttempted(true);
+    if (hasErrors) return;
     try {
       setIsSubmitting(true);
       await signUpWithProfile({
@@ -97,6 +121,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           // Should keep the value field so React remains the single source of truth for the input, ensuring the UI, state, validation, and resets always stay in sync.
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
+          error={show("firstName")}
         />
         <LabeledInput
           type="text"
@@ -104,6 +129,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           placeholder="Enter last name"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
+          error={show("lastName")}
         />
         <LabeledInput
           type="email"
@@ -111,6 +137,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           placeholder="Enter email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          error={show("email")}
         />
         <LabeledInput
           type="text"
@@ -125,6 +152,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           placeholder="Enter username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          error={show("username")}
         />
         <LabeledInput
           type="password"
@@ -133,6 +161,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           showToggle
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          error={show("password")}
         />
         <LabeledInput
           type="password"
@@ -141,6 +170,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           showToggle
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          error={show("confirmPassword")}
         />
         <LabeledInput
           type="text"
@@ -148,6 +178,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           placeholder="Enter city"
           value={city}
           onChange={(e) => setCity(e.target.value)}
+          error={show("city")}
         />
         <LabeledSelectionInput
           label="Country *"
@@ -155,6 +186,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           options={countryOptions}
           value={country}
           onChange={setCountry}
+          error={show("country")}
         />
         <LabeledSelectionInput
           label="User Role"
@@ -171,6 +203,9 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           onChange={setPurposeOfUse}
         />
         <Terms checked={acceptedTerms} onChange={setAcceptedTerms} />
+        {submitAttempted && fieldErrors.terms && (
+          <div className="text-sm text-red-600">{fieldErrors.terms}</div>
+        )}
         {error && <div className="text-sm text-red-600">{error}</div>}
         <Button
           text={isSubmitting ? "Creating..." : "Create account"}
