@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { signUpWithProfile } from "../services/authService";
 import Button from "../components/universal/Button";
 import GetStarted from "../components/profile/GetStarted";
 import LabeledInput from "../components/profile/LabeledInput";
 import LabeledSelectionInput from "../components/profile/LabeledSelectionInput";
 import Terms from "../components/profile/Terms";
 import TextButton from "../components/universal/TextButton";
-import { signUpWithProfile } from "../services/authService";
 
 interface CreateAccountPageProps {
   onBack: () => void;
@@ -42,6 +42,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
   const [userRole, setUserRole] = useState("");
   const [purposeOfUse, setPurposeOfUse] = useState("");
 
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -57,6 +58,8 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
       return setError("Passwords do not match.");
     if (!city.trim()) return setError("Please enter a city.");
     if (!country) return setError("Please select a country.");
+    if (!acceptedTerms)
+      return setError("You must agree to the Terms and Privacy Policy.");
     try {
       setIsSubmitting(true);
       await signUpWithProfile({
@@ -74,6 +77,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
         },
       });
       console.log("✅ Account created");
+      onBack();
     } catch (e) {
       console.error("❌ Create account failed:", e);
       setError("Create account failed. Try a different email or password.");
@@ -166,7 +170,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           value={purposeOfUse}
           onChange={setPurposeOfUse}
         />
-        <Terms />
+        <Terms checked={acceptedTerms} onChange={setAcceptedTerms} />
         {error && <div className="text-sm text-red-600">{error}</div>}
         <Button
           text={isSubmitting ? "Creating..." : "Create account"}
