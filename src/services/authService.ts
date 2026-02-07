@@ -6,7 +6,7 @@ import {
   onAuthStateChanged,
   User as FirebaseUser,
 } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 // User collection fields (password is stored in Firebase Auth)
@@ -78,4 +78,9 @@ export function subscribeToAuthChanges(
   callback: (user: FirebaseUser | null) => void,
 ) {
   return onAuthStateChanged(auth, callback);
+}
+
+export async function updateMyProfile(uid: string, updates: Partial<User>) {
+  // only updates provided fields
+  await updateDoc(doc(db, "users", uid), updates);
 }

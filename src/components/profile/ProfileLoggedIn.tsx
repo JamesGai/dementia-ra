@@ -14,6 +14,7 @@ type Profile = {
 
 type ProfileLoggedInProps = {
   isEditing: boolean;
+  isSaving: boolean;
   avatarUrl: string | null;
   profile: Profile;
   inputRef: React.RefObject<HTMLInputElement | null>;
@@ -26,6 +27,7 @@ type ProfileLoggedInProps = {
 
 const ProfileLoggedIn: React.FC<ProfileLoggedInProps> = ({
   isEditing,
+  isSaving,
   avatarUrl,
   profile,
   inputRef,
@@ -74,8 +76,8 @@ const ProfileLoggedIn: React.FC<ProfileLoggedInProps> = ({
         type="email"
         label="Email"
         value={profile.email}
-        readOnly={!isEditing}
-        onChange={(event) => onProfileChange("email", event.target.value)}
+        readOnly
+        onChange={() => {}}
       />
       <LabeledInput
         type="text"
@@ -85,7 +87,9 @@ const ProfileLoggedIn: React.FC<ProfileLoggedInProps> = ({
         onChange={(event) => onProfileChange("city", event.target.value)}
       />
       <Button
-        text={isEditing ? "Save Profile" : "Edit Profile"}
+        text={
+          isSaving ? "Saving..." : isEditing ? "Save Profile" : "Edit Profile"
+        }
         onClick={onEditOrSave}
       />
     </div>
