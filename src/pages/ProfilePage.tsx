@@ -40,6 +40,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  // Extract first character from user's first name and last name
   const getInitials = (firstName?: string, lastName?: string) => {
     const first = firstName?.charAt(0).toUpperCase() ?? "";
     const last = lastName?.charAt(0).toUpperCase() ?? "";
