@@ -6,6 +6,36 @@ interface AllVideosProps {
   playVideo: (video: Video) => void;
 }
 
+const formatPublishDate = (input: any): string => {
+  if (!input) return "";
+  if (typeof input?.toDate === "function") {
+    return input.toDate().toLocaleDateString("en-NZ", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  }
+  if (input instanceof Date) {
+    return input.toLocaleDateString("en-NZ", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  }
+  if (typeof input === "string") {
+    const d = new Date(input);
+    if (!Number.isNaN(d.getTime())) {
+      return d.toLocaleDateString("en-NZ", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+    }
+    return input;
+  }
+  return "";
+};
+
 const AllVideos: React.FC<AllVideosProps> = ({ videos, playVideo }) => {
   return (
     <div className="space-y-4">
@@ -31,9 +61,16 @@ const AllVideos: React.FC<AllVideosProps> = ({ videos, playVideo }) => {
               {v.durationText}
             </div>
           </div>
-          <div className="p-4">
+          <div className="p-4 space-y-1">
             <div className="text-[#2e6f73] font-extrabold tracking-wide">
               {v.title}
+            </div>
+            <div className="text-sm text-gray-500">
+              {(v as any).numOfViewed ?? 0} view
+              {(v as any).numOfViewed === 1 ? "" : "s"}
+              {formatPublishDate((v as any).createdAt)
+                ? ` • ${formatPublishDate((v as any).createdAt)}`
+                : ""}
             </div>
           </div>
         </button>
