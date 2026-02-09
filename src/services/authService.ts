@@ -20,6 +20,7 @@ export type User = {
   country: string;
   userRole?: string;
   purposeOfUse?: string;
+  avatarUrl?: string;
 };
 
 /**

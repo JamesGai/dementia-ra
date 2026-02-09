@@ -100,6 +100,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           country: country.trim(),
           userRole: userRole.trim(),
           purposeOfUse: purposeOfUse.trim(),
+          avatarUrl: "", // Avatar is not included during account setup procedure
         },
       });
       console.log("✅ Account created");

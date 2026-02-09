@@ -19,6 +19,7 @@ export type ProfileUser = {
   phone: string;
   username: string;
   city: string;
+  avatarUrl?: string;
 };
 
 interface ProfilePageProps {
@@ -34,7 +35,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
   const [profileError, setProfileError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  // const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState("");
   const [profile, setProfile] = useState<ProfileUser | null>(null);
   const [uid, setUid] = useState<string | null>(null);
 
@@ -84,6 +86,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
         phone: profile.phone.trim(),
         username: profile.username.trim(),
         city: profile.city.trim(),
+        avatarUrl: "profile.avatarUrl",
       };
       await updateMyProfile(uid, updates);
       console.log("✅ Profile updated in Firestore");
