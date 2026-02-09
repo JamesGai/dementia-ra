@@ -51,6 +51,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     fileInputRef.current?.click();
   };
 
+  // Responsively detect newly updated image URL
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -60,6 +61,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     e.target.value = "";
   };
 
+  // Responsively detect newly updated profile fields
   const handleProfileChange = (field: keyof ProfileUser, value: string) => {
     setProfile((prev) => (prev ? { ...prev, [field]: value } : prev));
   };
