@@ -7,7 +7,6 @@ import LabeledInput from "./LabeledInput";
 type ProfileLoggedInProps = {
   isEditing: boolean;
   isSaving: boolean;
-  avatarUrl: string | null;
   profile: ProfileUser;
   inputRef: React.RefObject<HTMLInputElement | null>;
   getInitials: (firstName?: string, lastName?: string) => string;
@@ -20,7 +19,6 @@ type ProfileLoggedInProps = {
 const ProfileLoggedIn: React.FC<ProfileLoggedInProps> = ({
   isEditing,
   isSaving,
-  avatarUrl,
   profile,
   inputRef,
   getInitials,
@@ -61,7 +59,7 @@ const ProfileLoggedIn: React.FC<ProfileLoggedInProps> = ({
       <div className="text-lg font-bold text-gray-900">Personal details</div>
       <div className="flex items-center justify-between text-sm text-gray-700">
         <Avatar
-          avatarUrl={avatarUrl}
+          avatarUrl={profile.avatarUrl}
           placeholder={getInitials(profile.firstName, profile.lastName)}
           isEditing={isEditing}
           onClick={onOpenAvatarPicker}
