@@ -1,4 +1,4 @@
-import React, { useId } from "react";
+import React from "react";
 import { IonSelect, IonSelectOption } from "@ionic/react";
 
 interface LabeledSelectionInputProps {

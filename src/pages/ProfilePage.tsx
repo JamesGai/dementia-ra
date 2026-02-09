@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  signOutUser,
   fetchMyProfile,
+  signOutUser,
   subscribeToAuthChanges,
-  User as FirestoreUser,
   updateMyProfile,
+  User as FirestoreUser,
 } from "../services/authService";
 import Button from "../components/universal/Button";
 import ProfileLoggedIn from "../components/profile/ProfileLoggedIn";
