@@ -3,6 +3,7 @@ import React from "react";
 interface AvatarProps {
   avatarUrl?: string | null;
   placeholder: string;
+  isEditing: boolean;
   onClick: () => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   inputRef: React.RefObject<HTMLInputElement | null>;
@@ -11,6 +12,7 @@ interface AvatarProps {
 const Avatar: React.FC<AvatarProps> = ({
   avatarUrl,
   placeholder,
+  isEditing,
   onClick,
   onChange,
   inputRef,
@@ -20,7 +22,12 @@ const Avatar: React.FC<AvatarProps> = ({
       <button
         type="button"
         onClick={onClick}
-        className="relative w-24 h-24 rounded-full overflow-hidden shadow-md active:scale-95 transition"
+        disabled={!isEditing}
+        className={`relative w-24 h-24 rounded-full overflow-hidden shadow-md transition ${
+          isEditing
+            ? "active:scale-95 cursor-pointer"
+            : "cursor-not-allowed opacity-70"
+        }`}
         aria-label="Update profile picture"
       >
         {avatarUrl ? (
@@ -36,9 +43,11 @@ const Avatar: React.FC<AvatarProps> = ({
             </span>
           </div>
         )}
-        <div className="absolute bottom-0 left-0 right-0 bg-black/30 text-white text-xs py-1">
-          Edit
-        </div>
+        {isEditing && (
+          <div className="absolute bottom-0 left-0 right-0 bg-black/30 text-white text-xs py-1">
+            Edit
+          </div>
+        )}
       </button>
       <input
         ref={inputRef}

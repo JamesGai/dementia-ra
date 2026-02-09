@@ -63,6 +63,7 @@ const ProfileLoggedIn: React.FC<ProfileLoggedInProps> = ({
         <Avatar
           avatarUrl={avatarUrl}
           placeholder={getInitials(profile.firstName, profile.lastName)}
+          isEditing={isEditing}
           onClick={onOpenAvatarPicker}
           onChange={onAvatarChange}
           inputRef={inputRef}
