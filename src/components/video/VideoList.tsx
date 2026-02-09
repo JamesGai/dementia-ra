@@ -1,8 +1,8 @@
 import React from "react";
 import { Video } from "../../services/videoService";
 
-interface HistoryVideosProps {
-  historyVideos: Video[];
+interface VideoListProps {
+  videos: Video[];
   playVideo: (video: Video) => void;
 }
 
@@ -36,13 +36,10 @@ const formatPublishDate = (input: any): string => {
   return "";
 };
 
-const History: React.FC<HistoryVideosProps> = ({
-  historyVideos,
-  playVideo,
-}) => {
+const VideoList: React.FC<VideoListProps> = ({ videos, playVideo }) => {
   return (
     <div className="space-y-4">
-      {historyVideos.map((v) => (
+      {videos.map((v) => (
         <button
           key={v.id}
           type="button"
@@ -60,17 +57,14 @@ const History: React.FC<HistoryVideosProps> = ({
             ) : (
               <div className="w-full h-40 bg-gray-200" />
             )}
-
             <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-lg">
               {v.durationText}
             </div>
           </div>
-
           <div className="p-4 space-y-1">
             <div className="text-[#2e6f73] font-extrabold tracking-wide">
               {v.title}
             </div>
-
             <div className="text-sm text-gray-500">
               {(v as any).numOfViewed ?? 0} view
               {(v as any).numOfViewed === 1 ? "" : "s"}
@@ -85,4 +79,4 @@ const History: React.FC<HistoryVideosProps> = ({
   );
 };
 
-export default History;
+export default VideoList;

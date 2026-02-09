@@ -1,7 +1,6 @@
 import React from "react";
 import { Video } from "../../services/videoService";
-import AllVideos from "./AllVideos";
-import History from "./History";
+import VideoList from "./VideoList";
 import { VideoSegment } from "../../pages/VideoPage";
 
 interface VideoContentProps {
@@ -18,10 +17,10 @@ const VideoContent: React.FC<VideoContentProps> = ({
   playVideo,
 }) => {
   if (segment === "all") {
-    return <AllVideos videos={videos} playVideo={playVideo} />;
+    return <VideoList videos={videos} playVideo={playVideo} />;
   }
   if (historyVideos.length > 0) {
-    return <History historyVideos={historyVideos} playVideo={playVideo} />;
+    return <VideoList videos={historyVideos} playVideo={playVideo} />;
   }
   return (
     <div className="bg-white rounded-2xl p-4 shadow-md text-center text-sm text-gray-500">
