@@ -63,6 +63,46 @@ async function main() {
       videoUrl: "",
       thumbnailUrl: "",
     },
+    {
+      title: "The importance of enjoyable activities for carers",
+      description:
+        "Michelle cares for her partner Sue, who has dementia. She highlights the importance of carers taking time out for themselves, discussing potential barriers and solutions to these barriers, as well as the benefits of taking time away to recharge.",
+      durationText: "04:57",
+      numOfViewed: 29,
+      createdAt: parseDateMMDDYYYY("11-03-2023"),
+      videoUrl: "",
+      thumbnailUrl: "",
+    },
+    {
+      title: "Saying the wrong things in public",
+      description:
+        "Michelle cares for her partner Sue, who has dementia. She notices Sue starts to make uncharacteristically impolite remarks to others in public, and discusses ways to approach this issue and diffuse any frustration.",
+      durationText: "02:25",
+      numOfViewed: 18,
+      createdAt: parseDateMMDDYYYY("10-30-2024"),
+      videoUrl: "",
+      thumbnailUrl: "",
+    },
+    {
+      title: "Creating a comfortable environment",
+      description:
+        "Vijay lives with his grandmother Priya, who has dementia. One day he gets home and puts on his favourite show, which agitates Priya. He discusses ways to make adjustments to meet everyone's needs while ensuring his grandmother is still comfortable.",
+      durationText: "02:10",
+      numOfViewed: 11,
+      createdAt: parseDateMMDDYYYY("01-15-2024"),
+      videoUrl: "",
+      thumbnailUrl: "",
+    },
+    {
+      title: "Reframing negative thoughts",
+      description:
+        "Rob cares for his partner Philip, who has dementia. He discusses the importance of reframing negative thoughts into a positive mindset.",
+      durationText: "03:25",
+      numOfViewed: 14,
+      createdAt: parseDateMMDDYYYY("12-18-2023"),
+      videoUrl: "",
+      thumbnailUrl: "",
+    },
   ];
 
   const col = db.collection("videos");
