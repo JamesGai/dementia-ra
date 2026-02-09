@@ -1,9 +1,9 @@
 import React from "react";
-import type { VideoItem } from "../../pages/VideoPage";
+import { Video } from "../../services/videoService";
 
 interface HistoryVideosProps {
-  historyVideos: VideoItem[];
-  playVideo: (video: VideoItem) => void;
+  historyVideos: Video[];
+  playVideo: (video: Video) => void;
 }
 
 const History: React.FC<HistoryVideosProps> = ({
@@ -20,12 +20,16 @@ const History: React.FC<HistoryVideosProps> = ({
           className="w-full bg-white rounded-2xl shadow-md overflow-hidden text-left active:opacity-90"
         >
           <div className="flex items-center gap-4 p-4">
-            <img
-              src={v.image}
-              alt={v.title}
-              className="w-24 h-16 object-cover rounded-lg"
-              loading="lazy"
-            />
+            {v.thumbnailUrl ? (
+              <img
+                src={v.thumbnailUrl}
+                alt={v.title}
+                className="w-full h-40 object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div className="w-full h-40 bg-gray-200" />
+            )}
             <div className="flex-1">
               <div className="text-[#2e6f73] font-bold">{v.title}</div>
             </div>

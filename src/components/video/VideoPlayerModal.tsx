@@ -9,12 +9,12 @@ import {
   IonButton,
 } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
-import { VideoItem } from "../../pages/VideoPage";
+import { Video } from "../../services/videoService";
 
 interface VideoPlayerModalProps {
   isVideoOpen: boolean;
   onClose: () => void;
-  video?: VideoItem;
+  video?: Video;
 }
 
 const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
@@ -64,13 +64,13 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
           <div className="space-y-4">
             {/* Player */}
             <div className="bg-white rounded-2xl shadow-md overflow-hidden">
-              {video.src ? (
+              {video.videoUrl ? (
                 <video
                   ref={videoRef}
                   controls
                   playsInline
                   className="w-full h-56 bg-black object-contain"
-                  src={video.src}
+                  src={video.videoUrl}
                 />
               ) : (
                 <div className="h-56 flex items-center justify-center text-sm text-gray-500">

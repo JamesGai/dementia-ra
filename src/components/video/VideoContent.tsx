@@ -1,13 +1,14 @@
 import React from "react";
+import { Video } from "../../services/videoService";
 import AllVideos from "./AllVideos";
 import History from "./History";
-import { VideoSegment, VideoItem } from "../../pages/VideoPage";
+import { VideoSegment } from "../../pages/VideoPage";
 
 interface VideoContentProps {
   segment: VideoSegment;
-  videos: VideoItem[];
-  historyVideos: VideoItem[];
-  playVideo: (video: VideoItem) => void;
+  videos: Video[];
+  historyVideos: Video[];
+  playVideo: (video: Video) => void;
 }
 
 const VideoContent: React.FC<VideoContentProps> = ({

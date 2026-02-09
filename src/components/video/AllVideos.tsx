@@ -1,9 +1,9 @@
 import React from "react";
-import { VideoItem } from "../../pages/VideoPage";
+import { Video } from "../../services/videoService";
 
 interface AllVideosProps {
-  videos: VideoItem[];
-  playVideo: (video: VideoItem) => void;
+  videos: Video[];
+  playVideo: (video: Video) => void;
 }
 
 const AllVideos: React.FC<AllVideosProps> = ({ videos, playVideo }) => {
@@ -17,14 +17,18 @@ const AllVideos: React.FC<AllVideosProps> = ({ videos, playVideo }) => {
           className="w-full bg-white rounded-2xl shadow-md overflow-hidden text-left active:opacity-90"
         >
           <div className="relative">
-            <img
-              src={v.image}
-              alt={v.title}
-              className="w-full h-40 object-cover"
-              loading="lazy"
-            />
+            {v.thumbnailUrl ? (
+              <img
+                src={v.thumbnailUrl}
+                alt={v.title}
+                className="w-full h-40 object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div className="w-full h-40 bg-gray-200" />
+            )}
             <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-lg">
-              {v.duration}
+              {v.durationText}
             </div>
           </div>
           <div className="p-4">
