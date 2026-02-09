@@ -4,19 +4,22 @@ import {
   fetchMyProfile,
   subscribeToAuthChanges,
   User as FirestoreUser,
+  updateMyProfile,
 } from "../services/authService";
 import Button from "../components/universal/Button";
 import ProfileLoggedIn from "../components/profile/ProfileLoggedIn";
 import ProfileLoggedOut from "../components/profile/ProfileLoggedOut";
 import Settings from "../components/profile/Settings";
 
-type ProfileUser = {
-  username: string;
+// User information that needs to be displayed only
+export type ProfileUser = {
   firstName: string;
   lastName: string;
-  phone: string;
   email: string;
+  phone: string;
+  username: string;
   city: string;
+  avatarUrl?: string;
 };
 
 interface ProfilePageProps {
@@ -28,14 +31,16 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
   onNavigate,
   isLoggedIn,
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [profile, setProfile] = useState<ProfileUser | null>(null);
   const [loadingProfile, setLoadingProfile] = useState(false);
   const [profileError, setProfileError] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [profile, setProfile] = useState<ProfileUser | null>(null);
+  const [uid, setUid] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  // Extract first character from user's first name and last name
   const getInitials = (firstName?: string, lastName?: string) => {
     const first = firstName?.charAt(0).toUpperCase() ?? "";
     const last = lastName?.charAt(0).toUpperCase() ?? "";
@@ -46,25 +51,50 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     fileInputRef.current?.click();
   };
 
+  // Responsively detect newly updated image URL
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith("image/")) return;
     const previewUrl = URL.createObjectURL(file);
-    setAvatarUrl(previewUrl);
+    setProfile((prev) => (prev ? { ...prev, avatarUrl: previewUrl } : prev));
     e.target.value = "";
   };
 
+  // Responsively detect newly updated profile fields
   const handleProfileChange = (field: keyof ProfileUser, value: string) => {
     setProfile((prev) => (prev ? { ...prev, [field]: value } : prev));
   };
 
-  const handleEditOrSave = () => {
-    if (isEditing) {
-      console.log("Profile saved", profile);
-      // TODO: Save new profile to database
+  const handleEditOrSave = async () => {
+    setProfileError(null);
+    if (!isEditing) {
+      setIsEditing(true);
+      return;
     }
-    setIsEditing((prev) => !prev);
+    if (!profile || !uid) {
+      setProfileError("Cannot save profile: missing user session.");
+      return;
+    }
+    try {
+      setIsSaving(true);
+      const updates: Partial<ProfileUser> = {
+        firstName: profile.firstName.trim(),
+        lastName: profile.lastName.trim(),
+        phone: profile.phone.trim(),
+        username: profile.username.trim(),
+        city: profile.city.trim(),
+        avatarUrl: profile.avatarUrl?.trim(),
+      };
+      await updateMyProfile(uid, updates);
+      console.log("✅ Profile updated in Firestore");
+      setIsEditing(false);
+    } catch (e) {
+      console.error("❌ Failed to save profile:", e);
+      setProfileError("Failed to save profile. Please try again.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   // Load Firestore profile for the currently logged-in user
@@ -74,6 +104,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
       setProfileError(null);
       setLoadingProfile(false);
       setIsEditing(false);
+      setUid(null);
       return;
     }
     setLoadingProfile(true);
@@ -81,23 +112,27 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     const unsubscribe = subscribeToAuthChanges(async (fbUser) => {
       if (!fbUser) {
         setProfile(null);
+        setUid(null);
         setLoadingProfile(false);
         return;
       }
+      setUid(fbUser.uid);
       try {
         const data: FirestoreUser | null = await fetchMyProfile(fbUser.uid);
         if (!data) {
           setProfile(null);
           setProfileError("Profile not found in Firestore.");
         } else {
-          setProfile({
-            username: data.username ?? "",
+          const mapped: ProfileUser = {
             firstName: data.firstName ?? "",
             lastName: data.lastName ?? "",
-            phone: data.phone ?? "",
             email: data.email ?? fbUser.email ?? "",
+            phone: data.phone ?? "",
+            username: data.username ?? "",
             city: data.city ?? "",
-          });
+            avatarUrl: "", // Initialize avatar status
+          };
+          setProfile(mapped);
         }
       } catch (e) {
         console.error("❌ Failed to load profile:", e);
@@ -127,7 +162,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
           {!loadingProfile && !profileError && profile && (
             <ProfileLoggedIn
               isEditing={isEditing}
-              avatarUrl={avatarUrl}
+              isSaving={isSaving}
               profile={profile}
               inputRef={fileInputRef}
               getInitials={getInitials}
