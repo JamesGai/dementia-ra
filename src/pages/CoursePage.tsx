@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { playCircleOutline } from "ionicons/icons";
 import Button from "../components/universal/Button";
 import CourseContent from "../components/course/CourseContent";
 import Segment from "../components/universal/Segment";
@@ -69,7 +70,11 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
         segmentOptions={courseSegmentOptions}
         setSegment={setSegment}
       />
-      <Button text="User Instruction" onClick={handleOpenInstruction} />
+      <Button
+        text="User Instruction"
+        icon={playCircleOutline}
+        onClick={handleOpenInstruction}
+      />
       <CourseContent
         segment={segment as CourseSegment}
         courses={dummyCourses}

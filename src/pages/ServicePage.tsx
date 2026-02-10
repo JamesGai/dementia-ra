@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { playCircleOutline } from "ionicons/icons";
 import Introduction from "../components/service/Introduction";
 import Button from "../components/universal/Button";
 import ServiceContent from "../components/service/ServiceContent";
@@ -111,7 +112,11 @@ const ServicesPage: React.FC = () => {
 
   return (
     <div className="p-4 space-y-6">
-      <Button text="User Instruction" onClick={handleOpenInstruction} />
+      <Button
+        text="User Instruction"
+        icon={playCircleOutline}
+        onClick={handleOpenInstruction}
+      />
       <Introduction />
       <ServiceContent services={services} openService={handleOpenService} />
       <VideoPlayerModal
