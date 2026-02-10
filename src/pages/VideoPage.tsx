@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { IonButton, IonIcon } from "@ionic/react";
 import { funnelOutline, playCircleOutline } from "ionicons/icons";
 import { fetchAllVideos, Video } from "../services/videoService";
 import Button from "../components/universal/Button";
+import LabeledSelectionInput from "../components/profile/LabeledSelectionInput";
 import Pagination from "../components/video/Pagination";
 import Segment from "../components/universal/Segment";
 import VideoContent from "../components/video/VideoContent";
@@ -24,7 +24,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
   scrollToTop,
 }) => {
   const instructionVideo: Video = {
-    id: "dawd",
+    id: "instruction",
     title: "How to use the Videos page",
     description:
       "This short video explains how to browse videos, play them, and review your watch history.",
@@ -38,6 +38,14 @@ const VideoPage: React.FC<VideoPageProps> = ({
     { value: "history", label: "History" },
   ] as const;
 
+  const moduleOptions = [
+    { value: "1", label: "Module 1" },
+    { value: "2", label: "Module 2" },
+    { value: "3", label: "Module 3" },
+    { value: "4", label: "Module 4" },
+    { value: "5", label: "Module 5" },
+  ];
+
   const [segment, setSegment] = useState<VideoSegment>("all");
   const [allVideos, setAllVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(false);
@@ -47,8 +55,35 @@ const VideoPage: React.FC<VideoPageProps> = ({
     undefined,
   );
   const [page, setPage] = useState(1);
+  const [selectedModules, setSelectedModules] = useState<string[]>([]);
 
-  const sourceList = segment === "all" ? allVideos : historyVideos;
+  const baseList = segment === "all" ? allVideos : historyVideos;
+  // Filter video list based on module number
+  const sourceList = useMemo(() => {
+    // Get publish date before sorting in descending order
+    const toMillis = (createdAt: any): number => {
+      if (!createdAt) return 0;
+      if (typeof createdAt?.toDate === "function") {
+        return createdAt.toDate().getTime();
+      }
+      if (createdAt instanceof Date) {
+        return createdAt.getTime();
+      }
+      const d = new Date(createdAt);
+      if (!Number.isNaN(d.getTime())) {
+        return d.getTime();
+      }
+      return 0;
+    };
+    const filtered =
+      selectedModules.length === 0
+        ? baseList
+        : baseList.filter((v: any) => selectedModules.includes(v.module));
+    return [...filtered].sort(
+      (a: any, b: any) => toMillis(b.createdAt) - toMillis(a.createdAt),
+    );
+  }, [baseList, selectedModules]);
+
   const totalPages = Math.max(1, Math.ceil(sourceList.length / PAGE_SIZE));
 
   // Slice current page items
@@ -56,6 +91,24 @@ const VideoPage: React.FC<VideoPageProps> = ({
     const start = (page - 1) * PAGE_SIZE;
     return sourceList.slice(start, start + PAGE_SIZE);
   }, [sourceList, page]);
+
+  const handleOpenInstruction = () => {
+    setSelectedVideo(instructionVideo);
+    setIsVideoOpen(true);
+  };
+
+  const handleOpenVideo = (video: Video) => {
+    addToVideoHistory(video);
+    setSelectedVideo(video);
+    setIsVideoOpen(true);
+  };
+
+  const handleOpenFilter = () => {
+    const el = document.querySelector(
+      "ion-select",
+    ) as HTMLIonSelectElement | null;
+    el?.open();
+  };
 
   const goPrev = () => {
     setPage((prev) => {
@@ -71,17 +124,6 @@ const VideoPage: React.FC<VideoPageProps> = ({
       if (next !== prev) scrollToTop();
       return next;
     });
-  };
-
-  const handleOpenInstruction = () => {
-    setSelectedVideo(instructionVideo);
-    setIsVideoOpen(true);
-  };
-
-  const handleOpenVideo = (video: Video) => {
-    addToVideoHistory(video);
-    setSelectedVideo(video);
-    setIsVideoOpen(true);
   };
 
   // Retrieve all videos from Firestore
@@ -138,7 +180,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
             isFilter
             icon={funnelOutline}
             iconPosition="right"
-            onClick={() => console.log("TODO: open filter")}
+            onClick={handleOpenFilter}
           />
         </div>
       </div>
@@ -174,6 +216,19 @@ const VideoPage: React.FC<VideoPageProps> = ({
         onClose={() => setIsVideoOpen(false)}
         video={selectedVideo}
       />
+      <div className="hidden">
+        <LabeledSelectionInput
+          label="Filter by module"
+          placeholder="Select a module"
+          value={selectedModules}
+          options={moduleOptions}
+          isMultiple
+          onChange={(value) => {
+            setSelectedModules(value);
+            setPage(1);
+          }}
+        />
+      </div>
     </div>
   );
 };

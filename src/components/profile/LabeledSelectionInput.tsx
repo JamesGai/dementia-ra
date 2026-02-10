@@ -1,20 +1,34 @@
 import React from "react";
 import { IonSelect, IonSelectOption } from "@ionic/react";
 
-interface LabeledSelectionInputProps {
+type SingleSelectProps = {
+  isMultiple?: false;
+  value?: string;
+  onChange: (value: string) => void;
+};
+
+type MultiSelectProps = {
+  isMultiple: true;
+  value?: string[];
+  onChange: (value: string[]) => void;
+};
+
+interface BaseProps {
   label: string;
   placeholder: string;
-  value?: string;
   options: Array<{ value: string; label: string }>;
   error?: string;
-  onChange: (value: string) => void;
 }
+
+type LabeledSelectionInputProps = BaseProps &
+  (SingleSelectProps | MultiSelectProps);
 
 const LabeledSelectionInput: React.FC<LabeledSelectionInputProps> = ({
   label,
   placeholder,
   value,
   options,
+  isMultiple = false,
   error,
   onChange,
 }) => {
@@ -30,6 +44,7 @@ const LabeledSelectionInput: React.FC<LabeledSelectionInputProps> = ({
         label={label}
         placeholder={placeholder}
         value={value}
+        multiple={isMultiple}
         onIonChange={(e) => onChange(e.detail.value)}
         interface="modal"
         interfaceOptions={customModalOptions}
