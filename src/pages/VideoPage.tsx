@@ -126,21 +126,19 @@ const VideoPage: React.FC<VideoPageProps> = ({
       {/* Instruction video and filtering button */}
       <div className="flex items-stretch gap-3">
         <div className="flex-1 relative">
-          <Button text="User Instruction" onClick={handleOpenInstruction} />
-          <IonIcon
+          <Button
+            text="User Instruction"
             icon={playCircleOutline}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-xl pointer-events-none"
+            onClick={handleOpenInstruction}
           />
         </div>
         <div className="flex-1 relative">
           <Button
-            text="Filter by category"
-            onClick={() => console.log("TODO: open filter")}
+            text="Filter by module"
             isFilter
-          />
-          <IonIcon
             icon={funnelOutline}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-xl pointer-events-none"
+            iconPosition="right"
+            onClick={() => console.log("TODO: open filter")}
           />
         </div>
       </div>

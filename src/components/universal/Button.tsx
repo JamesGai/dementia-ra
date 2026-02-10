@@ -1,13 +1,21 @@
 import React from "react";
-import { IonButton } from "@ionic/react";
+import { IonButton, IonIcon } from "@ionic/react";
 
 interface ButtonProps {
   text: string;
   onClick: () => void;
   isFilter?: boolean;
+  icon?: string;
+  iconPosition?: "left" | "right";
 }
 
-const Button: React.FC<ButtonProps> = ({ text, onClick, isFilter }) => {
+const Button: React.FC<ButtonProps> = ({
+  text,
+  onClick,
+  isFilter = false,
+  icon,
+  iconPosition = "left",
+}) => {
   return (
     <IonButton
       onClick={onClick}
@@ -19,16 +27,19 @@ const Button: React.FC<ButtonProps> = ({ text, onClick, isFilter }) => {
           "--border-radius": "0px",
           "--padding-top": "0.9rem",
           "--padding-bottom": "0.9rem",
-          ...(isFilter && {
-            "--border-width": "2px",
-            "--border-style": "solid",
-            "--border-color": "#d1d5db",
-          }),
           fontSize: "1rem",
         } as React.CSSProperties
       }
     >
-      {text}
+      <div className="w-full flex items-center justify-between gap-3">
+        {icon && iconPosition === "left" && (
+          <IonIcon icon={icon} className="text-xl" />
+        )}
+        <span className="font-semibold flex-1 text-center">{text}</span>
+        {icon && iconPosition === "right" && (
+          <IonIcon icon={icon} className="text-xl" />
+        )}
+      </div>
     </IonButton>
   );
 };
