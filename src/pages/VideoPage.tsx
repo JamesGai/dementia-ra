@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { IonIcon } from "@ionic/react";
-import { funnelOutline } from "ionicons/icons";
+import { IonButton, IonIcon } from "@ionic/react";
+import { funnelOutline, playCircleOutline } from "ionicons/icons";
 import { fetchAllVideos, Video } from "../services/videoService";
 import Button from "../components/universal/Button";
 import Pagination from "../components/video/Pagination";
@@ -125,20 +125,24 @@ const VideoPage: React.FC<VideoPageProps> = ({
       />
       {/* Instruction video and filtering button */}
       <div className="flex items-stretch gap-3">
-        <div className="flex-1">
+        <div className="flex-1 relative">
           <Button text="User Instruction" onClick={handleOpenInstruction} />
+          <IonIcon
+            icon={playCircleOutline}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-xl pointer-events-none"
+          />
         </div>
-        <button
-          type="button"
-          onClick={() => console.log("TODO: open filter")}
-          className="flex-1 bg-[#9CA3AF] text-white rounded-2xl shadow-md px-4 py-3 active:opacity-90"
-          aria-label="Filter by category"
-        >
-          <div className="flex items-center justify-between">
-            <span className="font-semibold">Filter by category</span>
-            <IonIcon icon={funnelOutline} className="text-xl" />
-          </div>
-        </button>
+        <div className="flex-1 relative">
+          <Button
+            text="Filter by category"
+            onClick={() => console.log("TODO: open filter")}
+            isFilter
+          />
+          <IonIcon
+            icon={funnelOutline}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-xl pointer-events-none"
+          />
+        </div>
       </div>
       {/* Video list */}
       {loading && (
