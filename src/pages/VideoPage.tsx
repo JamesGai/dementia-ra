@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { IonIcon } from "@ionic/react";
+import { funnelOutline } from "ionicons/icons";
 import { fetchAllVideos, Video } from "../services/videoService";
 import Button from "../components/universal/Button";
 import Pagination from "../components/video/Pagination";
@@ -121,7 +123,24 @@ const VideoPage: React.FC<VideoPageProps> = ({
         segmentOptions={videoSegmentOptions}
         setSegment={setSegment}
       />
-      <Button text="User Instruction" onClick={handleOpenInstruction} />
+      {/* Instruction video and filtering button */}
+      <div className="flex items-stretch gap-3">
+        <div className="flex-1">
+          <Button text="User Instruction" onClick={handleOpenInstruction} />
+        </div>
+        <button
+          type="button"
+          onClick={() => console.log("TODO: open filter")}
+          className="flex-1 bg-[#9CA3AF] text-white rounded-2xl shadow-md px-4 py-3 active:opacity-90"
+          aria-label="Filter by category"
+        >
+          <div className="flex items-center justify-between">
+            <span className="font-semibold">Filter by category</span>
+            <IonIcon icon={funnelOutline} className="text-xl" />
+          </div>
+        </button>
+      </div>
+      {/* Video list */}
       {loading && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
           Loading videos...
