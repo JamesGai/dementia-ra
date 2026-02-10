@@ -58,9 +58,30 @@ const VideoPage: React.FC<VideoPageProps> = ({
   const [selectedModules, setSelectedModules] = useState<string[]>([]);
 
   const baseList = segment === "all" ? allVideos : historyVideos;
+  // Filter video list based on module number
   const sourceList = useMemo(() => {
-    if (selectedModules.length === 0) return baseList;
-    return baseList.filter((v: any) => selectedModules.includes(v.module));
+    // Get publish date before sorting in descending order
+    const toMillis = (createdAt: any): number => {
+      if (!createdAt) return 0;
+      if (typeof createdAt?.toDate === "function") {
+        return createdAt.toDate().getTime();
+      }
+      if (createdAt instanceof Date) {
+        return createdAt.getTime();
+      }
+      const d = new Date(createdAt);
+      if (!Number.isNaN(d.getTime())) {
+        return d.getTime();
+      }
+      return 0;
+    };
+    const filtered =
+      selectedModules.length === 0
+        ? baseList
+        : baseList.filter((v: any) => selectedModules.includes(v.module));
+    return [...filtered].sort(
+      (a: any, b: any) => toMillis(b.createdAt) - toMillis(a.createdAt),
+    );
   }, [baseList, selectedModules]);
 
   const totalPages = Math.max(1, Math.ceil(sourceList.length / PAGE_SIZE));
@@ -70,22 +91,6 @@ const VideoPage: React.FC<VideoPageProps> = ({
     const start = (page - 1) * PAGE_SIZE;
     return sourceList.slice(start, start + PAGE_SIZE);
   }, [sourceList, page]);
-
-  const goPrev = () => {
-    setPage((prev) => {
-      const next = Math.max(1, prev - 1);
-      if (next !== prev) scrollToTop();
-      return next;
-    });
-  };
-
-  const goNext = () => {
-    setPage((prev) => {
-      const next = Math.min(totalPages, prev + 1);
-      if (next !== prev) scrollToTop();
-      return next;
-    });
-  };
 
   const handleOpenInstruction = () => {
     setSelectedVideo(instructionVideo);
@@ -103,6 +108,22 @@ const VideoPage: React.FC<VideoPageProps> = ({
       "ion-select",
     ) as HTMLIonSelectElement | null;
     el?.open();
+  };
+
+  const goPrev = () => {
+    setPage((prev) => {
+      const next = Math.max(1, prev - 1);
+      if (next !== prev) scrollToTop();
+      return next;
+    });
+  };
+
+  const goNext = () => {
+    setPage((prev) => {
+      const next = Math.min(totalPages, prev + 1);
+      if (next !== prev) scrollToTop();
+      return next;
+    });
   };
 
   // Retrieve all videos from Firestore
