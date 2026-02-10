@@ -43,6 +43,8 @@ const VideoPage: React.FC<VideoPageProps> = ({
     { value: "module-1", label: "Module 1" },
     { value: "module-2", label: "Module 2" },
     { value: "module-3", label: "Module 3" },
+    { value: "module-4", label: "Module 4" },
+    { value: "module-5", label: "Module 5" },
   ];
 
   const [segment, setSegment] = useState<VideoSegment>("all");
@@ -54,13 +56,14 @@ const VideoPage: React.FC<VideoPageProps> = ({
     undefined,
   );
   const [page, setPage] = useState(1);
-  const [selectedModule, setSelectedModule] = useState<string>("all");
+  const [selectedModules, setSelectedModules] = useState<string[]>([]);
 
   const baseList = segment === "all" ? allVideos : historyVideos;
   const sourceList = useMemo(() => {
-    if (selectedModule === "all") return baseList;
-    return baseList.filter((v: any) => v.module === selectedModule);
-  }, [baseList, selectedModule]);
+    if (selectedModules.length === 0) return baseList;
+    return baseList.filter((v: any) => selectedModules.includes(v.module));
+  }, [baseList, selectedModules]);
+
   const totalPages = Math.max(1, Math.ceil(sourceList.length / PAGE_SIZE));
 
   // Slice current page items
@@ -197,10 +200,11 @@ const VideoPage: React.FC<VideoPageProps> = ({
         <LabeledSelectionInput
           label="Filter by module"
           placeholder="Select a module"
-          value={selectedModule}
+          value={selectedModules}
           options={moduleOptions}
+          isMultiple
           onChange={(value) => {
-            setSelectedModule(value);
+            setSelectedModules(value);
             setPage(1);
           }}
         />
