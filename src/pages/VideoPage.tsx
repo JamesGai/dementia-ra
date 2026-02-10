@@ -39,7 +39,6 @@ const VideoPage: React.FC<VideoPageProps> = ({
   ] as const;
 
   const moduleOptions = [
-    { value: "all", label: "All modules" },
     { value: "module-1", label: "Module 1" },
     { value: "module-2", label: "Module 2" },
     { value: "module-3", label: "Module 3" },
