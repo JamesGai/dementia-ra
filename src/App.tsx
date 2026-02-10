@@ -20,7 +20,6 @@ import {
 } from "ionicons/icons";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
-import { Video } from "./services/videoService";
 import Footer from "./components/footer/Footer";
 // Main pages
 import AboutUsPage from "./pages/AboutUsPage";
@@ -137,17 +136,9 @@ const App: React.FC = () => {
   ];
 
   const [activePage, setActivePage] = useState<Page>("home");
-  const [videoHistory, setVideoHistory] = useState<Video[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const contentRef = useRef<HTMLIonContentElement | null>(null);
-
-  const addToVideoHistory = React.useCallback((video: Video) => {
-    setVideoHistory((prev) => {
-      const filtered = prev.filter((v) => v.id !== video.id);
-      return [video, ...filtered];
-    });
-  }, []);
 
   const scrollToTop = React.useCallback(() => {
     contentRef.current?.scrollToTop(0);
@@ -168,13 +159,7 @@ const App: React.FC = () => {
     manual: <ManualPage />,
     profile: <ProfilePage onNavigate={setActivePage} isLoggedIn={isLoggedIn} />,
     service: <ServicesPage />,
-    video: (
-      <VideoPage
-        addToVideoHistory={addToVideoHistory}
-        historyVideos={videoHistory}
-        scrollToTop={scrollToTop}
-      />
-    ),
+    video: <VideoPage scrollToTop={scrollToTop} />,
   };
 
   useEffect(() => {

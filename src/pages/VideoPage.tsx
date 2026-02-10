@@ -11,18 +11,12 @@ import VideoPlayerModal from "../components/video/VideoPlayerModal";
 export type VideoSegment = "all" | "history";
 
 interface VideoPageProps {
-  addToVideoHistory: (video: Video) => void;
-  historyVideos: Video[];
   scrollToTop: () => void;
 }
 
 const PAGE_SIZE = 5; // How many videos can be displayed per page
 
-const VideoPage: React.FC<VideoPageProps> = ({
-  addToVideoHistory,
-  historyVideos,
-  scrollToTop,
-}) => {
+const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
   const instructionVideo: Video = {
     id: "instruction",
     title: "How to use the Videos page",
@@ -48,6 +42,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
 
   const [segment, setSegment] = useState<VideoSegment>("all");
   const [allVideos, setAllVideos] = useState<Video[]>([]);
+  const [historyVideos, setHistoryVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isVideoOpen, setIsVideoOpen] = useState(false);
@@ -104,7 +99,10 @@ const VideoPage: React.FC<VideoPageProps> = ({
   };
 
   const handleOpenVideo = (video: Video) => {
-    addToVideoHistory(video);
+    setHistoryVideos((prev) => {
+      const filtered = prev.filter((v) => v.id !== video.id);
+      return [video, ...filtered];
+    });
     setSelectedVideo(video);
     setIsVideoOpen(true);
   };
