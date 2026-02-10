@@ -17,6 +17,36 @@ interface VideoPlayerModalProps {
   video?: Video;
 }
 
+const formatPublishDate = (input: any): string => {
+  if (!input) return "";
+  if (typeof input?.toDate === "function") {
+    return input.toDate().toLocaleDateString("en-NZ", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    });
+  }
+  if (input instanceof Date) {
+    return input.toLocaleDateString("en-NZ", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    });
+  }
+  if (typeof input === "string") {
+    const d = new Date(input);
+    if (!Number.isNaN(d.getTime())) {
+      return d.toLocaleDateString("en-NZ", {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+      });
+    }
+    return input;
+  }
+  return "";
+};
+
 const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
   isVideoOpen,
   onClose,
@@ -30,7 +60,6 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
     onClose();
   };
 
-  // Stop playback when closing
   useEffect(() => {
     if (!isVideoOpen) {
       videoRef.current?.pause();
@@ -40,7 +69,6 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
 
   return (
     <IonModal isOpen={isVideoOpen} onDidDismiss={handleClose}>
-      {/* Header */}
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="end">
@@ -54,7 +82,6 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      {/* Content */}
       <IonContent className="ion-padding">
         {!video ? (
           <div className="bg-white rounded-2xl p-4 shadow-md text-sm text-gray-500">
@@ -78,11 +105,21 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
                 </div>
               )}
             </div>
-            {/* Title + Description */}
+            {/* Title + meta + description */}
             <div className="bg-white rounded-2xl p-4 shadow-md space-y-3">
-              <div className="text-[#2e6f73] font-extrabold tracking-wide">
-                {video.title}
+              <div className="flex items-center justify-between gap-3">
+                <div className="text-[#2e6f73] font-extrabold tracking-wide">
+                  {video.title}
+                </div>
+                <div className="text-sm text-gray-500 whitespace-nowrap">
+                  {video.numOfViewed} view{video.numOfViewed === 1 ? "" : "s"}
+                </div>
               </div>
+              {formatPublishDate((video as any)?.createdAt) ? (
+                <div className="text-sm text-gray-500">
+                  Published on {formatPublishDate((video as any)?.createdAt)}
+                </div>
+              ) : null}
               <div className="h-px w-full bg-gray-300" />
               <div className="text-gray-700 leading-relaxed">
                 {video.description}
