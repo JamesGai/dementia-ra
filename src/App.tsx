@@ -20,6 +20,7 @@ import {
 } from "ionicons/icons";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
+import { Video } from "./services/videoService";
 import Footer from "./components/footer/Footer";
 // Main pages
 import AboutUsPage from "./pages/AboutUsPage";
@@ -29,7 +30,7 @@ import HomePage from "./pages/HomePage";
 import ManualPage from "./pages/ManualPage";
 import ProfilePage from "./pages/ProfilePage";
 import ServicesPage from "./pages/ServicePage";
-import VideoPage, { VideoItem } from "./pages/VideoPage";
+import VideoPage from "./pages/VideoPage";
 // Sub pages
 import CreateAccountPage from "./subPages/CreateAccountPage";
 import ForgotPasswordPage from "./subPages/ForgotPasswordPage";
@@ -136,12 +137,12 @@ const App: React.FC = () => {
   ];
 
   const [activePage, setActivePage] = useState<Page>("home");
-  const [videoHistory, setVideoHistory] = useState<VideoItem[]>([]);
+  const [videoHistory, setVideoHistory] = useState<Video[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const contentRef = useRef<HTMLIonContentElement | null>(null);
 
-  const addToVideoHistory = React.useCallback((video: VideoItem) => {
+  const addToVideoHistory = React.useCallback((video: Video) => {
     setVideoHistory((prev) => {
       const filtered = prev.filter((v) => v.id !== video.id);
       return [video, ...filtered];
@@ -180,7 +181,9 @@ const App: React.FC = () => {
     scrollToTop();
   }, [activePage, scrollToTop]);
 
-  // Firebase Auth listener automatically detects login state (logged in or out)
+  /**
+   * Firebase Auth listener automatically detects login state (logged in or out)
+   */
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {

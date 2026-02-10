@@ -16,7 +16,9 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onBack }) => {
   const [success, setSuccess] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Empty field examination
+  /**
+   * Empty field examination
+   */
   const fieldErrors = useMemo(() => {
     const errs: Record<string, string> = {};
     if (!email.trim()) {

@@ -47,7 +47,9 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Empty field examination
+  /**
+   * Empty field examination
+   */
   const fieldErrors = useMemo(() => {
     const errs: Record<string, string> = {};
     if (!firstName.trim()) errs.firstName = "First name is required";
@@ -81,7 +83,9 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
   const showError = (key: string) =>
     isSubmitAttempted ? fieldErrors[key] : undefined;
 
-  // Firebase Auth creates an account and automatically signs in
+  /**
+   * Firebase Auth creates an account and automatically signs in
+   */
   const handleCreate = async () => {
     setError(null);
     setIsSubmitAttempted(true);

@@ -40,7 +40,9 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Extract first character from user's first name and last name
+  /**
+   * Extract first character from user's first name and last name
+   */
   const getInitials = (firstName?: string, lastName?: string) => {
     const first = firstName?.charAt(0).toUpperCase() ?? "";
     const last = lastName?.charAt(0).toUpperCase() ?? "";
@@ -51,7 +53,9 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     fileInputRef.current?.click();
   };
 
-  // Responsively detect newly updated image URL
+  /**
+   * Responsively detect newly updated image URL
+   */
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -61,7 +65,9 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     e.target.value = "";
   };
 
-  // Responsively detect newly updated profile fields
+  /**
+   * Responsively detect newly updated profile fields
+   */
   const handleProfileChange = (field: keyof ProfileUser, value: string) => {
     setProfile((prev) => (prev ? { ...prev, [field]: value } : prev));
   };
@@ -97,7 +103,9 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     }
   };
 
-  // Load Firestore profile for the currently logged-in user
+  /**
+   * Load Firestore profile for the currently logged-in user
+   */
   useEffect(() => {
     if (!isLoggedIn) {
       setProfile(null);

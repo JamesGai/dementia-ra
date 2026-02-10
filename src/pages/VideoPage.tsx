@@ -58,9 +58,13 @@ const VideoPage: React.FC<VideoPageProps> = ({
   const [selectedModules, setSelectedModules] = useState<string[]>([]);
 
   const baseList = segment === "all" ? allVideos : historyVideos;
-  // Filter video list based on module number
+  /**
+   * Filter video list based on module number
+   */
   const sourceList = useMemo(() => {
-    // Get publish date before sorting in descending order
+    /**
+     * Get publish date before sorting in descending order
+     */
     const toMillis = (createdAt: any): number => {
       if (!createdAt) return 0;
       if (typeof createdAt?.toDate === "function") {
@@ -86,7 +90,9 @@ const VideoPage: React.FC<VideoPageProps> = ({
 
   const totalPages = Math.max(1, Math.ceil(sourceList.length / PAGE_SIZE));
 
-  // Slice current page items
+  /**
+   * Slice current page items
+   */
   const pagedVideos = useMemo(() => {
     const start = (page - 1) * PAGE_SIZE;
     return sourceList.slice(start, start + PAGE_SIZE);
@@ -126,7 +132,9 @@ const VideoPage: React.FC<VideoPageProps> = ({
     });
   };
 
-  // Retrieve all videos from Firestore
+  /**
+   * Retrieve all videos from Firestore
+   */
   useEffect(() => {
     (async () => {
       try {
@@ -143,17 +151,23 @@ const VideoPage: React.FC<VideoPageProps> = ({
     })();
   }, []);
 
-  // Reset page when switching tabs between All Videos and History
+  /**
+   * Reset page when switching tabs between All Videos and History
+   */
   useEffect(() => {
     setPage(1);
   }, [segment]);
 
-  // Clamp page if history shrinks, etc.
+  /**
+   * Clamp page if history shrinks, etc.
+   */
   useEffect(() => {
     setPage((p) => Math.min(p, totalPages));
   }, [totalPages]);
 
-  // Scroll to top when segment or page changes
+  /**
+   * Scroll to top when segment or page changes
+   */
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [page]);
