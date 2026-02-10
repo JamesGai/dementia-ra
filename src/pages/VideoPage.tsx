@@ -1,4 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { IonButton, IonIcon } from "@ionic/react";
+import { funnelOutline, playCircleOutline } from "ionicons/icons";
+import { fetchAllVideos, Video } from "../services/videoService";
 import Button from "../components/universal/Button";
 import Pagination from "../components/video/Pagination";
 import Segment from "../components/universal/Segment";
@@ -7,18 +10,9 @@ import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
 export type VideoSegment = "all" | "history";
 
-export interface VideoItem {
-  id: string;
-  title: string;
-  description: string;
-  duration: string;
-  image: string;
-  src: string;
-}
-
 interface VideoPageProps {
-  addToVideoHistory: (video: VideoItem) => void;
-  historyVideos: VideoItem[];
+  addToVideoHistory: (video: Video) => void;
+  historyVideos: Video[];
   scrollToTop: () => void;
 }
 
@@ -29,141 +23,15 @@ const VideoPage: React.FC<VideoPageProps> = ({
   historyVideos,
   scrollToTop,
 }) => {
-  const instructionVideo: VideoItem = {
-    id: "instruction",
+  const instructionVideo: Video = {
+    id: "dawd",
     title: "How to use the Videos page",
     description:
       "This short video explains how to browse videos, play them, and review your watch history.",
-    duration: "02:30",
-    image: "",
-    src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+    durationText: "02:30",
+    videoUrl:
+      "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
   };
-
-  const dummyVideos: VideoItem[] = useMemo(
-    () => [
-      {
-        id: "1",
-        title: "Understanding Dementia",
-        description: "A gentle introduction to dementia and what to expect.",
-        duration: "08:45",
-        image: "https://picsum.photos/seed/dementia1/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-      {
-        id: "2",
-        title: "Communication Tips for Care Partners",
-        description: "Practical ways to reduce frustration and connect.",
-        duration: "06:12",
-        image: "https://picsum.photos/seed/dementia2/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-      {
-        id: "3",
-        title: "Daily Routines That Help",
-        description: "Small routine changes that can support wellbeing.",
-        duration: "10:03",
-        image: "https://picsum.photos/seed/dementia3/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-      {
-        id: "4",
-        title: "Managing Stress as a Carer",
-        description: "Simple strategies to prevent burnout and stay balanced.",
-        duration: "07:28",
-        image: "https://picsum.photos/seed/dementia4/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-      {
-        id: "5",
-        title: "Safety at Home Checklist",
-        description: "A quick checklist to reduce risks and improve safety.",
-        duration: "05:50",
-        image: "https://picsum.photos/seed/dementia5/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-      {
-        id: "6",
-        title: "Eating and Nutrition Basics",
-        description: "Helpful tips for meals, hydration, and routine.",
-        duration: "09:10",
-        image: "https://picsum.photos/seed/dementia6/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-      {
-        id: "7",
-        title: "Supporting Sleep and Night Routine",
-        description: "Common sleep issues and what can help.",
-        duration: "07:05",
-        image: "https://picsum.photos/seed/dementia7/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-      {
-        id: "8",
-        title: "What to Do During Sundowning",
-        description: "Steps to reduce agitation in late afternoon and evening.",
-        duration: "06:40",
-        image: "https://picsum.photos/seed/dementia8/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-      {
-        id: "9",
-        title: "Medication Safety Tips",
-        description: "How to organize and safely manage medications.",
-        duration: "04:55",
-        image: "https://picsum.photos/seed/dementia9/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-      {
-        id: "10",
-        title: "Handling Repetition and Memory Gaps",
-        description: "Communication strategies for repeated questions.",
-        duration: "08:02",
-        image: "https://picsum.photos/seed/dementia10/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-      {
-        id: "11",
-        title: "Activities That Build Connection",
-        description: "Simple activity ideas for different energy levels.",
-        duration: "11:20",
-        image: "https://picsum.photos/seed/dementia11/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-      {
-        id: "12",
-        title: "Preparing for Appointments",
-        description: "What to bring and how to communicate concerns.",
-        duration: "05:35",
-        image: "https://picsum.photos/seed/dementia12/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-      {
-        id: "13",
-        title: "Home Safety: Bathroom and Kitchen",
-        description: "Practical changes to reduce accidents at home.",
-        duration: "07:58",
-        image: "https://picsum.photos/seed/dementia13/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-      {
-        id: "14",
-        title: "When to Ask for Help",
-        description: "Recognizing burnout and accessing support services.",
-        duration: "06:30",
-        image: "https://picsum.photos/seed/dementia14/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-      {
-        id: "15",
-        title: "Self-care Micro Habits",
-        description: "Tiny daily habits that reduce stress over time.",
-        duration: "04:20",
-        image: "https://picsum.photos/seed/dementia15/640/360",
-        src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      },
-    ],
-    [],
-  );
 
   const videoSegmentOptions = [
     { value: "all", label: "All videos" },
@@ -171,13 +39,16 @@ const VideoPage: React.FC<VideoPageProps> = ({
   ] as const;
 
   const [segment, setSegment] = useState<VideoSegment>("all");
+  const [allVideos, setAllVideos] = useState<Video[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const [selectedVideo, setSelectedVideo] = useState<VideoItem | undefined>(
+  const [selectedVideo, setSelectedVideo] = useState<Video | undefined>(
     undefined,
   );
   const [page, setPage] = useState(1);
 
-  const sourceList = segment === "all" ? dummyVideos : historyVideos;
+  const sourceList = segment === "all" ? allVideos : historyVideos;
   const totalPages = Math.max(1, Math.ceil(sourceList.length / PAGE_SIZE));
 
   // Slice current page items
@@ -207,11 +78,28 @@ const VideoPage: React.FC<VideoPageProps> = ({
     setIsVideoOpen(true);
   };
 
-  const handleOpenVideo = (video: VideoItem) => {
+  const handleOpenVideo = (video: Video) => {
     addToVideoHistory(video);
     setSelectedVideo(video);
     setIsVideoOpen(true);
   };
+
+  // Retrieve all videos from Firestore
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await fetchAllVideos();
+        setAllVideos(data);
+      } catch (e) {
+        console.error("❌ Failed to fetch videos:", e);
+        setError("Failed to load videos. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
   // Reset page when switching tabs between All Videos and History
   useEffect(() => {
@@ -235,14 +123,45 @@ const VideoPage: React.FC<VideoPageProps> = ({
         segmentOptions={videoSegmentOptions}
         setSegment={setSegment}
       />
-      <Button text="User Instruction" onClick={handleOpenInstruction} />
-      <VideoContent
-        segment={segment}
-        videos={segment === "all" ? pagedVideos : dummyVideos}
-        historyVideos={segment === "history" ? pagedVideos : historyVideos}
-        playVideo={handleOpenVideo}
-      />
-      {sourceList.length > PAGE_SIZE && (
+      {/* Instruction video and filtering button */}
+      <div className="flex items-stretch gap-3">
+        <div className="flex-1 relative">
+          <Button
+            text="User Instruction"
+            icon={playCircleOutline}
+            onClick={handleOpenInstruction}
+          />
+        </div>
+        <div className="flex-1 relative">
+          <Button
+            text="Filter by module"
+            isFilter
+            icon={funnelOutline}
+            iconPosition="right"
+            onClick={() => console.log("TODO: open filter")}
+          />
+        </div>
+      </div>
+      {/* Video list */}
+      {loading && (
+        <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
+          Loading videos...
+        </div>
+      )}
+      {error && (
+        <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-red-600">
+          {error}
+        </div>
+      )}
+      {!loading && !error && (
+        <VideoContent
+          segment={segment}
+          videos={segment === "all" ? pagedVideos : []}
+          historyVideos={segment === "history" ? pagedVideos : historyVideos}
+          playVideo={handleOpenVideo}
+        />
+      )}
+      {!loading && sourceList.length > PAGE_SIZE && (
         <Pagination
           page={page}
           totalPages={totalPages}

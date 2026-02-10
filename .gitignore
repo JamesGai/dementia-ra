@@ -33,3 +33,7 @@ yarn-error.log*
 
 # Optional eslint cache
 .eslintcache
+
+# Firebase service account keys
+serviceAccountKey.json
+**/serviceAccountKey.json
