@@ -3,7 +3,7 @@ import Introduction from "../components/service/Introduction";
 import Button from "../components/universal/Button";
 import ServiceContent from "../components/service/ServiceContent";
 import ServiceModal from "../components/service/ServiceModal";
-import { VideoItem } from "./VideoPage";
+import { Video } from "../services/videoService";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
 export type Service = {
@@ -17,14 +17,14 @@ export type Service = {
 };
 
 const ServicesPage: React.FC = () => {
-  const instructionVideo: VideoItem = {
+  const instructionVideo: Video = {
     id: "instruction",
-    title: "How to use the Service page",
+    title: "How to use the Videos page",
     description:
-      "This short video explains how to find a medical centre nearby.",
-    duration: "02:30",
-    image: "",
-    src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+      "This short video explains how to browse videos, play them, and review your watch history.",
+    durationText: "02:30",
+    videoUrl:
+      "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
   };
 
   const services: Service[] = [
@@ -91,7 +91,7 @@ const ServicesPage: React.FC = () => {
   ];
 
   const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const [selectedVideo, setSelectedVideo] = useState<VideoItem | undefined>(
+  const [selectedVideo, setSelectedVideo] = useState<Video | undefined>(
     undefined,
   );
   const [isServiceOpen, setIsServiceOpen] = useState(false);

@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { IonButton, IonIcon } from "@ionic/react";
 import { funnelOutline, playCircleOutline } from "ionicons/icons";
 import { fetchAllVideos, Video } from "../services/videoService";
 import Button from "../components/universal/Button";
@@ -24,7 +23,7 @@ const VideoPage: React.FC<VideoPageProps> = ({
   scrollToTop,
 }) => {
   const instructionVideo: Video = {
-    id: "dawd",
+    id: "instruction",
     title: "How to use the Videos page",
     description:
       "This short video explains how to browse videos, play them, and review your watch history.",

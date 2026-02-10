@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import Button from "../components/universal/Button";
 import CourseContent from "../components/course/CourseContent";
 import Segment from "../components/universal/Segment";
-import { VideoItem } from "./VideoPage";
+import { Video } from "../services/videoService";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
 export type CourseSegment = "all" | "progress";
@@ -19,14 +19,14 @@ interface CoursePageProps {
 }
 
 const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
-  const instructionVideo: VideoItem = {
+  const instructionVideo: Video = {
     id: "instruction",
-    title: "How to use the Course page",
+    title: "How to use the Videos page",
     description:
-      "This short video explains how to start a course module and review your progress.",
-    duration: "02:30",
-    image: "",
-    src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+      "This short video explains how to browse videos, play them, and review your watch history.",
+    durationText: "02:30",
+    videoUrl:
+      "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
   };
 
   const dummyCourses: CourseItem[] = useMemo(
@@ -48,7 +48,7 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
 
   const [segment, setSegment] = useState<CourseSegment>("all");
   const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const [selectedVideo, setSelectedVideo] = useState<VideoItem | undefined>(
+  const [selectedVideo, setSelectedVideo] = useState<Video | undefined>(
     undefined,
   );
 
