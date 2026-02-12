@@ -1,11 +1,4 @@
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase";
 
 export type Course = {
@@ -43,12 +36,15 @@ const toNum = (v: unknown, fallback = 0) => {
   return Number.isFinite(n) ? n : fallback;
 };
 
-export async function fetchCourse(courseId: string): Promise<Course> {
-  const ref = doc(db, "course", courseId);
-  const snap = await getDoc(ref);
-  if (!snap.exists()) throw new Error(`Course not found: ${courseId}`);
-  const data = snap.data() as Omit<Course, "id">;
-  return { id: snap.id, ...data };
+export async function fetchAllCourses(): Promise<Course[]> {
+  const snap = await getDocs(collection(db, "course"));
+  return snap.docs.map((doc) => {
+    const data = doc.data() as Omit<Course, "id">;
+    return {
+      id: doc.id,
+      ...data,
+    };
+  });
 }
 
 export async function fetchCourseModules(courseId: string): Promise<Module[]> {

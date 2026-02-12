@@ -1,5 +1,11 @@
-import React from "react";
-import type { CourseItem } from "../../pages/CoursePage";
+import React, { useMemo } from "react";
+
+type CourseItem = {
+  id: string;
+  title: string;
+  image: string;
+  moduleProgress?: [number, number, number, number, number];
+};
 
 interface MyProgressProps {
   courses: CourseItem[];
@@ -9,6 +15,22 @@ interface MyProgressProps {
 const clamp = (n: number) => Math.max(0, Math.min(100, n));
 
 const MyProgress: React.FC<MyProgressProps> = ({ courses, onOpenCourse }) => {
+  const dummyCourses: CourseItem[] = useMemo(
+    () => [
+      {
+        id: "iSupport-NZ",
+        title: "iSupport New Zealand",
+        image: "iSupport.png",
+        moduleProgress: [100, 60, 0, 0, 0],
+      },
+    ],
+    [],
+  );
+
+  const progressCourses: CourseItem[] = useMemo(
+    () => [{ ...dummyCourses[0], progressPercent: 35 }],
+    [dummyCourses],
+  );
   return (
     <div className="space-y-4">
       {courses.map((c) => {

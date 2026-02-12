@@ -53,6 +53,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
   const [page, setPage] = useState(1);
 
   const baseList = segment === "all" ? allVideos : historyVideos;
+
   /**
    * Filter video list based on module number
    */
