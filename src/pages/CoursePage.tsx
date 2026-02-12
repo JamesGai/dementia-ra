@@ -48,10 +48,10 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
   ] as const;
 
   const [segment, setSegment] = useState<CourseSegment>("all");
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<Video | undefined>(
     undefined,
   );
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
 
   const progressCourses: CourseItem[] = useMemo(
     () => [{ ...dummyCourses[0], progressPercent: 35 }],
@@ -66,7 +66,7 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
   return (
     <div className="p-4 space-y-6">
       <Segment
-        value={segment as CourseSegment}
+        value={segment}
         segmentOptions={courseSegmentOptions}
         setSegment={setSegment}
       />
@@ -76,7 +76,7 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
         onClick={handleOpenInstruction}
       />
       <CourseContent
-        segment={segment as CourseSegment}
+        segment={segment}
         courses={dummyCourses}
         progressCourses={progressCourses}
         onNavigate={onNavigate}
