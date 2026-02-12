@@ -16,6 +16,7 @@ export interface Video {
   thumbnailUrl?: string;
   createdAt?: Timestamp;
   numOfViewed?: number;
+  module?: string;
 }
 
 export async function fetchAllVideos(): Promise<Video[]> {
