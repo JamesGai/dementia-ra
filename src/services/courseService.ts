@@ -12,6 +12,7 @@ export type Module = {
   number: number;
   title: string;
   thumbnailUrl?: string;
+  description?: string;
 };
 
 export type Section = {
@@ -52,13 +53,13 @@ export async function fetchCourseModules(courseId: string): Promise<Module[]> {
   const q = query(col, orderBy("number", "asc"));
   const snap = await getDocs(q);
   return snap.docs.map((d) => {
-    const data = d.data() as Omit<Module, "id">;
+    const data = d.data();
     return {
       id: d.id,
-      ...data,
-      number: toNum((data as any).number),
-      order:
-        (data as any).order != null ? toNum((data as any).order) : undefined,
+      title: data.title,
+      thumbnailUrl: data.thumbnailUrl,
+      description: data.description,
+      number: data.number,
     };
   });
 }
