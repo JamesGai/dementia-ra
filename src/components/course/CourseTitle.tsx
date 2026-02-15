@@ -4,25 +4,22 @@ interface CourseTitleProps {
   number: string;
   title: string;
   variant: "module" | "section";
-  imageSrc?: string; // Module only
-  imageAlt?: string; // Module only
+  thumbnailUrl?: string; // Module only
 }
 
 const CourseTitle: React.FC<CourseTitleProps> = ({
   number,
   title,
   variant,
-  imageSrc,
-  imageAlt = "Course image",
+  thumbnailUrl,
 }) => {
   const isModule = variant === "module";
 
   return (
     <div className={`leading-tight ${isModule ? "py-3" : "py-2"}`}>
-      {isModule && imageSrc && (
+      {isModule && thumbnailUrl && (
         <img
-          src={imageSrc}
-          alt={imageAlt}
+          src={thumbnailUrl}
           className="mb-3 w-full rounded-xl object-cover"
         />
       )}
@@ -31,7 +28,7 @@ const CourseTitle: React.FC<CourseTitleProps> = ({
           isModule ? "text-xs text-gray-500" : "text-[11px] text-gray-400"
         }`}
       >
-        {isModule ? "MODULE" : "SECTION"} {number}
+        {isModule ? "MODULE" : "SECTION"} {number}.
       </div>
       <div
         className={`${

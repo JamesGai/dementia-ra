@@ -188,7 +188,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
           error={showError("city")}
         />
         <LabeledSelectionInput
-          label="Country"
+          label="Country *"
           placeholder="Enter Country"
           options={countryOptions}
           value={country}

@@ -41,18 +41,19 @@ const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
   ];
 
   const [segment, setSegment] = useState<VideoSegment>("all");
+  const [selectedVideo, setSelectedVideo] = useState<Video | undefined>(
+    undefined,
+  );
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [selectedModules, setSelectedModules] = useState<string[]>([]);
   const [allVideos, setAllVideos] = useState<Video[]>([]);
   const [historyVideos, setHistoryVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const [selectedVideo, setSelectedVideo] = useState<Video | undefined>(
-    undefined,
-  );
   const [page, setPage] = useState(1);
-  const [selectedModules, setSelectedModules] = useState<string[]>([]);
 
   const baseList = segment === "all" ? allVideos : historyVideos;
+
   /**
    * Filter video list based on module number
    */

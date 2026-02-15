@@ -1,8 +1,8 @@
 import React from "react";
-import { CourseItem } from "../../pages/CoursePage";
+import { Course } from "../../services/courseService";
 
 interface AllCoursesProps {
-  courses: CourseItem[];
+  courses: Course[];
   onOpenCourse: () => void;
 }
 
@@ -18,7 +18,7 @@ const AllCourses: React.FC<AllCoursesProps> = ({ courses, onOpenCourse }) => {
         >
           <div className="relative">
             <img
-              src={c.image}
+              src={c.thumbnailUrl}
               alt={c.title}
               className="w-full h-40 object-cover"
               loading="lazy"
