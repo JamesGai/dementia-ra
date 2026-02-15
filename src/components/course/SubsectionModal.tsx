@@ -52,8 +52,10 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
           <div className="space-y-4">
             <div className="bg-white rounded-2xl p-4 shadow-md space-y-3">
               <div className="text-[#2e6f73] font-extrabold tracking-wide">
-                {subsection.moduleNumber}.{subsection.sectionNumber}.
-                {subsection.subsectionNumber}. {subsection.title}
+                {subsection.sectionNumber === 99 &&
+                subsection.subsectionNumber === 99
+                  ? subsection.title
+                  : `${subsection.moduleNumber}.${subsection.sectionNumber}.${subsection.subsectionNumber}. ${subsection.title}`}
               </div>
               <div className="h-px w-full bg-gray-300" />
               <div className="text-gray-700 leading-relaxed">

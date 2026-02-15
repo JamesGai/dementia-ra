@@ -38,13 +38,17 @@ const SectionList: React.FC<SectionListProps> = ({
                   <TitleButton
                     key={sub.id}
                     title={
-                      <>
-                        <div>
-                          {sub.moduleNumber}.{sub.sectionNumber}.
-                          {sub.subsectionNumber}.
-                        </div>
+                      sub.sectionNumber === 99 && sub.subsectionNumber === 99 ? (
                         <div>{sub.title}</div>
-                      </>
+                      ) : (
+                        <>
+                          <div>
+                            {sub.moduleNumber}.{sub.sectionNumber}.
+                            {sub.subsectionNumber}.
+                          </div>
+                          <div>{sub.title}</div>
+                        </>
+                      )
                     }
                     onClick={() => openSubsection(sub)}
                   />
