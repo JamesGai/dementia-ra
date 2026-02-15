@@ -40,7 +40,7 @@ const SectionList: React.FC<SectionListProps> = ({
                     title={
                       <>
                         <div>
-                          {section.moduleNumber}.{section.sectionNumber}.
+                          {sub.moduleNumber}.{sub.sectionNumber}.
                           {sub.subsectionNumber}.
                         </div>
                         <div>{sub.title}</div>

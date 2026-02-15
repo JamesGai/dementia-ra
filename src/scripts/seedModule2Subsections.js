@@ -5,11 +5,12 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 
-// ESM-compatible __dirname
+// -----------------------------
+// Admin Init
+// -----------------------------
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load service account
 const serviceAccountPath = path.resolve(
   __dirname,
   "../../serviceAccountKey.json",
@@ -23,6 +24,9 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
+// -----------------------------
+// Seed Helper
+// -----------------------------
 async function seedSection(courseId, moduleNumber, sectionNumber, titles) {
   const moduleId = `module-${moduleNumber}`;
   const sectionId = `section-${moduleNumber}.${sectionNumber}`;
@@ -36,30 +40,52 @@ async function seedSection(courseId, moduleNumber, sectionNumber, titles) {
     .doc(sectionId)
     .collection("subsection");
 
+  let contentCounter = 0;
+
   for (let i = 0; i < titles.length; i++) {
+    const rawTitle = titles[i];
+    const isActivity = rawTitle === "Activity";
+
     const subsectionId = `subsection-${moduleNumber}.${sectionNumber}.${i}`;
 
-    await subsectionCol.doc(subsectionId).set(
-      {
+    let data;
+
+    if (isActivity) {
+      // 🔥 Force 99 values for Activity
+      data = {
+        moduleNumber,
+        sectionNumber: 99,
+        subsectionNumber: 99,
+        title: "Activity",
+      };
+
+      console.log("  ↳ Seeded Activity (99,99)");
+    } else {
+      contentCounter++;
+
+      data = {
         moduleNumber,
         sectionNumber,
-        subsectionNumber: i,
-        title: titles[i],
-      },
-      { merge: true },
-    );
+        subsectionNumber: contentCounter,
+        title: rawTitle,
+      };
 
-    console.log("  ↳ Seeded", subsectionId);
+      console.log(
+        `  ↳ Seeded Content ${moduleNumber}.${sectionNumber}.${contentCounter}`,
+      );
+    }
+
+    await subsectionCol.doc(subsectionId).set(data, { merge: true });
   }
 }
 
+// -----------------------------
+// Main
+// -----------------------------
 async function main() {
   const courseId = "isupport-nz";
   const moduleNumber = 2;
 
-  // -----------------------------
-  // SECTION 2.1 — The journey together
-  // -----------------------------
   await seedSection(courseId, moduleNumber, 1, [
     "Why is this section important?",
     "How your roles may change over time",
@@ -75,9 +101,6 @@ async function main() {
     "Let’s review what you have learned",
   ]);
 
-  // -----------------------------
-  // SECTION 2.2 — Improving communication
-  // -----------------------------
   await seedSection(courseId, moduleNumber, 2, [
     "Why is this section important?",
     "How to improve communication",
@@ -92,9 +115,6 @@ async function main() {
     "Let’s review what you have learned",
   ]);
 
-  // -----------------------------
-  // SECTION 2.3 — Supported decision-making
-  // -----------------------------
   await seedSection(courseId, moduleNumber, 3, [
     "Why is this section important?",
     "Why is support in decision-making needed?",
@@ -107,12 +127,8 @@ async function main() {
     "Activity",
     "Activity",
     "Activity",
-    "Activity",
   ]);
 
-  // -----------------------------
-  // SECTION 2.4 — Involving others
-  // -----------------------------
   await seedSection(courseId, moduleNumber, 4, [
     "Why is this section important?",
     "The importance of involving family and friends",
@@ -134,7 +150,7 @@ async function main() {
     "Respite services and additional support",
   ]);
 
-  console.log("✅ Done seeding ALL Module 2 subsections.");
+  console.log("✅ Done seeding Module 2 cleanly.");
   process.exit(0);
 }
 
