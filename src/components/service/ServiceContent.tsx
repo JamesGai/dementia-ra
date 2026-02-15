@@ -1,7 +1,7 @@
 import React from "react";
+import { Service } from "../../services/serviceService";
 import AccordionCard from "../universal/AccordionCard";
 import Button from "../universal/Button";
-import { Service } from "../../pages/ServicePage";
 
 interface ServicesContentProps {
   services: Service[];
@@ -18,7 +18,7 @@ const ServiceContent: React.FC<ServicesContentProps> = ({
         {services.map((service) => (
           <Button
             key={service.id}
-            text={service.title}
+            text={service.name}
             onClick={() => openService(service)}
           />
         ))}

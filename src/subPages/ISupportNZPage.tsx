@@ -41,8 +41,6 @@ const ISupportNZPage: React.FC = () => {
         setModules(modules);
         setSections(sections);
         setSubsections(subsections);
-        console.log("sections: ", sections);
-        console.log("subsections: ", subsections);
       } catch (err) {
         console.error(err);
         setError("Failed to load course");
