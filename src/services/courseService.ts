@@ -5,6 +5,7 @@ export type Course = {
   id: string;
   title: string;
   thumbnailUrl?: string;
+  progress?: number[];
 };
 
 export type Module = {
