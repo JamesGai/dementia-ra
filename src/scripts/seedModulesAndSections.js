@@ -28,6 +28,16 @@ async function main() {
 
   const modules = [
     {
+      number: 1,
+      title: "Introduction to dementia",
+      sections: [
+        "Types of dementia and the progression",
+        "Optimising brain health",
+        "Person-centred care",
+        "Planning for the future",
+      ],
+    },
+    {
       number: 2,
       title: "Being a carer",
       sections: [
