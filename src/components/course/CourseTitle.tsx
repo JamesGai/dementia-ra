@@ -28,7 +28,7 @@ const CourseTitle: React.FC<CourseTitleProps> = ({
           isModule ? "text-xs text-gray-500" : "text-[11px] text-gray-400"
         }`}
       >
-        {isModule ? "MODULE" : "SECTION"} {number}
+        {isModule ? "MODULE" : "SECTION"} {number}.
       </div>
       <div
         className={`${

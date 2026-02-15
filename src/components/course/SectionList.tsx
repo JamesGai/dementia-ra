@@ -27,7 +27,7 @@ const SectionList: React.FC<SectionListProps> = ({
             title={
               <CourseTitle
                 variant="section"
-                number={section.sectionNumber.toString()}
+                number={`${section.moduleNumber}.${section.sectionNumber}`}
                 title={section.title}
               />
             }
@@ -39,7 +39,10 @@ const SectionList: React.FC<SectionListProps> = ({
                     key={sub.id}
                     title={
                       <>
-                        <div>{`${section.sectionNumber}.${sub.subsectionNumber}`}</div>
+                        <div>
+                          {section.moduleNumber}.{section.sectionNumber}.
+                          {sub.subsectionNumber}.
+                        </div>
                         <div>{sub.title}</div>
                       </>
                     }
