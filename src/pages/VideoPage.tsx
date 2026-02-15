@@ -33,11 +33,11 @@ const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
   ] as const;
 
   const moduleOptions = [
-    { value: "1", label: "Module 1" },
-    { value: "2", label: "Module 2" },
-    { value: "3", label: "Module 3" },
-    { value: "4", label: "Module 4" },
-    { value: "5", label: "Module 5" },
+    { value: 1, label: "Module 1" },
+    { value: 2, label: "Module 2" },
+    { value: 3, label: "Module 3" },
+    { value: 4, label: "Module 4" },
+    { value: 5, label: "Module 5" },
   ];
 
   const [segment, setSegment] = useState<VideoSegment>("all");

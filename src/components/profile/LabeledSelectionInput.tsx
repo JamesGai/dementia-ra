@@ -16,7 +16,9 @@ type MultiSelectProps = {
 interface BaseProps {
   label: string;
   placeholder: string;
-  options: Array<{ value: string; label: string }>;
+  options:
+    | Array<{ value: string; label: string }>
+    | Array<{ value: number; label: string }>;
   error?: string;
 }
 
