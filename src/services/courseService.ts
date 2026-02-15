@@ -77,16 +77,16 @@ export async function fetchModuleSections(params: {
     moduleId,
     "sections",
   );
-  const q = query(col, orderBy("order", "asc"));
+  const q = query(col, orderBy("sectionNumber", "asc"));
   const snap = await getDocs(q);
   return snap.docs.map((d) => {
-    const data = d.data() as Omit<Section, "id">;
+    const data = d.data();
+
     return {
       id: d.id,
-      ...data,
-      moduleNumber: toNum((data as any).moduleNumber),
-      sectionNumber: toNum((data as any).sectionNumber),
-      order: toNum((data as any).order),
+      title: data.title,
+      moduleNumber: toNum(data.moduleNumber),
+      sectionNumber: toNum(data.sectionNumber),
     };
   });
 }
