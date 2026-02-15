@@ -7,7 +7,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 
-export interface Video {
+export type Video = {
   id: string;
   title: string;
   description: string;
@@ -17,7 +17,7 @@ export interface Video {
   createdAt?: Timestamp;
   numOfViewed?: number;
   module?: string;
-}
+};
 
 export async function fetchAllVideos(): Promise<Video[]> {
   const q = query(collection(db, "videos"), orderBy("createdAt", "desc"));
