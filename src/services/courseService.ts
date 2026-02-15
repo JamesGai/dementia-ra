@@ -32,11 +32,6 @@ export type Subsection = {
   //   content?: string;
 };
 
-const toNum = (v: unknown, fallback = 0) => {
-  const n = typeof v === "number" ? v : Number(v);
-  return Number.isFinite(n) ? n : fallback;
-};
-
 export async function fetchAllCourses(): Promise<Course[]> {
   const snap = await getDocs(collection(db, "course"));
   return snap.docs.map((doc) => {
@@ -77,8 +72,8 @@ export async function fetchModuleSections(params: {
     return {
       id: d.id,
       title: data.title,
-      moduleNumber: toNum(data.moduleNumber),
-      sectionNumber: toNum(data.sectionNumber),
+      moduleNumber: data.moduleNumber,
+      sectionNumber: data.sectionNumber,
     };
   });
 }
@@ -106,9 +101,9 @@ export async function fetchSectionSubsections(params: {
     return {
       id: d.id,
       ...data,
-      moduleNumber: toNum((data as any).moduleNumber),
-      sectionNumber: toNum((data as any).sectionNumber),
-      subsectionNumber: toNum((data as any).subsectionNumber),
+      moduleNumber: data.moduleNumber,
+      sectionNumber: data.sectionNumber,
+      subsectionNumber: data.subsectionNumber,
     };
   });
 }

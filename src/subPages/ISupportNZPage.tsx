@@ -7,20 +7,18 @@ import {
 } from "../services/courseService";
 import AccordionCard from "../components/universal/AccordionCard";
 import CourseTitle from "../components/course/CourseTitle";
-import SubSectionList from "../components/course/SectionList";
+import SectionList from "../components/course/SectionList";
 import SubsectionModal from "../components/course/SubsectionModal";
 
 const ISupportNZPage: React.FC = () => {
   const courseId = "isupport-nz";
   const [modules, setModules] = useState<Module[]>([]);
   // <Module ID, Section objects>
-  const [sections, setSectionsByModuleId] = useState<Record<string, Section[]>>(
+  const [sections, setSections] = useState<Record<string, Section[]>>({});
+  // <Section ID, Subsection objects>
+  const [subsections, setSubsections] = useState<Record<string, Subsection[]>>(
     {},
   );
-  // <Section ID, Subsection objects>
-  const [subsections, setSubsectionsBySectionPath] = useState<
-    Record<string, Subsection[]>
-  >({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubsectionOpen, setIsSubsectionOpen] = useState(false);
@@ -41,8 +39,8 @@ const ISupportNZPage: React.FC = () => {
         const { modules, sections, subsections } =
           await fetchCourseTree(courseId);
         setModules(modules);
-        setSectionsByModuleId(sections);
-        setSubsectionsBySectionPath(subsections);
+        setSections(sections);
+        setSubsections(subsections);
       } catch (err) {
         console.error(err);
         setError("Failed to load course");
@@ -78,13 +76,15 @@ const ISupportNZPage: React.FC = () => {
                 />
               }
             >
+              {/* Introduction module */}
               {m.number === 0 && m.description && (
                 <p className="title-sm title-gray-700 leading-relaxed">
                   {m.description}
                 </p>
               )}
+              {/* Standard module */}
               {m.number !== 0 && (
-                <SubSectionList
+                <SectionList
                   moduleId={m.id}
                   sections={sections[m.id] || []}
                   subsections={subsections}
