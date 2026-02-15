@@ -118,13 +118,13 @@ export async function fetchSectionSubsections(params: {
  */
 export async function fetchCourseTree(courseId: string) {
   const modules = await fetchCourseModules(courseId);
-  const sectionsByModuleId: Record<string, Section[]> = {};
-  const subsectionsBySectionPath: Record<string, Subsection[]> = {};
+  const sections: Record<string, Section[]> = {};
+  const subsections: Record<string, Subsection[]> = {};
   for (const m of modules) {
     const secs = await fetchModuleSections({ courseId, moduleId: m.id }).catch(
       () => [],
     );
-    sectionsByModuleId[m.id] = secs;
+    sections[m.id] = secs;
     for (const s of secs) {
       const subs = await fetchSectionSubsections({
         courseId,
@@ -132,8 +132,8 @@ export async function fetchCourseTree(courseId: string) {
         sectionId: s.id,
       }).catch(() => []);
       const key = `${m.id}/${s.id}`; // key includes module+section to avoid collisions
-      subsectionsBySectionPath[key] = subs;
+      subsections[key] = subs;
     }
   }
-  return { modules, sectionsByModuleId, subsectionsBySectionPath };
+  return { modules, sections, subsections };
 }

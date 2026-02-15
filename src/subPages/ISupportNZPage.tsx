@@ -7,37 +7,28 @@ import {
 } from "../services/courseService";
 import AccordionCard from "../components/universal/AccordionCard";
 import CourseTitle from "../components/course/CourseTitle";
-import SubSectionList from "../components/course/SubSectionList";
+import SubSectionList from "../components/course/SectionList";
 import SubsectionModal from "../components/course/SubsectionModal";
-
-export type SectionItem = {
-  number: string;
-  title: string;
-  subsections?: SubsectionItem[];
-};
-
-export type SubsectionItem = {
-  number: string;
-  title: string;
-};
 
 const ISupportNZPage: React.FC = () => {
   const courseId = "isupport-nz";
   const [modules, setModules] = useState<Module[]>([]);
-  const [sectionsByModuleId, setSectionsByModuleId] = useState<
-    Record<string, Section[]>
-  >({});
-  const [subsectionsBySectionPath, setSubsectionsBySectionPath] = useState<
+  // <Module ID, Section objects>
+  const [sections, setSectionsByModuleId] = useState<Record<string, Section[]>>(
+    {},
+  );
+  // <Section ID, Subsection objects>
+  const [subsections, setSubsectionsBySectionPath] = useState<
     Record<string, Subsection[]>
   >({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubsectionOpen, setIsSubsectionOpen] = useState(false);
   const [selectedSubsection, setSelectedSubsection] = useState<
-    SubsectionItem | undefined
+    Subsection | undefined
   >(undefined);
 
-  const handleOpenSubsection = (sub: SubsectionItem) => {
+  const handleOpenSubsection = (sub: Subsection) => {
     setSelectedSubsection(sub);
     setIsSubsectionOpen(true);
   };
@@ -47,21 +38,11 @@ const ISupportNZPage: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        const { modules, sectionsByModuleId, subsectionsBySectionPath } =
+        const { modules, sections, subsections } =
           await fetchCourseTree(courseId);
         setModules(modules);
-        setSectionsByModuleId(sectionsByModuleId);
-        setSubsectionsBySectionPath(subsectionsBySectionPath);
-        console.log(
-          "Sections object keys:",
-          Object.keys(sectionsByModuleId).length,
-        );
-        console.log(
-          "Subsections object keys:",
-          Object.keys(subsectionsBySectionPath).length,
-        );
-        console.log("Sections full object:", sectionsByModuleId);
-        console.log("Subsections full object:", subsectionsBySectionPath);
+        setSectionsByModuleId(sections);
+        setSubsectionsBySectionPath(subsections);
       } catch (err) {
         console.error(err);
         setError("Failed to load course");
@@ -103,13 +84,12 @@ const ISupportNZPage: React.FC = () => {
                 </p>
               )}
               {m.number !== 0 && (
-                <p className="text-sm text-gray-500">
-                  Sections will be loaded here...
-                </p>
-                // <SubSectionList
-                //   sections={m.sections}
-                //   openSubsection={handleOpenSubsection}
-                // />
+                <SubSectionList
+                  moduleId={m.id}
+                  sections={sections[m.id] || []}
+                  subsections={subsections}
+                  openSubsection={handleOpenSubsection}
+                />
               )}
             </AccordionCard>
           ))}
