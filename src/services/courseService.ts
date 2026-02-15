@@ -69,14 +69,7 @@ export async function fetchModuleSections(params: {
   moduleId: string;
 }): Promise<Section[]> {
   const { courseId, moduleId } = params;
-  const col = collection(
-    db,
-    "course",
-    courseId,
-    "module",
-    moduleId,
-    "sections",
-  );
+  const col = collection(db, "course", courseId, "module", moduleId, "section");
   const q = query(col, orderBy("sectionNumber", "asc"));
   const snap = await getDocs(q);
   return snap.docs.map((d) => {
@@ -102,11 +95,11 @@ export async function fetchSectionSubsections(params: {
     courseId,
     "module",
     moduleId,
-    "sections",
+    "section",
     sectionId,
-    "subsections",
+    "subsection",
   );
-  const q = query(col, orderBy("order", "asc"));
+  const q = query(col, orderBy("subsectionNumber", "asc"));
   const snap = await getDocs(q);
   return snap.docs.map((d) => {
     const data = d.data() as Omit<Subsection, "id">;
@@ -116,7 +109,6 @@ export async function fetchSectionSubsections(params: {
       moduleNumber: toNum((data as any).moduleNumber),
       sectionNumber: toNum((data as any).sectionNumber),
       subsectionNumber: toNum((data as any).subsectionNumber),
-      order: toNum((data as any).order),
     };
   });
 }
