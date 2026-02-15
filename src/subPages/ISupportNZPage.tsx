@@ -94,7 +94,9 @@ const ISupportNZPage: React.FC = () => {
             </AccordionCard>
           ))}
           <AccordionCard title="NEW ZEALAND LOCAL RESOURCES">
-            <></>
+            <div className="title-sm title-gray-500 py-2">
+              More resources are coming soon!
+            </div>
           </AccordionCard>
         </>
       )}

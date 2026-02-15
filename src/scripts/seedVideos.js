@@ -1,4 +1,4 @@
-// Execute node src/scripts/seedVideos.js to add video documents
+// Execute: node src/scripts/seedVideos.js to add video documents
 
 import admin from "firebase-admin";
 import path from "path";
