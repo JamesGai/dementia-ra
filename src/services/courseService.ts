@@ -81,7 +81,6 @@ export async function fetchModuleSections(params: {
   const snap = await getDocs(q);
   return snap.docs.map((d) => {
     const data = d.data();
-
     return {
       id: d.id,
       title: data.title,
