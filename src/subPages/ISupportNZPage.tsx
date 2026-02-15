@@ -239,41 +239,51 @@ const ISupportNZPage: React.FC = () => {
 
   return (
     <div className="p-4 space-y-6">
-      {modules.map((m) => (
-        <AccordionCard
-          key={m.id}
-          title={
-            <CourseTitle
-              variant="module"
-              number={m.number.toString()}
-              title={m.title}
-              thumbnailUrl={m.thumbnailUrl}
-            />
-          }
-        >
-          {/* Introduction module */}
-          {m.number === 0 && m.description && (
-            <p className="title-sm title-gray-700 leading-relaxed">
-              {m.description}
-            </p>
-          )}
-
-          {/* Other modules */}
-          {m.number !== 0 && (
-            <p className="text-sm text-gray-500">
-              Sections will be loaded here...
-            </p>
-            // <SubSectionList
-            //   sections={m.sections}
-            //   openSubsection={handleOpenSubsection}
-            // />
-          )}
-        </AccordionCard>
-      ))}
-
-      <AccordionCard title="NEW ZEALAND LOCAL RESOURCES">
-        <></>
-      </AccordionCard>
+      {loading && (
+        <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
+          Loading modules...
+        </div>
+      )}
+      {error && (
+        <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-red-600">
+          {error}
+        </div>
+      )}
+      {!loading && !error && (
+        <>
+          {modules.map((m) => (
+            <AccordionCard
+              key={m.id}
+              title={
+                <CourseTitle
+                  variant="module"
+                  number={m.number.toString()}
+                  title={m.title}
+                  thumbnailUrl={m.thumbnailUrl}
+                />
+              }
+            >
+              {m.number === 0 && m.description && (
+                <p className="title-sm title-gray-700 leading-relaxed">
+                  {m.description}
+                </p>
+              )}
+              {m.number !== 0 && (
+                <p className="text-sm text-gray-500">
+                  Sections will be loaded here...
+                </p>
+                // <SubSectionList
+                //   sections={m.sections}
+                //   openSubsection={handleOpenSubsection}
+                // />
+              )}
+            </AccordionCard>
+          ))}
+          <AccordionCard title="NEW ZEALAND LOCAL RESOURCES">
+            <></>
+          </AccordionCard>
+        </>
+      )}
       <SubsectionModal
         isOpen={isSubsectionOpen}
         onClose={() => setIsSubsectionOpen(false)}
