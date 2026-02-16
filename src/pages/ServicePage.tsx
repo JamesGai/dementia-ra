@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { playCircleOutline } from "ionicons/icons";
 import { fetchAllServices, Service } from "../services/serviceService";
-import { Video } from "../services/videoService";
+import { fetchServiceInstructionVideo, Video } from "../services/videoService";
 import Introduction from "../components/service/Introduction";
 import Button from "../components/universal/Button";
 import ServiceContent from "../components/service/ServiceContent";
@@ -10,16 +10,7 @@ import ServiceModal from "../components/service/ServiceModal";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
 const ServicesPage: React.FC = () => {
-  const instructionVideo: Video = {
-    id: "instruction",
-    title: "How to use the Videos page",
-    description:
-      "This short video explains how to browse videos, play them, and review your watch history.",
-    durationText: "02:30",
-    videoUrl:
-      "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-  };
-
+  const [instructionVideo, setInstructionVideo] = useState<Video | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<Video | undefined>(
     undefined,
   );
@@ -33,6 +24,7 @@ const ServicesPage: React.FC = () => {
   );
 
   const handleOpenInstruction = () => {
+    if (!instructionVideo) return;
     setSelectedVideo(instructionVideo);
     setIsVideoOpen(true);
   };
@@ -47,8 +39,12 @@ const ServicesPage: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        const data = await fetchAllServices();
+        const [instruction, data] = await Promise.all([
+          fetchServiceInstructionVideo(),
+          fetchAllServices(),
+        ]);
         setServices(data);
+        setInstructionVideo(instruction);
       } catch (e) {
         console.error("❌ Failed to fetch services:", e);
         setError("Failed to load services. Please try again.");

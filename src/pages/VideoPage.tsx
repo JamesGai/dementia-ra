@@ -1,6 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { funnelOutline, playCircleOutline } from "ionicons/icons";
-import { fetchAllVideos, Video } from "../services/videoService";
+import {
+  fetchAllVideos,
+  fetchVideoInstructionVideo,
+  Video,
+} from "../services/videoService";
 import Button from "../components/universal/Button";
 import LabeledSelectionInput from "../components/profile/LabeledSelectionInput";
 import Pagination from "../components/video/Pagination";
@@ -17,16 +21,6 @@ interface VideoPageProps {
 const PAGE_SIZE = 5; // How many videos can be displayed per page
 
 const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
-  const instructionVideo: Video = {
-    id: "instruction",
-    title: "How to use the Videos page",
-    description:
-      "This short video explains how to browse videos, play them, and review your watch history.",
-    durationText: "02:30",
-    videoUrl:
-      "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-  };
-
   const videoSegmentOptions = [
     { value: "all", label: "All videos" },
     { value: "history", label: "History" },
@@ -41,6 +35,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
   ];
 
   const [segment, setSegment] = useState<VideoSegment>("all");
+  const [instructionVideo, setInstructionVideo] = useState<Video | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<Video | undefined>(
     undefined,
   );
@@ -95,6 +90,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
   }, [sourceList, page]);
 
   const handleOpenInstruction = () => {
+    if (!instructionVideo) return;
     setSelectedVideo(instructionVideo);
     setIsVideoOpen(true);
   };
@@ -139,8 +135,12 @@ const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
       try {
         setLoading(true);
         setError(null);
-        const data = await fetchAllVideos();
+        const [instruction, data] = await Promise.all([
+          fetchVideoInstructionVideo(),
+          fetchAllVideos(),
+        ]);
         setAllVideos(data);
+        setInstructionVideo(instruction);
       } catch (e) {
         console.error("❌ Failed to fetch videos:", e);
         setError("Failed to load videos. Please try again.");

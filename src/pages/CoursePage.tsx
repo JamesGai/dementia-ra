@@ -6,7 +6,7 @@ import {
   Course,
   fetchAllCourses,
 } from "../services/courseService";
-import { Video } from "../services/videoService";
+import { fetchCourseInstructionVideo, Video } from "../services/videoService";
 import Button from "../components/universal/Button";
 import CourseContent from "../components/course/CourseContent";
 import Segment from "../components/universal/Segment";
@@ -19,22 +19,13 @@ interface CoursePageProps {
 }
 
 const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
-  const instructionVideo: Video = {
-    id: "instruction",
-    title: "How to use the Videos page",
-    description:
-      "This short video explains how to browse videos, play them, and review your watch history.",
-    durationText: "02:30",
-    videoUrl:
-      "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-  };
-
   const courseSegmentOptions = [
     { value: "all", label: "All courses" },
     { value: "progress", label: "My progress" },
   ] as const;
 
   const [segment, setSegment] = useState<CourseSegment>("all");
+  const [instructionVideo, setInstructionVideo] = useState<Video | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<Video | undefined>(
     undefined,
   );
@@ -44,6 +35,7 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
   const [error, setError] = useState<string | null>(null);
 
   const handleOpenInstruction = () => {
+    if (!instructionVideo) return;
     setSelectedVideo(instructionVideo);
     setIsVideoOpen(true);
   };
@@ -53,7 +45,11 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
       try {
         setLoading(true);
         setError(null);
-        const data = await fetchAllCourses();
+        const [instruction, data] = await Promise.all([
+          fetchCourseInstructionVideo(),
+          fetchAllCourses(),
+        ]);
+        setInstructionVideo(instruction);
         const uid = auth.currentUser?.uid ?? null;
         if (!uid) {
           setCourses(data);
