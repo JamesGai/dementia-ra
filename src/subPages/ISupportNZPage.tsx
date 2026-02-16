@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { auth } from "../firebase";
 import {
+  markSubsectionCompleted,
   fetchCourseTree,
   Module,
   Section,
@@ -29,6 +31,16 @@ const ISupportNZPage: React.FC = () => {
   const handleOpenSubsection = (sub: Subsection) => {
     setSelectedSubsection(sub);
     setIsSubsectionOpen(true);
+    const uid = auth.currentUser?.uid;
+    if (!uid) return;
+    void markSubsectionCompleted({
+      uid,
+      moduleNumber: sub.moduleNumber,
+      sectionNumber: sub.sectionNumber,
+      subsectionNumber: sub.subsectionNumber,
+    }).catch((err) => {
+      console.error("Failed to save subsection completion", err);
+    });
   };
 
   useEffect(() => {

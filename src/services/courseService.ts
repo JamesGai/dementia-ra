@@ -1,10 +1,20 @@
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import {
+  arrayUnion,
+  collection,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 import { db } from "../firebase";
 
 export type Course = {
   id: string;
   title: string;
   thumbnailUrl?: string;
+  progress?: number[];
 };
 
 export type Module = {
@@ -31,6 +41,128 @@ export type Subsection = {
   //   contentFormat?: "text" | "html" | "markdown" | "ref";
   //   content?: string;
 };
+
+const DEFAULT_PROGRESS_MODULE_COUNT = 5;
+
+/**
+ * Builds a subsection progress token in the format `module.section.subsection`.
+ * Example: `1.1.0`.
+ */
+export function buildSubsectionProgressKey(params: {
+  moduleNumber: number;
+  sectionNumber: number;
+  subsectionNumber: number;
+}) {
+  const { moduleNumber, sectionNumber, subsectionNumber } = params;
+  return `${moduleNumber}.${sectionNumber}.${subsectionNumber}`;
+}
+
+/**
+ * Marks a subsection as completed by adding its token into `users/{uid}.courseProgress`.
+ * Uses `arrayUnion` so duplicates are ignored automatically.
+ */
+export async function markSubsectionCompleted(params: {
+  uid: string;
+  moduleNumber: number;
+  sectionNumber: number;
+  subsectionNumber: number;
+}): Promise<void> {
+  const { uid, moduleNumber, sectionNumber, subsectionNumber } = params;
+  const token = buildSubsectionProgressKey({
+    moduleNumber,
+    sectionNumber,
+    subsectionNumber,
+  });
+  const userRef = doc(db, "users", uid);
+
+  await setDoc(
+    userRef,
+    {
+      courseProgress: arrayUnion(token),
+    },
+    { merge: true },
+  );
+}
+
+/**
+ * Reads `users/{uid}.courseProgress` and returns it as a set for O(1) lookups.
+ */
+async function fetchCompletedSubsectionKeySet(params: {
+  uid: string;
+}): Promise<Set<string>> {
+  const { uid } = params;
+  const snap = await getDoc(doc(db, "users", uid));
+  if (!snap.exists()) {
+    return new Set();
+  }
+  const data = snap.data() as { courseProgress?: unknown };
+  const list = Array.isArray(data.courseProgress) ? data.courseProgress : [];
+  const keys = list.filter((item): item is string => typeof item === "string");
+  return new Set(keys);
+}
+
+/**
+ * Computes per-module completion percentages for a course.
+ * Percentage per module is:
+ * `Math.round(completedSubsections / totalSubsections * 100)`.
+ * Returns an array padded to `moduleCount` (default 5) when trackable subsections exist.
+ * Returns `[]` if no trackable subsections are found, so callers can keep existing progress data.
+ */
+export async function computeCourseProgress(params: {
+  courseId: string;
+  uid: string;
+  moduleCount?: number;
+}): Promise<number[]> {
+  const { courseId, uid, moduleCount = DEFAULT_PROGRESS_MODULE_COUNT } = params;
+
+  const [{ modules, sections, subsections }, completedKeys] = await Promise.all([
+    fetchCourseTree(courseId),
+    fetchCompletedSubsectionKeySet({ uid }),
+  ]);
+
+  const trackableModules = modules
+    .filter((m) => m.number > 0)
+    .sort((a, b) => a.number - b.number)
+    .slice(0, moduleCount);
+
+  let totalTrackableSubsections = 0;
+
+  const progress = trackableModules.map((m) => {
+    const moduleSections = sections[m.id] ?? [];
+    let totalSubsections = 0;
+    let completedSubsections = 0;
+
+    for (const s of moduleSections) {
+      const key = `${m.id}/${s.id}`;
+      const sectionSubs = subsections[key] ?? [];
+      for (const sub of sectionSubs) {
+        totalSubsections += 1;
+        const subKey = buildSubsectionProgressKey({
+          moduleNumber: sub.moduleNumber,
+          sectionNumber: sub.sectionNumber,
+          subsectionNumber: sub.subsectionNumber,
+        });
+        if (completedKeys.has(subKey)) {
+          completedSubsections += 1;
+        }
+      }
+    }
+
+    totalTrackableSubsections += totalSubsections;
+    if (totalSubsections === 0) return 0;
+    return Math.round((completedSubsections / totalSubsections) * 100);
+  });
+
+  if (totalTrackableSubsections === 0) {
+    return [];
+  }
+
+  while (progress.length < moduleCount) {
+    progress.push(0);
+  }
+
+  return progress;
+}
 
 export async function fetchAllCourses(): Promise<Course[]> {
   const snap = await getDocs(collection(db, "course"));
