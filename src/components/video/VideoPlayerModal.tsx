@@ -112,7 +112,12 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
                   {video.title}
                 </div>
                 <div className="text-sm text-gray-500 whitespace-nowrap">
-                  {video.numOfViewed} view{video.numOfViewed === 1 ? "" : "s"}
+                  {(video.numOfViewed ?? 0) > 0 && (
+                    <>
+                      {video.numOfViewed} view
+                      {video.numOfViewed === 1 ? "" : "s"}
+                    </>
+                  )}
                 </div>
               </div>
               {formatPublishDate((video as any)?.createdAt) ? (
