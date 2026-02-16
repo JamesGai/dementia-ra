@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
 import { playCircleOutline } from "ionicons/icons";
 import { auth } from "../firebase";
 import {
@@ -50,11 +49,12 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
   };
 
   useEffect(() => {
-    const loadCourses = async (uid: string | null) => {
+    (async () => {
       try {
         setLoading(true);
         setError(null);
         const data = await fetchAllCourses();
+        const uid = auth.currentUser?.uid ?? null;
         if (!uid) {
           setCourses(data);
           return;
@@ -86,10 +86,7 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
       } finally {
         setLoading(false);
       }
-    };
-    return onAuthStateChanged(auth, (user) => {
-      void loadCourses(user?.uid ?? null);
-    });
+    })();
   }, []);
 
   return (
