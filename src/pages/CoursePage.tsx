@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
 import { playCircleOutline } from "ionicons/icons";
-import { Course, fetchAllCourses } from "../services/courseService";
+import { auth } from "../firebase";
+import {
+  computeCourseProgress,
+  Course,
+  fetchAllCourses,
+} from "../services/courseService";
 import { Video } from "../services/videoService";
 import Button from "../components/universal/Button";
 import CourseContent from "../components/course/CourseContent";
@@ -44,19 +50,46 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
   };
 
   useEffect(() => {
-    (async () => {
+    const loadCourses = async (uid: string | null) => {
       try {
         setLoading(true);
         setError(null);
         const data = await fetchAllCourses();
-        setCourses(data);
-      } catch (e) {
-        console.error("❌ Failed to fetch courses:", e);
+        if (!uid) {
+          setCourses(data);
+          return;
+        }
+        const withComputedProgress = await Promise.all(
+          data.map(async (course) => {
+            try {
+              const progress = await computeCourseProgress({
+                courseId: course.id,
+                uid,
+              });
+              if (progress.length === 0) {
+                return course;
+              }
+              return { ...course, progress };
+            } catch (progressError) {
+              console.error(
+                `Failed to compute progress for course ${course.id}`,
+                progressError,
+              );
+              return course;
+            }
+          }),
+        );
+        setCourses(withComputedProgress);
+      } catch (fetchError) {
+        console.error("Failed to fetch courses:", fetchError);
         setError("Failed to load courses.");
       } finally {
         setLoading(false);
       }
-    })();
+    };
+    return onAuthStateChanged(auth, (user) => {
+      void loadCourses(user?.uid ?? null);
+    });
   }, []);
 
   return (
