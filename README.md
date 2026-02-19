@@ -61,4 +61,4 @@ The app will explain behaviours associated with dementia and offer strategies fo
 
 ## Project Management
 
-This project is being tracked on [Trello](https://trello.com/invite/b/693665288013024805a039d5/ATTI38fa1fe1678ae7b4a8becfefb4522a459AACCF79/dementia-ra), ask permission to join and visit.
+This project is being tracked on Trello, ask permission to join and visit.
