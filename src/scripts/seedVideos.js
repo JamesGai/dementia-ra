@@ -42,6 +42,7 @@ async function main() {
       createdAt: parseDateMMDDYYYY("04-29-2024"),
       videoUrl: "",
       thumbnailUrl: "",
+      module: 2,
     },
     {
       title: "Managing everyday responsibilities",
@@ -52,6 +53,7 @@ async function main() {
       createdAt: parseDateMMDDYYYY("03-10-2024"),
       videoUrl: "",
       thumbnailUrl: "",
+      module: 2,
     },
     {
       title: "Preventing someone from getting lost",
@@ -62,6 +64,7 @@ async function main() {
       createdAt: parseDateMMDDYYYY("07-18-2023"),
       videoUrl: "",
       thumbnailUrl: "",
+      module: 3,
     },
     {
       title: "The importance of enjoyable activities for carers",
@@ -72,6 +75,7 @@ async function main() {
       createdAt: parseDateMMDDYYYY("11-03-2023"),
       videoUrl: "",
       thumbnailUrl: "",
+      module: 4,
     },
     {
       title: "Saying the wrong things in public",
@@ -82,6 +86,7 @@ async function main() {
       createdAt: parseDateMMDDYYYY("10-30-2024"),
       videoUrl: "",
       thumbnailUrl: "",
+      module: 4,
     },
     {
       title: "Creating a comfortable environment",
@@ -92,6 +97,7 @@ async function main() {
       createdAt: parseDateMMDDYYYY("01-15-2024"),
       videoUrl: "",
       thumbnailUrl: "",
+      module: 1,
     },
     {
       title: "Reframing negative thoughts",
@@ -102,6 +108,7 @@ async function main() {
       createdAt: parseDateMMDDYYYY("12-18-2023"),
       videoUrl: "",
       thumbnailUrl: "",
+      module: 4,
     },
   ];
 
