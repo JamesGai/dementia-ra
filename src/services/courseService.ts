@@ -45,6 +45,7 @@ export type Subsection = {
 };
 
 const DEFAULT_PROGRESS_MODULE_COUNT = 5;
+let canUseSectionCollectionGroupQuery = true;
 
 /**
  * Builds a subsection progress token in the format `module.section.subsection`.
@@ -273,69 +274,33 @@ export async function searchCourseSections(
   if (!searchTerm.trim()) {
     return { modules: [], sections: {}, subsections: {} };
   }
-  const formatted = searchTerm.toLowerCase();
-  const q = query(
-    collectionGroup(db, "section"),
-    where("keywords", "array-contains", formatted),
-  );
+  const formatted = searchTerm.trim().toLowerCase();
 
-  const snap = await getDocs(q);
-  const modules: Module[] = [];
-  const sections: Record<string, Section[]> = {};
-  const subsections: Record<string, Subsection[]> = {};
-  for (const docSnap of snap.docs) {
-    if (!docSnap.ref.path.includes(`course/${courseId}/`)) {
-      continue;
-    }
+  const fromSectionDoc = (docSnap: any): Section => {
     const sectionData = docSnap.data();
-    const section: Section = {
+    return {
       id: docSnap.id,
       title: sectionData.title,
       moduleNumber: sectionData.moduleNumber,
       sectionNumber: sectionData.sectionNumber,
     };
+  };
 
-    const moduleRef = docSnap.ref.parent.parent;
-    if (!moduleRef) continue;
-    const moduleSnap = await getDoc(moduleRef);
-    if (!moduleSnap.exists()) continue;
-
-    const moduleData = moduleSnap.data();
-    const module: Module = {
-      id: moduleSnap.id,
-      title: moduleData.title,
-      number: moduleData.number,
-      thumbnailUrl: moduleData.thumbnailUrl,
-      description: moduleData.description,
-    };
-
-    // Avoid duplicate modules
-    if (!modules.find((m) => m.id === module.id)) {
-      modules.push(module);
-    }
-
-    // Attach section under module
-    if (!sections[module.id]) {
-      sections[module.id] = [];
-    }
-    sections[module.id].push(section);
-
-    // Fetch subsections
+  const fetchSubsections = async (moduleId: string, sectionId: string) => {
     const subsectionCol = collection(
       db,
       "course",
       courseId,
       "module",
-      module.id,
+      moduleId,
       "section",
-      section.id,
+      sectionId,
       "subsection",
     );
     const subsectionSnap = await getDocs(
       query(subsectionCol, orderBy("subsectionNumber", "asc")),
     );
-    const key = `${module.id}/${section.id}`;
-    subsections[key] = subsectionSnap.docs.map((d) => {
+    return subsectionSnap.docs.map((d) => {
       const data = d.data();
       return {
         id: d.id,
@@ -343,8 +308,97 @@ export async function searchCourseSections(
         moduleNumber: data.moduleNumber,
         sectionNumber: data.sectionNumber,
         subsectionNumber: data.subsectionNumber,
-      };
+      } as Subsection;
     });
+  };
+
+  if (canUseSectionCollectionGroupQuery) {
+    try {
+      const q = query(
+        collectionGroup(db, "section"),
+        where("keywords", "array-contains", formatted),
+      );
+      const snap = await getDocs(q);
+
+      const modules: Module[] = [];
+      const sections: Record<string, Section[]> = {};
+      const subsections: Record<string, Subsection[]> = {};
+
+      for (const docSnap of snap.docs) {
+        if (!docSnap.ref.path.includes(`course/${courseId}/`)) {
+          continue;
+        }
+        const section = fromSectionDoc(docSnap);
+
+        const moduleRef = docSnap.ref.parent.parent;
+        if (!moduleRef) continue;
+        const moduleSnap = await getDoc(moduleRef);
+        if (!moduleSnap.exists()) continue;
+
+        const moduleData = moduleSnap.data();
+        const module: Module = {
+          id: moduleSnap.id,
+          title: moduleData.title,
+          number: moduleData.number,
+          thumbnailUrl: moduleData.thumbnailUrl,
+          description: moduleData.description,
+        };
+
+        if (!modules.find((m) => m.id === module.id)) {
+          modules.push(module);
+        }
+
+        if (!sections[module.id]) {
+          sections[module.id] = [];
+        }
+        sections[module.id].push(section);
+
+        const key = `${module.id}/${section.id}`;
+        subsections[key] = await fetchSubsections(module.id, section.id);
+      }
+
+      return { modules, sections, subsections };
+    } catch (error: any) {
+      const code = typeof error?.code === "string" ? error.code : "";
+      if (
+        code.includes("failed-precondition") ||
+        code.includes("permission-denied")
+      ) {
+        canUseSectionCollectionGroupQuery = false;
+      } else {
+        console.warn("searchCourseSections: unexpected search error", error);
+      }
+    }
   }
-  return { modules, sections, subsections };
+
+  const modules = await fetchCourseModules(courseId);
+  const matchedModules: Module[] = [];
+  const sections: Record<string, Section[]> = {};
+  const subsections: Record<string, Subsection[]> = {};
+
+  for (const module of modules) {
+    const allSections = await fetchModuleSections({
+      courseId,
+      moduleId: module.id,
+    }).catch(() => []);
+
+    const matchedSections = allSections.filter((section) =>
+      section.title.toLowerCase().includes(formatted),
+    );
+
+    if (matchedSections.length === 0) {
+      continue;
+    }
+
+    matchedModules.push(module);
+    sections[module.id] = matchedSections;
+
+    for (const section of matchedSections) {
+      const key = `${module.id}/${section.id}`;
+      subsections[key] = await fetchSubsections(module.id, section.id).catch(
+        () => [],
+      );
+    }
+  }
+  return { modules: matchedModules, sections, subsections };
 }

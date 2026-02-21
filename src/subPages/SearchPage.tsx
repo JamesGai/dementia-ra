@@ -1,4 +1,10 @@
 import React, { useRef, useState } from "react";
+import {
+  Module,
+  searchCourseSections,
+  Section,
+  Subsection,
+} from "../services/courseService";
 import { searchServices, Service } from "../services/serviceService";
 import { searchVideos, Video } from "../services/videoService";
 import SearchBar from "../components/home/SearchBar";
@@ -20,10 +26,19 @@ const toMillis = (createdAt: any): number => {
   return 0;
 };
 
+const DEFAULT_COURSE_ID = "isupport-nz";
+
 const SearchPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [videoResults, setVideoResults] = useState<Video[]>([]);
   const [serviceResults, setServiceResults] = useState<Service[]>([]);
+  const [courseModules, setCourseModules] = useState<Module[]>([]);
+  const [courseSections, setCourseSections] = useState<Record<string, Section[]>>(
+    {},
+  );
+  const [courseSubsections, setCourseSubsections] = useState<
+    Record<string, Subsection[]>
+  >({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<Video | undefined>();
@@ -41,6 +56,9 @@ const SearchPage: React.FC = () => {
       setError(null);
       setVideoResults([]);
       setServiceResults([]);
+      setCourseModules([]);
+      setCourseSections({});
+      setCourseSubsections({});
       return;
     }
 
@@ -49,9 +67,10 @@ const SearchPage: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const [videoData, serviceData] = await Promise.all([
+      const [videoData, serviceData, courseData] = await Promise.all([
         searchVideos(trimmed),
         searchServices(trimmed),
+        searchCourseSections(DEFAULT_COURSE_ID, trimmed),
       ]);
 
       if (requestId !== requestIdRef.current) {
@@ -68,9 +87,15 @@ const SearchPage: React.FC = () => {
 
       setVideoResults(sortedVideos);
       setServiceResults(sortedServices);
+      setCourseModules(
+        [...courseData.modules].sort((a, b) => a.number - b.number),
+      );
+      setCourseSections(courseData.sections);
+      setCourseSubsections(courseData.subsections);
       console.log("Service search results:", sortedServices);
+      console.log("Course section search results:", courseData);
     } catch (e) {
-      console.error("Failed to search videos/services:", e);
+      console.error("Failed to search videos/services/courses:", e);
       if (requestId === requestIdRef.current) {
         setError("Failed to search results. Please try again.");
       }
@@ -94,13 +119,13 @@ const SearchPage: React.FC = () => {
 
       {!hasQuery && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
-          Start typing to search for videos and services.
+          Start typing to search for videos, services, and course sections.
         </div>
       )}
 
       {hasQuery && loading && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
-          Searching videos and services...
+          Searching videos, services, and course sections...
         </div>
       )}
 
@@ -114,7 +139,8 @@ const SearchPage: React.FC = () => {
         !loading &&
         !error &&
         videoResults.length === 0 &&
-        serviceResults.length === 0 && (
+        serviceResults.length === 0 &&
+        courseModules.length === 0 && (
           <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
             No results found for "{searchTerm.trim()}".
           </div>
@@ -164,6 +190,51 @@ const SearchPage: React.FC = () => {
                     {service.link}
                   </a>
                 ) : null}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {hasQuery && !loading && !error && courseModules.length > 0 && (
+        <div className="space-y-3">
+          <h2 className="text-[#2e6f73] font-extrabold tracking-wide">
+            Course Sections
+          </h2>
+          <div className="space-y-3">
+            {courseModules.map((module) => (
+              <div
+                key={module.id}
+                className="bg-white rounded-2xl p-4 shadow-md space-y-3"
+              >
+                <div className="text-[#2e6f73] font-extrabold tracking-wide">
+                  Module {module.number}: {module.title}
+                </div>
+                {(courseSections[module.id] ?? []).map((section) => {
+                  const sectionKey = `${module.id}/${section.id}`;
+                  const subsectionList = courseSubsections[sectionKey] ?? [];
+                  return (
+                    <div key={section.id} className="border-t border-gray-200 pt-3">
+                      <div className="text-sm font-semibold text-gray-800">
+                        {section.moduleNumber}.{section.sectionNumber}. {section.title}
+                      </div>
+                      {subsectionList.length > 0 ? (
+                        <div className="mt-2 space-y-1">
+                          {subsectionList.map((sub) => (
+                            <div key={sub.id} className="text-sm text-gray-600">
+                              {sub.moduleNumber}.{sub.sectionNumber}.
+                              {sub.subsectionNumber}. {sub.title}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="mt-2 text-sm text-gray-500">
+                          No subsections yet
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             ))}
           </div>
