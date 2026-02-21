@@ -17,7 +17,7 @@ const SearchBar: React.FC<KeywordSearchBarProps> = ({
       <IonSearchbar
         placeholder={placeholder}
         debounce={400} // Ionic built-in debounce
-        onIonChange={(e) => {
+        onIonInput={(e) => {
           const value = e.detail.value ?? "";
           onSearch?.(value);
         }}
