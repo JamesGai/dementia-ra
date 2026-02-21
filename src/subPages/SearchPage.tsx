@@ -7,6 +7,7 @@ import {
 } from "../services/courseService";
 import { searchServices, Service } from "../services/serviceService";
 import { searchVideos, Video } from "../services/videoService";
+import AccordionCard from "../components/universal/AccordionCard";
 import SearchBar from "../components/home/SearchBar";
 import VideoContent from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
@@ -147,24 +148,18 @@ const SearchPage: React.FC = () => {
         )}
 
       {hasQuery && !loading && !error && videoResults.length > 0 && (
-        <div className="space-y-3">
-          <h2 className="text-[#2e6f73] font-extrabold tracking-wide">
-            Videos
-          </h2>
+        <AccordionCard title={`VIDEOS (${videoResults.length})`}>
           <VideoContent
             segment="all"
             videos={videoResults}
             historyVideos={[]}
             playVideo={handleOpenVideo}
           />
-        </div>
+        </AccordionCard>
       )}
 
       {hasQuery && !loading && !error && serviceResults.length > 0 && (
-        <div className="space-y-3">
-          <h2 className="text-[#2e6f73] font-extrabold tracking-wide">
-            Services
-          </h2>
+        <AccordionCard title={`SERVICES (${serviceResults.length})`}>
           <div className="space-y-3">
             {serviceResults.map((service) => (
               <div
@@ -193,14 +188,11 @@ const SearchPage: React.FC = () => {
               </div>
             ))}
           </div>
-        </div>
+        </AccordionCard>
       )}
 
       {hasQuery && !loading && !error && courseModules.length > 0 && (
-        <div className="space-y-3">
-          <h2 className="text-[#2e6f73] font-extrabold tracking-wide">
-            Course Sections
-          </h2>
+        <AccordionCard title={`COURSE SECTIONS (${courseModules.length})`}>
           <div className="space-y-3">
             {courseModules.map((module) => (
               <div
@@ -238,7 +230,7 @@ const SearchPage: React.FC = () => {
               </div>
             ))}
           </div>
-        </div>
+        </AccordionCard>
       )}
 
       <VideoPlayerModal
