@@ -8,7 +8,7 @@ interface KeywordSearchBarProps {
 }
 
 const SearchBar: React.FC<KeywordSearchBarProps> = ({
-  placeholder = "Search",
+  placeholder = "Search videos, courses, and services nearby",
   onSearch,
   onActivate,
 }) => {

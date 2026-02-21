@@ -78,10 +78,7 @@ const SearchPage: React.FC = () => {
 
   return (
     <div className="p-4 space-y-6">
-      <SearchBar
-        placeholder="Search videos by keyword"
-        onSearch={handleSearch}
-      />
+      <SearchBar onSearch={handleSearch} />
 
       {!hasQuery && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
