@@ -6,6 +6,7 @@ import {
   orderBy,
   query,
   Timestamp,
+  where,
 } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -56,4 +57,20 @@ export function fetchCourseInstructionVideo(): Promise<Video | null> {
 
 export function fetchServiceInstructionVideo(): Promise<Video | null> {
   return fetchInstructionVideoById(SERVICE_INSTRUCTION_ID);
+}
+
+export async function searchVideos(searchTerm: string): Promise<Video[]> {
+  if (!searchTerm.trim()) {
+    return [];
+  }
+  const formatted = searchTerm.toLowerCase();
+  const q = query(
+    collection(db, "videos"),
+    where("keywords", "array-contains", formatted),
+  );
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => {
+    const data = d.data() as Omit<Video, "id">;
+    return { id: d.id, ...data };
+  });
 }

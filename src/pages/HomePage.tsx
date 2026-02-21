@@ -14,6 +14,7 @@ interface HomePageProps {
       | "course"
       | "manual"
       | "profile"
+      | "search"
       | "service"
       | "video",
   ) => void;
@@ -24,7 +25,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, isLoggedIn }) => {
   return (
     <div className="p-4 space-y-6">
       <Welcome />
-      <SearchBar />
+      <SearchBar onActivate={() => onNavigate("search")} />
       <ChatbotButton onNavigate={onNavigate} />
       <Introduction isLoggedIn={isLoggedIn} />
       {/* Logged in state */}

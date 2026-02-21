@@ -24,6 +24,19 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
+function generateKeywords(name, description) {
+  const text = `${name} ${description}`.toLowerCase();
+
+  return Array.from(
+    new Set(
+      text
+        .replace(/[^\w\s]/g, "") // remove punctuation
+        .split(/\s+/) // split by whitespace
+        .filter((word) => word.length > 2), // ignore tiny words
+    ),
+  );
+}
+
 async function main() {
   const services = [
     {
@@ -90,9 +103,12 @@ async function main() {
       .trim()
       .replace(/\s+/g, "-");
 
+    const keywords = generateKeywords(s.name, s.description);
+
     await col.doc(docId).set(
       {
         ...s,
+        keywords,
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
       },
       { merge: true },

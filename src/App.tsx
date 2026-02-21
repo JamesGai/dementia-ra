@@ -34,6 +34,7 @@ import VideoPage from "./pages/VideoPage";
 import CreateAccountPage from "./subPages/CreateAccountPage";
 import ForgotPasswordPage from "./subPages/ForgotPasswordPage";
 import ISupportNZPage from "./subPages/ISupportNZPage";
+import SearchPage from "./subPages/SearchPage";
 
 export type Page =
   | "aboutUs"
@@ -45,6 +46,7 @@ export type Page =
   | "iSupportNZ"
   | "manual"
   | "profile"
+  | "search"
   | "service"
   | "video";
 
@@ -65,7 +67,7 @@ const App: React.FC = () => {
       label: "Home",
       to: "home",
       show: () => true,
-      isActive: (p) => p === "home",
+      isActive: (p) => p === "home" || p === "search",
       iconFilled: home,
       iconOutline: homeOutline,
     },
@@ -158,6 +160,7 @@ const App: React.FC = () => {
     iSupportNZ: <ISupportNZPage />,
     manual: <ManualPage />,
     profile: <ProfilePage onNavigate={setActivePage} isLoggedIn={isLoggedIn} />,
+    search: <SearchPage />,
     service: <ServicesPage />,
     video: <VideoPage scrollToTop={scrollToTop} />,
   };

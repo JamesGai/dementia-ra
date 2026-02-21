@@ -15,7 +15,7 @@ import {
   callOutline,
   linkOutline,
 } from "ionicons/icons";
-import { Service } from "../../pages/ServicePage";
+import { Service } from "../../services/serviceService";
 
 type InfoRowProps = {
   icon: string;
@@ -78,7 +78,7 @@ const ServiceModal: React.FC<ServicesModalProps> = ({
             {/* Title + Details */}
             <div className="bg-white rounded-2xl p-4 shadow-md space-y-3">
               <div className="text-[#2e6f73] font-extrabold tracking-wide">
-                {service.title}
+                {service.name}
               </div>
               <div className="h-px w-full bg-gray-300" />
               {/* Map placeholder (icon only)*/}
@@ -101,9 +101,9 @@ const ServiceModal: React.FC<ServicesModalProps> = ({
                     <div>{service.email}</div>
                   </InfoRow>
                 ) : null}
-                {service.mobile ? (
+                {service.phone ? (
                   <InfoRow icon={callOutline}>
-                    <div>{service.mobile}</div>
+                    <div>{service.phone}</div>
                   </InfoRow>
                 ) : null}
                 {service.link ? (

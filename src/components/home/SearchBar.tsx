@@ -3,15 +3,25 @@ import { IonSearchbar } from "@ionic/react";
 
 interface KeywordSearchBarProps {
   placeholder?: string;
+  onSearch?: (value: string) => void;
+  onActivate?: () => void;
 }
 
 const SearchBar: React.FC<KeywordSearchBarProps> = ({
-  placeholder = "Search videos, articles, resources...",
+  placeholder = "Search videos, courses, and services nearby",
+  onSearch,
+  onActivate,
 }) => {
   return (
     <div className="bg-white rounded-2xl p-1 shadow-sm border border-gray-100">
       <IonSearchbar
         placeholder={placeholder}
+        debounce={400} // Ionic built-in debounce
+        onIonInput={(e) => {
+          const value = e.detail.value ?? "";
+          onSearch?.(value);
+        }}
+        onIonFocus={onActivate}
         className="custom-searchbar"
         style={
           {

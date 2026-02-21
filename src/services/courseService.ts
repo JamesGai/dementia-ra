@@ -1,12 +1,14 @@
 import {
   arrayUnion,
   collection,
+  collectionGroup,
   getDoc,
   getDocs,
   orderBy,
   query,
   doc,
   setDoc,
+  where,
 } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -43,6 +45,7 @@ export type Subsection = {
 };
 
 const DEFAULT_PROGRESS_MODULE_COUNT = 5;
+let canUseSectionCollectionGroupQuery = true;
 
 /**
  * Builds a subsection progress token in the format `module.section.subsection`.
@@ -115,10 +118,9 @@ export async function computeCourseProgress(params: {
 }): Promise<number[]> {
   const { courseId, uid, moduleCount = DEFAULT_PROGRESS_MODULE_COUNT } = params;
 
-  const [{ modules, sections, subsections }, completedKeys] = await Promise.all([
-    fetchCourseTree(courseId),
-    fetchCompletedSubsectionKeySet({ uid }),
-  ]);
+  const [{ modules, sections, subsections }, completedKeys] = await Promise.all(
+    [fetchCourseTree(courseId), fetchCompletedSubsectionKeySet({ uid })],
+  );
 
   const trackableModules = modules
     .filter((m) => m.number > 0)
@@ -263,4 +265,140 @@ export async function fetchCourseTree(courseId: string) {
     }
   }
   return { modules, sections, subsections };
+}
+
+export async function searchCourseSections(
+  courseId: string,
+  searchTerm: string,
+) {
+  if (!searchTerm.trim()) {
+    return { modules: [], sections: {}, subsections: {} };
+  }
+  const formatted = searchTerm.trim().toLowerCase();
+
+  const fromSectionDoc = (docSnap: any): Section => {
+    const sectionData = docSnap.data();
+    return {
+      id: docSnap.id,
+      title: sectionData.title,
+      moduleNumber: sectionData.moduleNumber,
+      sectionNumber: sectionData.sectionNumber,
+    };
+  };
+
+  const fetchSubsections = async (moduleId: string, sectionId: string) => {
+    const subsectionCol = collection(
+      db,
+      "course",
+      courseId,
+      "module",
+      moduleId,
+      "section",
+      sectionId,
+      "subsection",
+    );
+    const subsectionSnap = await getDocs(
+      query(subsectionCol, orderBy("subsectionNumber", "asc")),
+    );
+    return subsectionSnap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        title: data.title,
+        moduleNumber: data.moduleNumber,
+        sectionNumber: data.sectionNumber,
+        subsectionNumber: data.subsectionNumber,
+      } as Subsection;
+    });
+  };
+
+  if (canUseSectionCollectionGroupQuery) {
+    try {
+      const q = query(
+        collectionGroup(db, "section"),
+        where("keywords", "array-contains", formatted),
+      );
+      const snap = await getDocs(q);
+
+      const modules: Module[] = [];
+      const sections: Record<string, Section[]> = {};
+      const subsections: Record<string, Subsection[]> = {};
+
+      for (const docSnap of snap.docs) {
+        if (!docSnap.ref.path.includes(`course/${courseId}/`)) {
+          continue;
+        }
+        const section = fromSectionDoc(docSnap);
+
+        const moduleRef = docSnap.ref.parent.parent;
+        if (!moduleRef) continue;
+        const moduleSnap = await getDoc(moduleRef);
+        if (!moduleSnap.exists()) continue;
+
+        const moduleData = moduleSnap.data();
+        const module: Module = {
+          id: moduleSnap.id,
+          title: moduleData.title,
+          number: moduleData.number,
+          thumbnailUrl: moduleData.thumbnailUrl,
+          description: moduleData.description,
+        };
+
+        if (!modules.find((m) => m.id === module.id)) {
+          modules.push(module);
+        }
+
+        if (!sections[module.id]) {
+          sections[module.id] = [];
+        }
+        sections[module.id].push(section);
+
+        const key = `${module.id}/${section.id}`;
+        subsections[key] = await fetchSubsections(module.id, section.id);
+      }
+
+      return { modules, sections, subsections };
+    } catch (error: any) {
+      const code = typeof error?.code === "string" ? error.code : "";
+      if (
+        code.includes("failed-precondition") ||
+        code.includes("permission-denied")
+      ) {
+        canUseSectionCollectionGroupQuery = false;
+      } else {
+        console.warn("searchCourseSections: unexpected search error", error);
+      }
+    }
+  }
+
+  const modules = await fetchCourseModules(courseId);
+  const matchedModules: Module[] = [];
+  const sections: Record<string, Section[]> = {};
+  const subsections: Record<string, Subsection[]> = {};
+
+  for (const module of modules) {
+    const allSections = await fetchModuleSections({
+      courseId,
+      moduleId: module.id,
+    }).catch(() => []);
+
+    const matchedSections = allSections.filter((section) =>
+      section.title.toLowerCase().includes(formatted),
+    );
+
+    if (matchedSections.length === 0) {
+      continue;
+    }
+
+    matchedModules.push(module);
+    sections[module.id] = matchedSections;
+
+    for (const section of matchedSections) {
+      const key = `${module.id}/${section.id}`;
+      subsections[key] = await fetchSubsections(module.id, section.id).catch(
+        () => [],
+      );
+    }
+  }
+  return { modules: matchedModules, sections, subsections };
 }
