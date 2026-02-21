@@ -8,6 +8,7 @@ import {
 import Button from "../components/universal/Button";
 import LabeledSelectionInput from "../components/profile/LabeledSelectionInput";
 import Pagination from "../components/video/Pagination";
+import LoadingOverlay from "../components/universal/LoadingOverlay";
 import Segment from "../components/universal/Segment";
 import VideoContent from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
@@ -198,11 +199,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
         </div>
       </div>
       {/* Video list */}
-      {loading && (
-        <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
-          Loading videos...
-        </div>
-      )}
+      {loading && <LoadingOverlay text="Loading videos..." />}
       {error && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-red-600">
           {error}

@@ -9,6 +9,7 @@ import {
 import { fetchCourseInstructionVideo, Video } from "../services/videoService";
 import Button from "../components/universal/Button";
 import CourseContent from "../components/course/CourseContent";
+import LoadingOverlay from "../components/universal/LoadingOverlay";
 import Segment from "../components/universal/Segment";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
@@ -97,11 +98,7 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
         icon={playCircleOutline}
         onClick={handleOpenInstruction}
       />
-      {loading && (
-        <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
-          Loading courses...
-        </div>
-      )}
+      {loading && <LoadingOverlay text="Loading courses..." />}
       {error && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-red-600">
           {error}

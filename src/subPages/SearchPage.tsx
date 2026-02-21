@@ -14,6 +14,7 @@ import SearchBar from "../components/home/SearchBar";
 import ServiceContent from "../components/service/ServiceContent";
 import ServiceModal from "../components/service/ServiceModal";
 import AccordionCard from "../components/universal/AccordionCard";
+import LoadingOverlay from "../components/universal/LoadingOverlay";
 import VideoContent from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
 
@@ -136,9 +137,7 @@ const SearchPage: React.FC = () => {
         </div>
       )}
       {hasQuery && loading && (
-        <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
-          Searching...
-        </div>
+        <LoadingOverlay text="Searching..." />
       )}
       {hasQuery && error && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-red-600">

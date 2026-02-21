@@ -4,6 +4,7 @@ import { fetchAllServices, Service } from "../services/serviceService";
 import { fetchServiceInstructionVideo, Video } from "../services/videoService";
 import Introduction from "../components/service/Introduction";
 import Button from "../components/universal/Button";
+import LoadingOverlay from "../components/universal/LoadingOverlay";
 import ServiceContent from "../components/service/ServiceContent";
 import ServiceModal from "../components/service/ServiceModal";
 
@@ -62,7 +63,7 @@ const ServicesPage: React.FC = () => {
         onClick={handleOpenInstruction}
       />
       <Introduction />
-      {loading && <p>Loading services...</p>}
+      {loading && <LoadingOverlay text="Loading services..." />}
       {error && <p className="text-red-500">{error}</p>}
       {!loading && !error && (
         <ServiceContent services={services} openService={handleOpenService} />
