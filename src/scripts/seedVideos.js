@@ -31,6 +31,19 @@ function parseDateMMDDYYYY(mmddyyyy) {
   );
 }
 
+function generateKeywords(title, description) {
+  const text = `${title} ${description}`.toLowerCase();
+
+  return Array.from(
+    new Set(
+      text
+        .replace(/[^\w\s]/g, "") // remove punctuation
+        .split(/\s+/) // split by whitespace
+        .filter((word) => word.length > 2), // ignore short words
+    ),
+  );
+}
+
 async function main() {
   const videos = [
     {
@@ -121,7 +134,14 @@ async function main() {
       .trim()
       .replace(/\s+/g, "-");
 
-    await col.doc(docId).set(v, { merge: true });
+    const keywords = generateKeywords(v.title, v.description);
+    await col.doc(docId).set(
+      {
+        ...v,
+        keywords,
+      },
+      { merge: true },
+    );
     console.log("Seeded:", docId);
   }
 
