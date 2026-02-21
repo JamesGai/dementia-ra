@@ -28,6 +28,7 @@ import CoursePage from "./pages/CoursePage";
 import HomePage from "./pages/HomePage";
 import ManualPage from "./pages/ManualPage";
 import ProfilePage from "./pages/ProfilePage";
+import SearchPage from "./pages/SearchPage";
 import ServicesPage from "./pages/ServicePage";
 import VideoPage from "./pages/VideoPage";
 // Sub pages
@@ -45,6 +46,7 @@ export type Page =
   | "iSupportNZ"
   | "manual"
   | "profile"
+  | "search"
   | "service"
   | "video";
 
@@ -65,7 +67,7 @@ const App: React.FC = () => {
       label: "Home",
       to: "home",
       show: () => true,
-      isActive: (p) => p === "home",
+      isActive: (p) => p === "home" || p === "search",
       iconFilled: home,
       iconOutline: homeOutline,
     },
@@ -158,6 +160,7 @@ const App: React.FC = () => {
     iSupportNZ: <ISupportNZPage />,
     manual: <ManualPage />,
     profile: <ProfilePage onNavigate={setActivePage} isLoggedIn={isLoggedIn} />,
+    search: <SearchPage />,
     service: <ServicesPage />,
     video: <VideoPage scrollToTop={scrollToTop} />,
   };

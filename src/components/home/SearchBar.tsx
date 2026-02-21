@@ -4,11 +4,13 @@ import { IonSearchbar } from "@ionic/react";
 interface KeywordSearchBarProps {
   placeholder?: string;
   onSearch?: (value: string) => void;
+  onActivate?: () => void;
 }
 
 const SearchBar: React.FC<KeywordSearchBarProps> = ({
   placeholder = "Search",
   onSearch,
+  onActivate,
 }) => {
   return (
     <div className="bg-white rounded-2xl p-1 shadow-sm border border-gray-100">
@@ -19,6 +21,7 @@ const SearchBar: React.FC<KeywordSearchBarProps> = ({
           const value = e.detail.value ?? "";
           onSearch?.(value);
         }}
+        onIonFocus={onActivate}
         className="custom-searchbar"
         style={
           {
