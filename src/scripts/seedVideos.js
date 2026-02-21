@@ -1,4 +1,4 @@
-// Execute: node src/scripts/seedVideos.js to add video documents
+// Execute: node src/scripts/seedVideos.js
 
 import admin from "firebase-admin";
 import path from "path";
@@ -135,6 +135,7 @@ async function main() {
       .replace(/\s+/g, "-");
 
     const keywords = generateKeywords(v.title, v.description);
+
     await col.doc(docId).set(
       {
         ...v,
