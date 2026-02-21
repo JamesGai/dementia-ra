@@ -2,7 +2,7 @@ import React from "react";
 import { Course } from "../../services/courseService";
 import { CourseSegment } from "../../pages/CoursePage";
 
-interface CourseContentProps {
+interface CourseListProps {
   segment: CourseSegment;
   courses: Course[];
   onNavigate: (tab: "iSupportNZ") => void;
@@ -13,7 +13,7 @@ const MODULE_COUNT = 5;
 const normalizeProgress = (progress?: number[]) =>
   Array.from({ length: MODULE_COUNT }, (_, idx) => clamp(progress?.[idx] ?? 0));
 
-const CourseContent: React.FC<CourseContentProps> = ({
+const CourseList: React.FC<CourseListProps> = ({
   segment,
   courses,
   onNavigate,
@@ -71,4 +71,4 @@ const CourseContent: React.FC<CourseContentProps> = ({
   );
 };
 
-export default CourseContent;
+export default CourseList;

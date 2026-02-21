@@ -8,7 +8,7 @@ import {
 } from "../services/courseService";
 import { fetchCourseInstructionVideo, Video } from "../services/videoService";
 import Button from "../components/universal/Button";
-import CourseContent from "../components/course/CourseContent";
+import CourseList from "../components/course/CourseList";
 import LoadingOverlay from "../components/universal/LoadingOverlay";
 import Segment from "../components/universal/Segment";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
@@ -105,7 +105,7 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
         </div>
       )}
       {!loading && !error && (
-        <CourseContent
+        <CourseList
           segment={segment}
           courses={courses}
           onNavigate={onNavigate}
