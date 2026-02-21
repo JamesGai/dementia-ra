@@ -1,12 +1,14 @@
 import {
   arrayUnion,
   collection,
+  collectionGroup,
   getDoc,
   getDocs,
   orderBy,
   query,
   doc,
   setDoc,
+  where,
 } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -115,10 +117,9 @@ export async function computeCourseProgress(params: {
 }): Promise<number[]> {
   const { courseId, uid, moduleCount = DEFAULT_PROGRESS_MODULE_COUNT } = params;
 
-  const [{ modules, sections, subsections }, completedKeys] = await Promise.all([
-    fetchCourseTree(courseId),
-    fetchCompletedSubsectionKeySet({ uid }),
-  ]);
+  const [{ modules, sections, subsections }, completedKeys] = await Promise.all(
+    [fetchCourseTree(courseId), fetchCompletedSubsectionKeySet({ uid })],
+  );
 
   const trackableModules = modules
     .filter((m) => m.number > 0)
@@ -261,6 +262,89 @@ export async function fetchCourseTree(courseId: string) {
       const key = `${m.id}/${s.id}`; // key includes module+section to avoid collisions
       subsections[key] = subs;
     }
+  }
+  return { modules, sections, subsections };
+}
+
+export async function searchCourseSections(
+  courseId: string,
+  searchTerm: string,
+) {
+  if (!searchTerm.trim()) {
+    return { modules: [], sections: {}, subsections: {} };
+  }
+  const formatted = searchTerm.toLowerCase();
+  const q = query(
+    collectionGroup(db, "section"),
+    where("keywords", "array-contains", formatted),
+  );
+
+  const snap = await getDocs(q);
+  const modules: Module[] = [];
+  const sections: Record<string, Section[]> = {};
+  const subsections: Record<string, Subsection[]> = {};
+  for (const docSnap of snap.docs) {
+    if (!docSnap.ref.path.includes(`course/${courseId}/`)) {
+      continue;
+    }
+    const sectionData = docSnap.data();
+    const section: Section = {
+      id: docSnap.id,
+      title: sectionData.title,
+      moduleNumber: sectionData.moduleNumber,
+      sectionNumber: sectionData.sectionNumber,
+    };
+
+    const moduleRef = docSnap.ref.parent.parent;
+    if (!moduleRef) continue;
+    const moduleSnap = await getDoc(moduleRef);
+    if (!moduleSnap.exists()) continue;
+
+    const moduleData = moduleSnap.data();
+    const module: Module = {
+      id: moduleSnap.id,
+      title: moduleData.title,
+      number: moduleData.number,
+      thumbnailUrl: moduleData.thumbnailUrl,
+      description: moduleData.description,
+    };
+
+    // Avoid duplicate modules
+    if (!modules.find((m) => m.id === module.id)) {
+      modules.push(module);
+    }
+
+    // Attach section under module
+    if (!sections[module.id]) {
+      sections[module.id] = [];
+    }
+    sections[module.id].push(section);
+
+    // Fetch subsections
+    const subsectionCol = collection(
+      db,
+      "course",
+      courseId,
+      "module",
+      module.id,
+      "section",
+      section.id,
+      "subsection",
+    );
+    const subsectionSnap = await getDocs(
+      query(subsectionCol, orderBy("subsectionNumber", "asc")),
+    );
+    const key = `${module.id}/${section.id}`;
+    subsections[key] = subsectionSnap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        title: data.title,
+        moduleNumber: data.moduleNumber,
+        sectionNumber: data.sectionNumber,
+        subsectionNumber: data.subsectionNumber,
+      };
+    });
   }
   return { modules, sections, subsections };
 }
