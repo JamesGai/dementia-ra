@@ -7,10 +7,17 @@ import {
 } from "../services/courseService";
 import { searchServices, Service } from "../services/serviceService";
 import { searchVideos, Video } from "../services/videoService";
-import AccordionCard from "../components/universal/AccordionCard";
+import CourseTitle from "../components/course/CourseTitle";
+import SectionList from "../components/course/SectionList";
+import SubsectionModal from "../components/course/SubsectionModal";
 import SearchBar from "../components/home/SearchBar";
+import ServiceContent from "../components/service/ServiceContent";
+import ServiceModal from "../components/service/ServiceModal";
+import AccordionCard from "../components/universal/AccordionCard";
 import VideoContent from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
+
+const DEFAULT_COURSE_ID = "isupport-nz";
 
 const toMillis = (createdAt: any): number => {
   if (!createdAt) return 0;
@@ -27,16 +34,14 @@ const toMillis = (createdAt: any): number => {
   return 0;
 };
 
-const DEFAULT_COURSE_ID = "isupport-nz";
-
 const SearchPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [videoResults, setVideoResults] = useState<Video[]>([]);
   const [serviceResults, setServiceResults] = useState<Service[]>([]);
   const [courseModules, setCourseModules] = useState<Module[]>([]);
-  const [courseSections, setCourseSections] = useState<Record<string, Section[]>>(
-    {},
-  );
+  const [courseSections, setCourseSections] = useState<
+    Record<string, Section[]>
+  >({});
   const [courseSubsections, setCourseSubsections] = useState<
     Record<string, Subsection[]>
   >({});
@@ -44,13 +49,18 @@ const SearchPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<Video | undefined>();
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<Service | undefined>();
+  const [isServiceOpen, setIsServiceOpen] = useState(false);
+  const [selectedSubsection, setSelectedSubsection] = useState<
+    Subsection | undefined
+  >();
+  const [isSubsectionOpen, setIsSubsectionOpen] = useState(false);
 
   const requestIdRef = useRef(0);
 
   const handleSearch = async (value: string) => {
     setSearchTerm(value);
     const trimmed = value.trim();
-
     if (!trimmed) {
       requestIdRef.current += 1;
       setLoading(false);
@@ -62,9 +72,7 @@ const SearchPage: React.FC = () => {
       setCourseSubsections({});
       return;
     }
-
     const requestId = ++requestIdRef.current;
-
     try {
       setLoading(true);
       setError(null);
@@ -73,11 +81,9 @@ const SearchPage: React.FC = () => {
         searchServices(trimmed),
         searchCourseSections(DEFAULT_COURSE_ID, trimmed),
       ]);
-
       if (requestId !== requestIdRef.current) {
         return;
       }
-
       const sortedVideos = [...videoData].sort(
         (a, b) =>
           toMillis((b as any).createdAt) - toMillis((a as any).createdAt),
@@ -85,7 +91,6 @@ const SearchPage: React.FC = () => {
       const sortedServices = [...serviceData].sort((a, b) =>
         a.name.localeCompare(b.name),
       );
-
       setVideoResults(sortedVideos);
       setServiceResults(sortedServices);
       setCourseModules(
@@ -93,8 +98,6 @@ const SearchPage: React.FC = () => {
       );
       setCourseSections(courseData.sections);
       setCourseSubsections(courseData.subsections);
-      console.log("Service search results:", sortedServices);
-      console.log("Course section search results:", courseData);
     } catch (e) {
       console.error("Failed to search videos/services/courses:", e);
       if (requestId === requestIdRef.current) {
@@ -112,30 +115,36 @@ const SearchPage: React.FC = () => {
     setIsVideoOpen(true);
   };
 
+  const handleOpenService = (service: Service) => {
+    setSelectedService(service);
+    setIsServiceOpen(true);
+  };
+
+  const handleOpenSubsection = (sub: Subsection) => {
+    setSelectedSubsection(sub);
+    setIsSubsectionOpen(true);
+  };
+
   const hasQuery = Boolean(searchTerm.trim());
 
   return (
     <div className="p-4 space-y-6">
       <SearchBar onSearch={handleSearch} />
-
       {!hasQuery && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
           Start typing to search for videos, services, and course sections.
         </div>
       )}
-
       {hasQuery && loading && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
           Searching videos, services, and course sections...
         </div>
       )}
-
       {hasQuery && error && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-red-600">
           {error}
         </div>
       )}
-
       {hasQuery &&
         !loading &&
         !error &&
@@ -146,7 +155,6 @@ const SearchPage: React.FC = () => {
             No results found for "{searchTerm.trim()}".
           </div>
         )}
-
       {hasQuery && !loading && !error && videoResults.length > 0 && (
         <AccordionCard title={`VIDEOS (${videoResults.length})`}>
           <VideoContent
@@ -157,86 +165,53 @@ const SearchPage: React.FC = () => {
           />
         </AccordionCard>
       )}
-
       {hasQuery && !loading && !error && serviceResults.length > 0 && (
-        <AccordionCard title={`SERVICES (${serviceResults.length})`}>
-          <div className="space-y-3">
-            {serviceResults.map((service) => (
-              <div
-                key={service.id}
-                className="bg-white rounded-2xl p-4 shadow-md space-y-2"
-              >
-                <div className="text-[#2e6f73] font-extrabold tracking-wide">
-                  {service.name}
-                </div>
-                {service.description ? (
-                  <p className="text-sm text-gray-700">{service.description}</p>
-                ) : null}
-                <p className="text-sm text-gray-600">{service.address}</p>
-                <p className="text-sm text-gray-600">{service.phone}</p>
-                <p className="text-sm text-gray-600">{service.email}</p>
-                {service.link ? (
-                  <a
-                    href={service.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm text-[#2e6f73] underline break-words"
-                  >
-                    {service.link}
-                  </a>
-                ) : null}
-              </div>
-            ))}
-          </div>
-        </AccordionCard>
+        <ServiceContent
+          services={serviceResults}
+          openService={handleOpenService}
+          title={`SERVICES (${serviceResults.length})`}
+        />
       )}
-
       {hasQuery && !loading && !error && courseModules.length > 0 && (
         <AccordionCard title={`COURSE SECTIONS (${courseModules.length})`}>
           <div className="space-y-3">
             {courseModules.map((module) => (
-              <div
+              <AccordionCard
                 key={module.id}
-                className="bg-white rounded-2xl p-4 shadow-md space-y-3"
+                title={
+                  <CourseTitle
+                    variant="module"
+                    number={module.number.toString()}
+                    title={module.title}
+                    thumbnailUrl={module.thumbnailUrl}
+                  />
+                }
               >
-                <div className="text-[#2e6f73] font-extrabold tracking-wide">
-                  Module {module.number}: {module.title}
-                </div>
-                {(courseSections[module.id] ?? []).map((section) => {
-                  const sectionKey = `${module.id}/${section.id}`;
-                  const subsectionList = courseSubsections[sectionKey] ?? [];
-                  return (
-                    <div key={section.id} className="border-t border-gray-200 pt-3">
-                      <div className="text-sm font-semibold text-gray-800">
-                        {section.moduleNumber}.{section.sectionNumber}. {section.title}
-                      </div>
-                      {subsectionList.length > 0 ? (
-                        <div className="mt-2 space-y-1">
-                          {subsectionList.map((sub) => (
-                            <div key={sub.id} className="text-sm text-gray-600">
-                              {sub.moduleNumber}.{sub.sectionNumber}.
-                              {sub.subsectionNumber}. {sub.title}
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="mt-2 text-sm text-gray-500">
-                          No subsections yet
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                <SectionList
+                  moduleId={module.id}
+                  sections={courseSections[module.id] ?? []}
+                  subsections={courseSubsections}
+                  openSubsection={handleOpenSubsection}
+                />
+              </AccordionCard>
             ))}
           </div>
         </AccordionCard>
       )}
-
       <VideoPlayerModal
         isVideoOpen={isVideoOpen}
         onClose={() => setIsVideoOpen(false)}
         video={selectedVideo}
+      />
+      <ServiceModal
+        isOpen={isServiceOpen}
+        onClose={() => setIsServiceOpen(false)}
+        service={selectedService}
+      />
+      <SubsectionModal
+        isOpen={isSubsectionOpen}
+        onClose={() => setIsSubsectionOpen(false)}
+        subsection={selectedSubsection}
       />
     </div>
   );

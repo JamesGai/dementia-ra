@@ -6,14 +6,16 @@ import Button from "../universal/Button";
 interface ServicesContentProps {
   services: Service[];
   openService: (service: Service) => void;
+  title?: React.ReactNode;
 }
 
 const ServiceContent: React.FC<ServicesContentProps> = ({
   services,
   openService,
+  title = "SERVICES NEARBY",
 }) => {
   return (
-    <AccordionCard title="SERVICES NEARBY">
+    <AccordionCard title={title}>
       <div className="space-y-3">
         {services.map((service) => (
           <Button
