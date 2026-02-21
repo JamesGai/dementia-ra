@@ -28,13 +28,13 @@ import CoursePage from "./pages/CoursePage";
 import HomePage from "./pages/HomePage";
 import ManualPage from "./pages/ManualPage";
 import ProfilePage from "./pages/ProfilePage";
-import SearchPage from "./pages/SearchPage";
 import ServicesPage from "./pages/ServicePage";
 import VideoPage from "./pages/VideoPage";
 // Sub pages
 import CreateAccountPage from "./subPages/CreateAccountPage";
 import ForgotPasswordPage from "./subPages/ForgotPasswordPage";
 import ISupportNZPage from "./subPages/ISupportNZPage";
+import SearchPage from "./subPages/SearchPage";
 
 export type Page =
   | "aboutUs"

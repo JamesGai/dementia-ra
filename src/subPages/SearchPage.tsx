@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
+import { searchVideos, Video } from "../services/videoService";
 import SearchBar from "../components/home/SearchBar";
 import VideoContent from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
-import { searchVideos, Video } from "../services/videoService";
 
 const toMillis = (createdAt: any): number => {
   if (!createdAt) return 0;
@@ -53,7 +53,8 @@ const SearchPage: React.FC = () => {
       }
 
       const sorted = [...data].sort(
-        (a, b) => toMillis((b as any).createdAt) - toMillis((a as any).createdAt),
+        (a, b) =>
+          toMillis((b as any).createdAt) - toMillis((a as any).createdAt),
       );
       setResults(sorted);
     } catch (e) {
