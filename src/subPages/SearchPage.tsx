@@ -140,7 +140,7 @@ const SearchPage: React.FC = () => {
       {hasQuery && loading && <LoadingOverlay text="Searching..." />}
       {hasQuery && error && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-red-600">
-          {error}
+          {error} Please also check if you are already logged in.
         </div>
       )}
       {hasQuery &&
