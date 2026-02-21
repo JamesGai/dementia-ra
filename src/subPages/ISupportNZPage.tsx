@@ -9,6 +9,7 @@ import {
 } from "../services/courseService";
 import AccordionCard from "../components/universal/AccordionCard";
 import CourseTitle from "../components/course/CourseTitle";
+import LoadingOverlay from "../components/universal/LoadingOverlay";
 import SectionList from "../components/course/SectionList";
 import SubsectionModal from "../components/course/SubsectionModal";
 
@@ -64,11 +65,7 @@ const ISupportNZPage: React.FC = () => {
 
   return (
     <div className="p-4 space-y-6">
-      {loading && (
-        <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
-          Loading modules...
-        </div>
-      )}
+      {loading && <LoadingOverlay text="Loading modules..." />}
       {error && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-red-600">
           {error}
