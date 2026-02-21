@@ -133,12 +133,11 @@ const SearchPage: React.FC = () => {
       <SearchBar onSearch={handleSearch} />
       {!hasQuery && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
-          Start typing to search for available resources.
+          Start typing to search for videos, course content, and dementia
+          services nearby.
         </div>
       )}
-      {hasQuery && loading && (
-        <LoadingOverlay text="Searching..." />
-      )}
+      {hasQuery && loading && <LoadingOverlay text="Searching..." />}
       {hasQuery && error && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-red-600">
           {error}
