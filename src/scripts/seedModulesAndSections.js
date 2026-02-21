@@ -23,6 +23,18 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
+function generateKeywords(text) {
+  return Array.from(
+    new Set(
+      text
+        .toLowerCase()
+        .replace(/[^\w\s]/g, "")
+        .split(/\s+/)
+        .filter((word) => word.length > 2),
+    ),
+  );
+}
+
 async function main() {
   const courseId = "isupport-nz";
 
@@ -106,11 +118,15 @@ async function main() {
       const sectionNumber = i + 1;
       const sectionTitle = module.sections[i];
       const sectionId = `section-${module.number}.${sectionNumber}`;
+
+      const keywords = generateKeywords(sectionTitle);
+
       await sectionCol.doc(sectionId).set(
         {
           moduleNumber: module.number,
           sectionNumber,
           title: sectionTitle,
+          keywords,
         },
         { merge: true },
       );
