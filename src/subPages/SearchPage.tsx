@@ -165,15 +165,8 @@ const SearchPage: React.FC = () => {
           />
         </AccordionCard>
       )}
-      {hasQuery && !loading && !error && serviceResults.length > 0 && (
-        <ServiceContent
-          services={serviceResults}
-          openService={handleOpenService}
-          title={`SERVICES (${serviceResults.length})`}
-        />
-      )}
       {hasQuery && !loading && !error && courseModules.length > 0 && (
-        <AccordionCard title={`COURSE SECTIONS (${courseModules.length})`}>
+        <AccordionCard title={`COURSE MODULES (${courseModules.length})`}>
           <div className="space-y-3">
             {courseModules.map((module) => (
               <AccordionCard
@@ -197,6 +190,13 @@ const SearchPage: React.FC = () => {
             ))}
           </div>
         </AccordionCard>
+      )}
+      {hasQuery && !loading && !error && serviceResults.length > 0 && (
+        <ServiceContent
+          services={serviceResults}
+          openService={handleOpenService}
+          title={`SERVICES (${serviceResults.length})`}
+        />
       )}
       <VideoPlayerModal
         isVideoOpen={isVideoOpen}
