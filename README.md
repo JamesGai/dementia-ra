@@ -25,7 +25,9 @@ The app will explain behaviours associated with dementia and offer strategies fo
 
 ### Backend
 
-- **TBD**
+- **Flask**
+  - A Flask server that hosts our chatbot service
+  - Repo available [here](https://github.com/JamesGai/dementia-ra-chatbot.git)
 
 ### Database
 
