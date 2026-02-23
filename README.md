@@ -29,7 +29,13 @@ The app will explain behaviours associated with dementia and offer strategies fo
 
 ### Database
 
-- **TBD**
+- **Firebase**
+  - Firebase Auth
+    - Handle user login information
+  - Firestore
+    - Stores project data
+  - Firebase Storage
+    - Planning to store all images, videos, and documents
 
 ## Instructions
 
@@ -58,6 +64,10 @@ The app will explain behaviours associated with dementia and offer strategies fo
 - Run iOS app
   - ` ionic cap open ios`
   - Click run on XCode
+
+### How to configure Firebase to the project?
+
+- `npm install firebase`
 
 ## Project Management
 
