@@ -1,5 +1,4 @@
-const CHATBOT_API_URL =
-  import.meta.env.VITE_CHATBOT_API_URL?.trim() || "/api/gemini";
+const CHATBOT_API_URL = "/api/gemini";
 
 type ChatbotResponsePayload = {
   response?: string;
@@ -12,18 +11,15 @@ export async function getChatbotReply(prompt: string): Promise<string> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt }),
   });
-
   const data = (await res.json()) as ChatbotResponsePayload;
-
   if (!res.ok) {
-    throw new Error(data.error || `Chatbot API request failed (${res.status}).`);
+    throw new Error(
+      data.error || `Chatbot API request failed (${res.status}).`,
+    );
   }
-
   const reply = (data.response || "").trim();
-
   if (!reply) {
     throw new Error("Chatbot service returned an empty response.");
   }
-
   return reply;
 }
