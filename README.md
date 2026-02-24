@@ -29,6 +29,17 @@ The app will explain behaviours associated with dementia and offer strategies fo
   - A Flask server that hosts our chatbot service
   - Repo available [here](https://github.com/JamesGai/dementia-ra-chatbot.git)
 
+### Chatbot API setup (frontend)
+
+- `VITE_CHATBOT_API_URL` is optional and defaults to `/api/gemini`.
+- Example `.env.local`:
+
+```bash
+VITE_CHATBOT_API_URL=/api/gemini
+```
+
+- In development, Vite proxies `/api/*` to `http://127.0.0.1:5000` (configured in `vite.config.ts`) to avoid browser CORS issues.
+
 ### Database
 
 - **Firebase**
