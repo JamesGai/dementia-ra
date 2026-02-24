@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { IonPage } from "@ionic/react";
-import ChatArea from "../components/chatbot/ChatArea";
+import { getChatbotReply } from "../services/chatbotService";
+import ChatArea, { ChatMessage } from "../components/chatbot/ChatArea";
 import Header from "../components/chatbot/Header";
 import InputBar from "../components/chatbot/InputBar";
-import { getChatbotReply } from "../services/chatbotService";
-import type { ChatMessage } from "../components/chatbot/ChatArea";
 
 const ChatbotPage: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -24,38 +23,41 @@ const ChatbotPage: React.FC = () => {
     const text = input.trim();
     if (!text || isSending) return;
     const now = Date.now();
-
+    const pendingReplyId = now + 1;
     setMessages((prev) => [
       ...prev,
       { id: now, sender: "user", text, createdAt: now },
+      {
+        id: pendingReplyId,
+        sender: "bot",
+        text: "...",
+        createdAt: pendingReplyId,
+      },
     ]);
     setInput("");
     setIsSending(true);
-
     try {
       const reply = await getChatbotReply(text);
-      const replyNow = Date.now();
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: replyNow,
-          sender: "bot",
-          text: reply,
-          createdAt: replyNow,
-        },
-      ]);
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === pendingReplyId
+            ? { ...msg, text: reply, createdAt: Date.now() }
+            : msg,
+        ),
+      );
     } catch (error) {
       console.error(error);
-      const replyNow = Date.now();
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: replyNow,
-          sender: "bot",
-          text: "I am unable to connect to the chatbot service right now. Please try again.",
-          createdAt: replyNow,
-        },
-      ]);
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === pendingReplyId
+            ? {
+                ...msg,
+                text: "I am unable to connect to the chatbot service right now. Please try again.",
+                createdAt: Date.now(),
+              }
+            : msg,
+        ),
+      );
     } finally {
       setIsSending(false);
     }
@@ -78,7 +80,9 @@ const ChatbotPage: React.FC = () => {
         onChange={setInput}
         onSend={handleSendMessage}
         disabled={isSending}
-        placeholder={isSending ? "Waiting for chatbot response..." : "Type a message..."}
+        placeholder={
+          isSending ? "Waiting for chatbot response..." : "Type a message..."
+        }
       />
     </IonPage>
   );
