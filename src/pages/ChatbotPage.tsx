@@ -37,7 +37,9 @@ const ChatbotPage: React.FC = () => {
     setInput("");
     setIsSending(true);
     try {
-      const reply = await getChatbotReply(text);
+      // Toggle the following comment to activate LLM API accessibility, otherwise chatbot is in mock mode
+      // const reply = await getChatbotReply(text);
+      const reply = "Chatbot is being developed";
       setMessages((prev) =>
         prev.map((msg) =>
           msg.id === pendingReplyId
