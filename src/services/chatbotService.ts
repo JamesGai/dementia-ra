@@ -11,7 +11,20 @@ export async function getChatbotReply(prompt: string): Promise<string> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt }),
   });
-  const data = (await res.json()) as ChatbotResponsePayload;
+  const rawBody = await res.text();
+  let data: ChatbotResponsePayload = {};
+
+  if (rawBody) {
+    try {
+      data = JSON.parse(rawBody) as ChatbotResponsePayload;
+    } catch {
+      if (!res.ok) {
+        throw new Error(`Chatbot API request failed (${res.status}).`);
+      }
+      throw new Error("Chatbot service returned an invalid response format.");
+    }
+  }
+
   if (!res.ok) {
     throw new Error(
       data.error || `Chatbot API request failed (${res.status}).`,
