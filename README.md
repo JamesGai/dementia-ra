@@ -31,7 +31,8 @@ The app will explain behaviours associated with dementia and offer strategies fo
 
 ### Chatbot API setup
 
-- Default API path: `/api/chat`.
+- Raw LLM API path: `/api/gemini`.
+- LLM with RAG pipeline API path: `/api/chat`.
 - In development, Vite proxies `/api/*` to `http://127.0.0.1:5000` (configured in `vite.config.ts`) to avoid browser CORS issues.
 
 ### Database
