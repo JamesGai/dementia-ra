@@ -1,4 +1,4 @@
-const CHATBOT_API_URL = "/api/gemini";
+const CHATBOT_API_URL = "/api/chat";
 
 type ChatbotResponsePayload = {
   response?: string;
