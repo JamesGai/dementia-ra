@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IonPage } from "@ionic/react";
+import { IonAlert, IonPage } from "@ionic/react";
 import { getChatbotReply } from "../services/chatbotService";
 import ChatArea, { ChatMessage } from "../components/chatbot/ChatArea";
 import Header from "../components/chatbot/Header";
@@ -16,6 +16,7 @@ const ChatbotPage: React.FC = () => {
   ]);
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
 
   const contentRef = useRef<HTMLIonContentElement | null>(null);
 
@@ -75,7 +76,11 @@ const ChatbotPage: React.FC = () => {
 
   return (
     <IonPage>
-      <Header title="e-DiVA chatbot" status="Online" />
+      <Header
+        title="e-DiVA chatbot"
+        status="Online"
+        onEraseHistory={() => setIsDeleteAlertOpen(true)}
+      />
       <ChatArea messages={messages} contentRef={contentRef} />
       <InputBar
         value={input}
@@ -85,6 +90,25 @@ const ChatbotPage: React.FC = () => {
         placeholder={
           isSending ? "Waiting for chatbot response..." : "Type a message..."
         }
+      />
+      <IonAlert
+        isOpen={isDeleteAlertOpen}
+        onDidDismiss={() => setIsDeleteAlertOpen(false)}
+        header="Confirm Chat History Deletion"
+        message="Are you sure you want to delete your chat history? This action cannot be undone."
+        buttons={[
+          {
+            text: "Cancel",
+            role: "cancel",
+          },
+          {
+            text: "Delete",
+            handler: () => {
+              // Delete logic will be implemented later.
+              setIsDeleteAlertOpen(false);
+            },
+          },
+        ]}
       />
     </IonPage>
   );
