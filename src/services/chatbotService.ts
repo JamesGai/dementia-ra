@@ -1,3 +1,6 @@
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
+
 const CHATBOT_API_URL = "/api/chat";
 
 type ChatbotResponsePayload = {
@@ -5,13 +8,52 @@ type ChatbotResponsePayload = {
   error?: string;
 };
 
+export type ChatHistoryMessage = {
+  id: number;
+  sender: "bot" | "user";
+  text: string;
+  createdAt: number;
+};
+
+type UserChatHistoryPayload = {
+  chatHistory?: ChatHistoryMessage[];
+};
+
+/**
+ * Runtime type guard for entries loaded from Firestore chatHistory.
+ */
+function isChatHistoryMessage(value: unknown): value is ChatHistoryMessage {
+  if (!value || typeof value !== "object") return false;
+  const item = value as Partial<ChatHistoryMessage>;
+  return (
+    typeof item.id === "number" &&
+    (item.sender === "bot" || item.sender === "user") &&
+    typeof item.text === "string" &&
+    typeof item.createdAt === "number"
+  );
+}
+
+/**
+ * Sends a user prompt to the chatbot API and returns the chatbot reply text.
+ */
 export async function getChatbotReply(prompt: string): Promise<string> {
   const res = await fetch(CHATBOT_API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt }),
   });
-  const data = (await res.json()) as ChatbotResponsePayload;
+  const rawBody = await res.text();
+  let data: ChatbotResponsePayload = {};
+  if (rawBody) {
+    try {
+      data = JSON.parse(rawBody) as ChatbotResponsePayload;
+    } catch {
+      if (!res.ok) {
+        throw new Error(`Chatbot API request failed (${res.status}).`);
+      }
+      throw new Error("Chatbot service returned an invalid response format.");
+    }
+  }
   if (!res.ok) {
     throw new Error(
       data.error || `Chatbot API request failed (${res.status}).`,
@@ -22,4 +64,46 @@ export async function getChatbotReply(prompt: string): Promise<string> {
     throw new Error("Chatbot service returned an empty response.");
   }
   return reply;
+}
+
+/**
+ * Reads `users/{uid}.chatHistory` from Firestore and returns only valid messages.
+ */
+export async function fetchChatHistory(
+  uid: string,
+): Promise<ChatHistoryMessage[]> {
+  const snap = await getDoc(doc(db, "users", uid));
+  if (!snap.exists()) return [];
+  const data = snap.data() as UserChatHistoryPayload;
+  if (!Array.isArray(data.chatHistory)) return [];
+  return data.chatHistory.filter(isChatHistoryMessage);
+}
+
+/**
+ * Persists full chat history into `users/{uid}.chatHistory` (merge update).
+ */
+export async function saveChatHistory(
+  uid: string,
+  messages: ChatHistoryMessage[],
+): Promise<void> {
+  await setDoc(
+    doc(db, "users", uid),
+    {
+      chatHistory: messages,
+    },
+    { merge: true },
+  );
+}
+
+/**
+ * Clears the persisted chat history for the given user.
+ */
+export async function clearChatHistory(uid: string): Promise<void> {
+  await setDoc(
+    doc(db, "users", uid),
+    {
+      chatHistory: [],
+    },
+    { merge: true },
+  );
 }

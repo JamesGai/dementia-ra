@@ -1,15 +1,17 @@
 import React from "react";
 import { IonHeader, IonIcon, IonToolbar } from "@ionic/react";
-import { chatbubbleEllipses } from "ionicons/icons";
+import { chatbubbleEllipses, trashOutline } from "ionicons/icons";
 
 interface HeaderProps {
   title?: string;
   status?: string;
+  onEraseHistory?: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
   title = "e-DiVA chatbot",
   status = "Online",
+  onEraseHistory,
 }) => {
   return (
     <IonHeader className="ion-no-border">
@@ -26,6 +28,14 @@ const Header: React.FC<HeaderProps> = ({
             <div className="text-2xl font-bold text-gray-900">{title}</div>
             <div className="text-base text-gray-400">{status}</div>
           </div>
+          <button
+            type="button"
+            onClick={onEraseHistory}
+            aria-label="Erase chat history"
+            className="self-start mt-1 w-11 h-11 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 active:scale-95 transition"
+          >
+            <IonIcon icon={trashOutline} className="text-2xl" />
+          </button>
         </div>
       </IonToolbar>
     </IonHeader>

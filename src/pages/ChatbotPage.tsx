@@ -1,21 +1,38 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IonPage } from "@ionic/react";
-import { getChatbotReply } from "../services/chatbotService";
+import { IonAlert, IonPage } from "@ionic/react";
+import { auth } from "../firebase";
+import { subscribeToAuthChanges } from "../services/authService";
+import {
+  fetchChatHistory,
+  getChatbotReply,
+  saveChatHistory,
+} from "../services/chatbotService";
 import ChatArea, { ChatMessage } from "../components/chatbot/ChatArea";
 import Header from "../components/chatbot/Header";
 import InputBar from "../components/chatbot/InputBar";
 
-const ChatbotPage: React.FC = () => {
-  const [messages, setMessages] = useState<ChatMessage[]>([
+function createDefaultMessages(): ChatMessage[] {
+  return [
     {
       id: 1,
       sender: "bot",
       text: "Hello, how can I help you today?",
       createdAt: Date.now(),
     },
-  ]);
+  ];
+}
+
+const ChatbotPage: React.FC = () => {
+  const [messages, setMessages] = useState<ChatMessage[]>(
+    createDefaultMessages,
+  );
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
+  const [currentUid, setCurrentUid] = useState<string | null>(
+    auth.currentUser?.uid ?? null,
+  );
+  const [isHistoryReady, setIsHistoryReady] = useState(false);
 
   const contentRef = useRef<HTMLIonContentElement | null>(null);
 
@@ -65,17 +82,76 @@ const ChatbotPage: React.FC = () => {
     }
   };
 
+  const handleDeleteHistory = () => {
+    setMessages(createDefaultMessages());
+    setIsDeleteAlertOpen(false);
+  };
+
   const scrollToBottom = React.useCallback(() => {
     contentRef.current?.scrollToBottom(250);
   }, []);
 
+  /**
+   * Subscribes to auth state changes and loads persisted chat history from Firestore for the current signed-in user.
+   */
+  useEffect(() => {
+    let isCancelled = false;
+    const unsubscribe = subscribeToAuthChanges(async (user) => {
+      const uid = user?.uid ?? null;
+      setCurrentUid(uid);
+      setIsHistoryReady(false);
+      if (!uid) {
+        if (!isCancelled) {
+          setMessages(createDefaultMessages());
+          setIsHistoryReady(true);
+        }
+        return;
+      }
+      try {
+        const history = await fetchChatHistory(uid);
+        if (isCancelled) return;
+        setMessages(history.length > 0 ? history : createDefaultMessages());
+      } catch (error) {
+        console.error("Failed to load chat history:", error);
+        if (!isCancelled) {
+          setMessages(createDefaultMessages());
+        }
+      } finally {
+        if (!isCancelled) {
+          setIsHistoryReady(true);
+        }
+      }
+    });
+    return () => {
+      isCancelled = true;
+      unsubscribe();
+    };
+  }, []);
+
+  /**
+   * Persists the current message list to Firestore whenever chat state changes after initial history has been loaded.
+   */
+  useEffect(() => {
+    if (!currentUid || !isHistoryReady) return;
+    void saveChatHistory(currentUid, messages).catch((error) => {
+      console.error("Failed to save chat history:", error);
+    });
+  }, [currentUid, isHistoryReady, messages]);
+
+  /**
+   * Keeps the chat viewport pinned to the latest message whenever the message list updates.
+   */
   useEffect(() => {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
   return (
     <IonPage>
-      <Header title="e-DiVA chatbot" status="Online" />
+      <Header
+        title="e-DiVA chatbot"
+        status="Online"
+        onEraseHistory={() => setIsDeleteAlertOpen(true)}
+      />
       <ChatArea messages={messages} contentRef={contentRef} />
       <InputBar
         value={input}
@@ -85,6 +161,22 @@ const ChatbotPage: React.FC = () => {
         placeholder={
           isSending ? "Waiting for chatbot response..." : "Type a message..."
         }
+      />
+      <IonAlert
+        isOpen={isDeleteAlertOpen}
+        onDidDismiss={() => setIsDeleteAlertOpen(false)}
+        header="Confirm Chat History Deletion"
+        message="Are you sure you want to delete your chat history? This action cannot be undone."
+        buttons={[
+          {
+            text: "Cancel",
+            role: "cancel",
+          },
+          {
+            text: "Delete",
+            handler: handleDeleteHistory,
+          },
+        ]}
       />
     </IonPage>
   );
