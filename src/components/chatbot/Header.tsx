@@ -32,9 +32,9 @@ const Header: React.FC<HeaderProps> = ({
             type="button"
             onClick={onEraseHistory}
             aria-label="Erase chat history"
-            className="self-start mt-1 w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 active:scale-95 transition"
+            className="self-start mt-1 w-11 h-11 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 active:scale-95 transition"
           >
-            <IonIcon icon={trashOutline} className="text-xl" />
+            <IonIcon icon={trashOutline} className="text-2xl" />
           </button>
         </div>
       </IonToolbar>
