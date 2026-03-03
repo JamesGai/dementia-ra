@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { IonAlert, IonPage } from "@ionic/react";
 import { auth } from "../firebase";
+import { subscribeToAuthChanges } from "../services/authService";
 import {
   fetchChatHistory,
   getChatbotReply,
   saveChatHistory,
 } from "../services/chatbotService";
-import { subscribeToAuthChanges } from "../services/authService";
 import ChatArea, { ChatMessage } from "../components/chatbot/ChatArea";
 import Header from "../components/chatbot/Header";
 import InputBar from "../components/chatbot/InputBar";
