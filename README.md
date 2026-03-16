@@ -70,7 +70,7 @@ The app will explain behaviours associated with dementia and offer strategies fo
 - Add iOS native platform
   - `ionic cap add ios`
 - Run iOS app
-  - ` ionic cap open ios`
+  - `ionic cap open ios`
   - Click run on XCode
 
 ### How to configure Firebase to the project?
