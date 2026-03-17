@@ -1,7 +1,13 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { Capacitor } from "@capacitor/core";
 import { db } from "../firebase";
 
-const CHATBOT_API_URL = "/api/chat";
+const WEB_CHATBOT_API_URL = "/api/chat";
+const NATIVE_CHATBOT_API_URL = "http://192.168.1.125:5050/api/chat";
+
+const CHATBOT_API_URL = Capacitor.isNativePlatform()
+  ? NATIVE_CHATBOT_API_URL
+  : WEB_CHATBOT_API_URL;
 
 type ChatbotResponsePayload = {
   response?: string;
@@ -37,6 +43,7 @@ function isChatHistoryMessage(value: unknown): value is ChatHistoryMessage {
  * Sends a user prompt to the chatbot API and returns the chatbot reply text.
  */
 export async function getChatbotReply(prompt: string): Promise<string> {
+  console.log("Chatbot API URL:", CHATBOT_API_URL);
   const res = await fetch(CHATBOT_API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
