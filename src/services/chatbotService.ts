@@ -1,13 +1,7 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { Capacitor } from "@capacitor/core";
 import { db } from "../firebase";
 
-const WEB_CHATBOT_API_URL = "/api/chat";
-const NATIVE_CHATBOT_API_URL = "http://192.168.1.125:5050/api/chat";
-
-const CHATBOT_API_URL = Capacitor.isNativePlatform()
-  ? NATIVE_CHATBOT_API_URL
-  : WEB_CHATBOT_API_URL;
+const CHATBOT_API_URL = "https://dementia-ra-chatbot.onrender.com";
 
 type ChatbotResponsePayload = {
   response?: string;
