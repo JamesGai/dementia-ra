@@ -10,6 +10,7 @@ import {
 import ChatArea, { ChatMessage } from "../components/chatbot/ChatArea";
 import Header from "../components/chatbot/Header";
 import InputBar from "../components/chatbot/InputBar";
+import { useSpeechToText } from "../hooks/useSpeechToText";
 
 function createDefaultMessages(): ChatMessage[] {
   return [
@@ -35,6 +36,14 @@ const ChatbotPage: React.FC = () => {
   const [isHistoryReady, setIsHistoryReady] = useState(false);
 
   const contentRef = useRef<HTMLIonContentElement | null>(null);
+  const {
+    error: voiceError,
+    isListening: isVoiceListening,
+    isSupported: isVoiceSupported,
+    toggleListening,
+  } = useSpeechToText({
+    onResult: setInput,
+  });
 
   const handleSendMessage = async () => {
     const text = input.trim();
@@ -157,10 +166,14 @@ const ChatbotPage: React.FC = () => {
         value={input}
         onChange={setInput}
         onSend={handleSendMessage}
+        onVoiceInput={() => toggleListening(input)}
         disabled={isSending}
+        isVoiceListening={isVoiceListening}
+        isVoiceSupported={isVoiceSupported}
         placeholder={
           isSending ? "Waiting for chatbot response..." : "Type a message..."
         }
+        voiceError={voiceError}
       />
       <IonAlert
         isOpen={isDeleteAlertOpen}

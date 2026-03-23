@@ -17,6 +17,7 @@ import AccordionCard from "../components/universal/AccordionCard";
 import LoadingOverlay from "../components/universal/LoadingOverlay";
 import VideoContent from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
+import { useSpeechToText } from "../hooks/useSpeechToText";
 
 const DEFAULT_COURSE_ID = "isupport-nz";
 
@@ -58,6 +59,16 @@ const SearchPage: React.FC = () => {
   const [isSubsectionOpen, setIsSubsectionOpen] = useState(false);
 
   const requestIdRef = useRef(0);
+  const {
+    error: voiceError,
+    isListening: isVoiceListening,
+    isSupported: isVoiceSupported,
+    toggleListening,
+  } = useSpeechToText({
+    onResult: (transcript) => {
+      void handleSearch(transcript);
+    },
+  });
 
   const handleSearch = async (value: string) => {
     setSearchTerm(value);
@@ -130,7 +141,14 @@ const SearchPage: React.FC = () => {
 
   return (
     <div className="p-4 space-y-6">
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar
+        value={searchTerm}
+        onSearch={handleSearch}
+        onVoiceInput={() => toggleListening(searchTerm)}
+        isVoiceListening={isVoiceListening}
+        isVoiceSupported={isVoiceSupported}
+        voiceError={voiceError}
+      />
       {!hasQuery && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
           Start typing to search for videos, course content, and dementia
