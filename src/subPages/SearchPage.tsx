@@ -1,4 +1,6 @@
 import React, { useRef, useState } from "react";
+import { searchOutline } from "ionicons/icons";
+import { useSpeechToText } from "../hooks/useSpeechToText";
 import {
   Module,
   searchCourseSections,
@@ -10,14 +12,13 @@ import { searchVideos, Video } from "../services/videoService";
 import CourseTitle from "../components/course/CourseTitle";
 import SectionList from "../components/course/SectionList";
 import SubsectionModal from "../components/course/SubsectionModal";
-import SearchBar from "../components/home/SearchBar";
 import ServiceContent from "../components/service/ServiceContent";
 import ServiceModal from "../components/service/ServiceModal";
 import AccordionCard from "../components/universal/AccordionCard";
+import InputBar from "../components/universal/InputBar";
 import LoadingOverlay from "../components/universal/LoadingOverlay";
 import VideoContent from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
-import { useSpeechToText } from "../hooks/useSpeechToText";
 
 const DEFAULT_COURSE_ID = "isupport-nz";
 
@@ -141,9 +142,12 @@ const SearchPage: React.FC = () => {
 
   return (
     <div className="p-4 space-y-6">
-      <SearchBar
+      <InputBar
+        placeholder="Search resources..."
+        leftIcon={searchOutline}
         value={searchTerm}
-        onSearch={handleSearch}
+        onChange={handleSearch}
+        onSubmit={() => void handleSearch(searchTerm)}
         onVoiceInput={() => toggleListening(searchTerm)}
         isVoiceListening={isVoiceListening}
         isVoiceSupported={isVoiceSupported}

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IonAlert, IonPage } from "@ionic/react";
+import { IonAlert, IonFooter, IonPage } from "@ionic/react";
 import { auth } from "../firebase";
+import { useSpeechToText } from "../hooks/useSpeechToText";
 import { subscribeToAuthChanges } from "../services/authService";
 import {
   fetchChatHistory,
@@ -9,8 +10,7 @@ import {
 } from "../services/chatbotService";
 import ChatArea, { ChatMessage } from "../components/chatbot/ChatArea";
 import Header from "../components/chatbot/Header";
-import InputBar from "../components/chatbot/InputBar";
-import { useSpeechToText } from "../hooks/useSpeechToText";
+import InputBar from "../components/universal/InputBar";
 
 function createDefaultMessages(): ChatMessage[] {
   return [
@@ -162,19 +162,26 @@ const ChatbotPage: React.FC = () => {
         onEraseHistory={() => setIsDeleteAlertOpen(true)}
       />
       <ChatArea messages={messages} contentRef={contentRef} />
-      <InputBar
-        value={input}
-        onChange={setInput}
-        onSend={handleSendMessage}
-        onVoiceInput={() => toggleListening(input)}
-        disabled={isSending}
-        isVoiceListening={isVoiceListening}
-        isVoiceSupported={isVoiceSupported}
-        placeholder={
-          isSending ? "Waiting for chatbot response..." : "Type a message..."
-        }
-        voiceError={voiceError}
-      />
+      <IonFooter className="ion-no-border">
+        <div className="px-4 py-3 bg-white border-t border-gray-100">
+          <InputBar
+            value={input}
+            onChange={setInput}
+            onSubmit={handleSendMessage}
+            onVoiceInput={() => toggleListening(input)}
+            disabled={isSending}
+            isVoiceListening={isVoiceListening}
+            isVoiceSupported={isVoiceSupported}
+            placeholder={
+              isSending
+                ? "Waiting for chatbot response..."
+                : "Type a message..."
+            }
+            submitAriaLabel="Send message"
+            voiceError={voiceError}
+          />
+        </div>
+      </IonFooter>
       <IonAlert
         isOpen={isDeleteAlertOpen}
         onDidDismiss={() => setIsDeleteAlertOpen(false)}
