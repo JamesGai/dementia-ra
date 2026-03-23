@@ -38,59 +38,246 @@ function generateKeywords(name, description) {
 }
 
 async function main() {
+  // Actual medical services copied from e-DiVA website
   const services = [
     {
-      name: "NASC - Northland",
-      description: "",
-      address:
-        "Health of Older People, Te Whatu Ora Te Tai Tokerau, Northland DHB, Private Bag 9742",
-      link: "https://www.seniorline.org.nz/local-services/northland/",
-      email: "nasc@northlanddhb.org.nz",
-      phone: "09 430 4131 or 0800 88 88 90",
-    },
-    {
-      name: "NASC - Capital and Coast (Capital and Coast Care Coordination Centre)",
-      description: "",
-      address: "PO Box 50-544, Porirua 5240 Level 1, 13 Marina View, Mana 5026",
-      link: "https://www.seniorline.org.nz/local-services/capital-and-coast/",
-      email: "wellington@careco.org.nz",
-      phone: "04 238 2020 or 0800 282 200",
-    },
-    {
-      name: "NASC - Southland (Southland Care Coordination Centre)",
-      description: "",
-      address:
-        "Southland District Health Board (Southland), Kew Road, PO Box 828, Invercargill 9812",
-      link: "https://www.healthpoint.co.nz/public/older-peoples-health/needs-assessment-care-coordination-southland/",
-      email: "CareCoordinationSTH@southerndhb.govt.nz",
-      phone: "0800 223 225 or 03 214 5725",
-    },
-    {
-      name: "0508 TAUTOKO Suicide Crisis Helpline",
+      name: "Dementia Tai Tokerau",
       description:
-        "A free, nationwide service available 24 hours a day, 7 days a week. TAUTOKO is operated by trained and experienced social service practitioners who have undergone suicide prevention training. If you think you, or someone you know, may be thinking about suicide, call the Suicide Crisis Helpline for support. If either you, or someone you know, is in immediate danger, please call emergency services immediately on 111.",
-      address: "95 Great South Road, Epsom, Auckland, 1051",
-      link: "https://www.lifeline.org.nz/services/suicide-crisis-helpline",
+        "Provides support, education, information, and related services directly to those affected by dementia.",
+      address: "112 Corks Road, Tikipunga, Whangārei",
+      link: "https://dementiatai​tokerau.nz/",
+      email: "info@dementiattt.nz",
+      phone: "(09) 438 7771",
+    },
+    {
+      name: "Alzheimers Whangārei",
+      description:
+        "Provides support, education, information, and related services for people affected by dementia.",
+      address: "Suite 4, 236 Victoria Avenue, Whanganui",
+      link: "https://alzheimers.org.nz/whanganui/",
+      email: "admin@alzheimerswhanganui.org.nz",
+      phone: "(06) 3458833",
+    },
+    {
+      name: "Eldernet",
+      description:
+        "Provides information for older people and their support networks.",
+      address: "175 Shaw Avenue, New Brighton, Christchurch 8083",
+      link: "https://eldernet.co.nz/",
+      email: "team@eldernet.co.nz",
+      phone: "(03) 388 1204 / 0800 162 706",
+    },
+    {
+      name: "Dementia Wellington",
+      description:
+        "Provides dementia support, advice and tools to improve quality of life.",
+      address: "55 Hutt Road, Lower Hutt 5045",
+      link: "https://dementia.nz/wellington/",
+      email: "admin@dementiawellington.org.nz",
+      phone: "(04) 972 2595",
+    },
+    {
+      name: "Alzheimers South Canterbury",
+      description:
+        "Provides support, education, and services for people affected by dementia.",
+      address: "Room 7, Community House, 27 Strathallan Street, Timaru",
+      link: "https://alzheimers.org.nz/south-canterbury/",
+      email: "southcanterbury@alzheimers.org.nz",
+      phone: "(03) 687 7583",
+    },
+    {
+      name: "Lifeline",
+      description:
+        "24/7 helpline providing confidential support and crisis services.",
+      address: "95 Great South Road, Epsom, Auckland",
+      link: "https://www.lifeline.org.nz/",
       email: "office@lifeline.org.nz",
-      phone: "0508 828 865",
+      phone: "0800 543 354",
     },
     {
-      name: "Alzheimers Tauranga/Western Bay of Plenty",
-      description:
-        "Alzheimers Tauranga/Western Bay of Plenty provides support, education, information, and related services directly to those affected by dementia mate wareware.",
-      address: "116 Thirteenth Avenue, Tauranga 3112",
-      link: "https://alzheimers.org.nz/tauranga/",
-      email: "tauranga@alzheimers.org.nz",
-      phone: "(07) 577 6344",
+      name: "NASC - Auckland",
+      description: "",
+      address: "Greenlane Clinical Centre, Auckland 1142",
+      link: "https://www.healthpoint.co.nz/public/older-peoples-health/needs-assessment/",
+      email: "communityservices@adhb.govt.nz",
+      phone: "09 631 1234",
     },
     {
-      name: "Alzheimers Taranaki",
+      name: "Alzheimers Manawatu",
       description:
-        "Alzheimers Taranaki provides support, education, information, and related services directly to those affected by dementia mate wareware.",
-      address: "14 Manakohi St, Spotswood, New Plymouth 4310",
-      link: "https://alzheimers.org.nz/taranaki/",
-      email: "admin.taranaki@alzheimers.org.nz",
-      phone: "(06) 769-6916",
+        "Provides support, education, and services for people affected by dementia.",
+      address: "642 Featherston Street, Roslyn, Palmerston North",
+      link: "https://alzheimersmanawatu.org/",
+      email: "manawatu@alzman.org.nz",
+      phone: "(06) 357 9539",
+    },
+    {
+      name: "Alzheimers Otago",
+      description:
+        "Provides support, education, and services for people affected by dementia.",
+      address: "Burns House, 10 George Street, Dunedin",
+      link: "https://alzheimersotago.org.nz/",
+      email: "still.me@alzheimersotago.org.nz",
+      phone: "(03) 471 6154",
+    },
+    {
+      name: "NASC - Canterbury/West Coast",
+      description: "",
+      address:
+        "Older Persons Health, The Princess Margaret Hospital, Christchurch",
+      link: "https://www.seniorline.org.nz/local-services/canterbury/",
+      email: "communityreferralcentre@cdhb.health.nz",
+      phone: "03 337 6925",
+    },
+    {
+      name: "NASC - Lakes (Rotorua)",
+      description: "",
+      address: "2 Ranolf Street, Rotorua",
+      link: "https://www.lakesdhb.govt.nz/",
+      email: "nasc.admin@lakesdhb.govt.nz",
+      phone: "07 343 1030",
+    },
+    {
+      name: "Dementia Waikato",
+      description:
+        "Provides dementia support, advice and tools to improve quality of life.",
+      address: "4 Tennyson Road, Hamilton",
+      link: "https://dementia.nz/waikato/",
+      email: "",
+      phone: "(07) 929 4042",
+    },
+    {
+      name: "Dementia Canterbury",
+      description:
+        "Provides dementia support, advice and tools to improve quality of life.",
+      address: "BrainTree, Christchurch",
+      link: "https://dementiacanterbury.org.nz/",
+      email: "admin@dementiacanterbury.org.nz",
+      phone: "0800 444 776",
+    },
+    {
+      name: "Dementia Hawkes Bay Napier",
+      description:
+        "Provides dementia support, advice and tools to improve quality of life.",
+      address: "1 Wilding Ave, Napier",
+      link: "https://dementia.nz/hawkes-bay/",
+      email: "admin@dementiahb.org.nz",
+      phone: "(06) 8340417",
+    },
+    {
+      name: "Alzheimers Northland - Kerikeri",
+      description:
+        "Provides support, education, and services for people affected by dementia.",
+      address: "PO Box 355, Kerikeri",
+      link: "https://alzheimersnorthland.org.nz/",
+      email: "northland@alzheimers.org.nz",
+      phone: "(09) 407 3010",
+    },
+    {
+      name: "Alzheimers Gisborne/Tairāwhiti",
+      description:
+        "Provides dementia support, advice and tools to improve quality of life.",
+      address: "Morris Adair Annex, Gisborne Hospital",
+      link: "https://alzheimers.org.nz/gisborne/",
+      email: "gisborne.alzheimers@xtra.co.nz",
+      phone: "(06) 867 0752",
+    },
+    {
+      name: "Alzheimers Eastern Bay of Plenty",
+      description:
+        "Provides support, education, and services for people affected by dementia.",
+      address: "Lighting Hub, Whakatāne",
+      link: "https://alzheimers.org.nz/eastern-bay-of-plenty/",
+      email: "administration@alzebop.org",
+      phone: "(07) 308 0525",
+    },
+    {
+      name: "Dementia Hawkes Bay Hastings",
+      description:
+        "Provides dementia support, advice and tools to improve quality of life.",
+      address: "102/106 Windsor Ave, Hastings",
+      link: "https://dementia.nz/hawkes-bay/",
+      email: "admin@dementiahb.org.nz",
+      phone: "(06) 878 7502",
+    },
+    {
+      name: "Alzheimers Wairarapa",
+      description:
+        "Provides support, education, and services for people affected by dementia.",
+      address: "Solway Showgrounds, Masterton",
+      link: "https://alzheimerswairarapa.co.nz/",
+      email: "",
+      phone: "(06) 377 7522",
+    },
+    {
+      name: "NASC - Counties Manukau",
+      description: "",
+      address: "Middlemore Hospital, Auckland",
+      link: "https://countiesmanukau.health.nz/",
+      email: "DutyNasc@middlemore.co.nz",
+      phone: "0800 262 368",
+    },
+    {
+      name: "NASC - Southern Health",
+      description: "",
+      address: "Dunedin Hospital",
+      link: "https://www.southernhealth.nz/",
+      email: "",
+      phone: "",
+    },
+    {
+      name: "Dementia Lakes Rotorua",
+      description:
+        "Provides dementia support, advice and tools to improve quality of life.",
+      address: "1290 Hinemoa Street, Rotorua",
+      link: "https://dementia.nz/",
+      email: "",
+      phone: "(07) 377 4330",
+    },
+    {
+      name: "Dementia Lakes Taupō/Tūrangi",
+      description:
+        "Provides dementia support, advice and tools to improve quality of life.",
+      address: "129 Spa Road, Taupō",
+      link: "https://dementia.nz/",
+      email: "",
+      phone: "(07) 377 4330",
+    },
+    {
+      name: "Dementia Auckland",
+      description:
+        "Provides dementia support, advice and tools to improve quality of life.",
+      address: "Auckland",
+      link: "https://dementia.nz/auckland/",
+      email: "info@dementiaauckland.org.nz",
+      phone: "0800 433636",
+    },
+    {
+      name: "Alzheimers Nelson/Tasman",
+      description:
+        "Provides support, education, and services for people affected by dementia.",
+      address: "75 Tahunanui Drive, Nelson",
+      link: "https://alzheimers.org.nz/nelson/",
+      email: "admin@alzheimers.org.nz",
+      phone: "(03) 546 7702",
+    },
+    {
+      name: "Alzheimers Southland",
+      description:
+        "Provides support, education, and services for people affected by dementia.",
+      address: "135 Yarrow Street, Invercargill",
+      link: "https://alzheimers.org.nz/southland/",
+      email: "office@alzheimerssocietysouthland.org.nz",
+      phone: "(03) 214 0984",
+    },
+    {
+      name: "Alzheimers Marlborough",
+      description:
+        "Provides support, education, and services for people affected by dementia.",
+      address: "8 Wither Road, Blenheim",
+      link: "https://alzheimers.org.nz/marlborough/",
+      email: "office.marlb@alzheimers.org.nz",
+      phone: "(03) 577 6172",
     },
   ];
 
