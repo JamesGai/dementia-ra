@@ -118,7 +118,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
   };
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="space-y-6 p-4 pt-15">
       <GetStarted content="Create an account to personalise your experience." />
       <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
         <LabeledInput
