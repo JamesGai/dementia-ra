@@ -16,7 +16,7 @@ const AboutUsPage: React.FC = () => {
   const closeContactModal = () => setIsContactOpen(false);
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="space-y-6 p-4 pt-15">
       <div className="bg-white rounded-2xl shadow-md overflow-hidden">
         <img
           src="Carers.png"

@@ -155,7 +155,7 @@ const ChatbotPage: React.FC = () => {
   }, [messages, scrollToBottom]);
 
   return (
-    <IonPage>
+    <IonPage className="pt-15">
       <Header
         title="e-DiVA chatbot"
         status="Online"

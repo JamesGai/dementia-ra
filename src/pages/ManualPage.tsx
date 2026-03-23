@@ -34,7 +34,7 @@ const ManualPage: React.FC = () => {
   );
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="space-y-6 p-4 pt-15">
       {/* Section cards */}
       {sections.map((s) => (
         <TitleButton

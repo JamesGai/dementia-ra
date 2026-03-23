@@ -56,7 +56,7 @@ const ServicesPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="space-y-6 p-4 pt-15">
       <Button
         text="User Instruction"
         icon={playCircleOutline}

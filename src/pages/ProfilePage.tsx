@@ -153,7 +153,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
   }, [isLoggedIn]);
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="space-y-6 p-4 pt-15">
       {!isLoggedIn && <ProfileLoggedOut onNavigate={onNavigate} />}
       {isLoggedIn && (
         <>
