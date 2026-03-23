@@ -1,4 +1,6 @@
 import React, { useRef, useState } from "react";
+import { searchOutline } from "ionicons/icons";
+import { useSpeechToText } from "../hooks/useSpeechToText";
 import {
   Module,
   searchCourseSections,
@@ -10,10 +12,10 @@ import { searchVideos, Video } from "../services/videoService";
 import CourseTitle from "../components/course/CourseTitle";
 import SectionList from "../components/course/SectionList";
 import SubsectionModal from "../components/course/SubsectionModal";
-import SearchBar from "../components/home/SearchBar";
 import ServiceContent from "../components/service/ServiceContent";
 import ServiceModal from "../components/service/ServiceModal";
 import AccordionCard from "../components/universal/AccordionCard";
+import InputBar from "../components/universal/InputBar";
 import LoadingOverlay from "../components/universal/LoadingOverlay";
 import VideoContent from "../components/video/VideoContent";
 import VideoPlayerModal from "../components/video/VideoPlayerModal";
@@ -58,6 +60,16 @@ const SearchPage: React.FC = () => {
   const [isSubsectionOpen, setIsSubsectionOpen] = useState(false);
 
   const requestIdRef = useRef(0);
+  const {
+    error: voiceError,
+    isListening: isVoiceListening,
+    isSupported: isVoiceSupported,
+    toggleListening,
+  } = useSpeechToText({
+    onResult: (transcript) => {
+      void handleSearch(transcript);
+    },
+  });
 
   const handleSearch = async (value: string) => {
     setSearchTerm(value);
@@ -129,8 +141,18 @@ const SearchPage: React.FC = () => {
   const hasQuery = Boolean(searchTerm.trim());
 
   return (
-    <div className="p-4 space-y-6">
-      <SearchBar onSearch={handleSearch} />
+    <div className="space-y-6 p-4 pt-15">
+      <InputBar
+        placeholder="Search resources..."
+        leftIcon={searchOutline}
+        value={searchTerm}
+        onChange={handleSearch}
+        onSubmit={() => void handleSearch(searchTerm)}
+        onVoiceInput={() => toggleListening(searchTerm)}
+        isVoiceListening={isVoiceListening}
+        isVoiceSupported={isVoiceSupported}
+        voiceError={voiceError}
+      />
       {!hasQuery && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-gray-600">
           Start typing to search for videos, course content, and dementia

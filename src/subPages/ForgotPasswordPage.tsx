@@ -53,7 +53,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onBack }) => {
   };
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="space-y-6 p-4 pt-15">
       <GetStarted content="Enter your email to reset password" />
       <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
         <LabeledInput
