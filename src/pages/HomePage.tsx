@@ -23,7 +23,7 @@ interface HomePageProps {
 
 const HomePage: React.FC<HomePageProps> = ({ onNavigate, isLoggedIn }) => {
   return (
-    <div className="p-4 space-y-6">
+    <div className="space-y-6 p-4 pt-15">
       <Welcome />
       <SearchBar onActivate={() => onNavigate("search")} />
       <ChatbotButton onNavigate={onNavigate} />
