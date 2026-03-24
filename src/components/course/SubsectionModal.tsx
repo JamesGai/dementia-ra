@@ -85,6 +85,18 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                         </h3>
                       );
                     }
+                    if (block.type === "list") {
+                      return (
+                        <ol
+                          key={index}
+                          className="list-decimal pl-6 text-gray-700 leading-relaxed space-y-1"
+                        >
+                          {block.items.map((item, itemIndex) => (
+                            <li key={itemIndex}>{item}</li>
+                          ))}
+                        </ol>
+                      );
+                    }
                     return (
                       <p
                         key={index}

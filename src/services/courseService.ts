@@ -34,10 +34,15 @@ export type Section = {
   title: string;
 };
 
-export type ContentBlock = {
-  type: "heading" | "subheading" | "paragraph";
-  text: string;
-};
+export type ContentBlock =
+  | {
+      type: "heading" | "subheading" | "paragraph";
+      text: string;
+    }
+  | {
+      type: "list";
+      items: string[];
+    };
 
 export type Subsection = {
   id: string;
