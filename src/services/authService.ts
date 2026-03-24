@@ -28,6 +28,9 @@ export type User = {
  * Sign up:
  * 1) Create Firebase Auth account (email + password)
  * 2) Create Firestore user profile at users/{uid}
+ *
+ * @param params Signup credentials and the Firestore profile payload.
+ * @returns The Firebase authentication credential for the new user.
  */
 export async function signUpWithProfile(params: {
   email: string;
@@ -45,28 +48,40 @@ export async function signUpWithProfile(params: {
 }
 
 /**
- * Sign in with email + password
+ * Signs a user in with an email address and password.
+ *
+ * @param email User email address.
+ * @param password User password.
+ * @returns The Firebase authentication result for the signed-in user.
  */
 export function signIn(email: string, password: string) {
   return signInWithEmailAndPassword(auth, email, password);
 }
 
 /**
- * Send password reset email
+ * Sends a password reset email to the provided address.
+ *
+ * @param email Account email address.
+ * @returns A promise that resolves when Firebase accepts the reset request.
  */
 export function resetPassword(email: string) {
   return sendPasswordResetEmail(auth, email);
 }
 
 /**
- * Sign out
+ * Signs the current user out of Firebase Auth.
+ *
+ * @returns A promise that resolves when sign-out completes.
  */
 export function signOutUser() {
   return signOut(auth);
 }
 
 /**
- * Fetch current user's profile from Firestore
+ * Fetches a user's profile document from Firestore.
+ *
+ * @param uid Firebase Auth user ID.
+ * @returns The stored user profile, or `null` when no document exists.
  */
 export async function fetchMyProfile(uid: string): Promise<User | null> {
   const snap = await getDoc(doc(db, "users", uid));
@@ -74,7 +89,10 @@ export async function fetchMyProfile(uid: string): Promise<User | null> {
 }
 
 /**
- * Listen to Firebase Auth state changes
+ * Subscribes to Firebase Auth state changes.
+ *
+ * @param callback Listener invoked whenever the authenticated user changes.
+ * @returns The unsubscribe function returned by Firebase Auth.
  */
 export function subscribeToAuthChanges(
   callback: (user: FirebaseUser | null) => void,
@@ -82,6 +100,12 @@ export function subscribeToAuthChanges(
   return onAuthStateChanged(auth, callback);
 }
 
+/**
+ * Updates selected fields on a user's Firestore profile document.
+ *
+ * @param uid Firebase Auth user ID.
+ * @param updates Partial profile fields to update.
+ */
 export async function updateMyProfile(uid: string, updates: Partial<User>) {
   // only updates provided fields
   await updateDoc(doc(db, "users", uid), updates);

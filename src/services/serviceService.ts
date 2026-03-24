@@ -11,6 +11,11 @@ export type Service = {
   link: string;
 };
 
+/**
+ * Fetches all service records ordered by service name.
+ *
+ * @returns The complete list of services.
+ */
 export async function fetchAllServices(): Promise<Service[]> {
   const q = query(collection(db, "services"), orderBy("name", "asc"));
   const snap = await getDocs(q);
@@ -23,6 +28,12 @@ export async function fetchAllServices(): Promise<Service[]> {
   });
 }
 
+/**
+ * Searches services by a normalized keyword stored in Firestore.
+ *
+ * @param searchTerm User-entered search term.
+ * @returns Services whose `keywords` array contains the normalized term.
+ */
 export async function searchServices(searchTerm: string): Promise<Service[]> {
   if (!searchTerm.trim()) {
     return [];
