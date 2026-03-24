@@ -96,6 +96,18 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                         </ol>
                       );
                     }
+                    if (block.type === "image") {
+                      return (
+                        <div key={index} className="overflow-hidden rounded-2xl">
+                          <img
+                            src={block.src}
+                            alt={block.alt}
+                            className="w-full h-auto object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                      );
+                    }
                     if (block.type === "table") {
                       return (
                         <div key={index} className="overflow-x-auto">

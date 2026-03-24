@@ -40,6 +40,11 @@ export type ContentBlock =
       text: string;
     }
   | {
+      type: "image";
+      src: string;
+      alt: string;
+    }
+  | {
       type: "list";
       items: string[];
     }
