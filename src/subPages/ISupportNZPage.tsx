@@ -30,8 +30,6 @@ const ISupportNZPage: React.FC = () => {
 
   const handleOpenSubsection = async (sub: Subsection) => {
     try {
-      setLoading(true);
-
       const fullSubsection = await fetchSubsectionDetail({
         courseId,
         moduleId: `module-${sub.moduleNumber}`,
@@ -57,8 +55,6 @@ const ISupportNZPage: React.FC = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to load subsection content");
-    } finally {
-      setLoading(false);
     }
   };
 
