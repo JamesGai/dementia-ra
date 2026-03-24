@@ -60,7 +60,7 @@ async function main() {
         },
         {
           type: "image",
-          src: "/subsection-1.4.8-acp-landscape.png",
+          src: "/course/subsection/subsection-1.4.8-acp-landscape.png",
           alt: "River landscape",
         },
         {

@@ -90,7 +90,7 @@ async function main() {
         },
         {
           type: "image",
-          src: "/subsection-1.3.2-psychological-needs-diagram.png",
+          src: "/course/subsection/subsection-1.3.2-psychological-needs-diagram.png",
           alt: "Diagram showing Kitwood's psychological needs with love at the centre",
         },
       ],

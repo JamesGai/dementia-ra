@@ -96,7 +96,7 @@ async function main() {
         },
         {
           type: "image",
-          src: "/subsection-1.2.2-risk-reduction-infographic.png",
+          src: "/course/subsection/subsection-1.2.2-risk-reduction-infographic.png",
           alt: "How to reduce your risk of dementia infographic",
         },
         {
@@ -160,7 +160,7 @@ async function main() {
         },
         {
           type: "image",
-          src: "/subsection-1.2.2-keep-active-photo.png",
+          src: "/course/subsection/subsection-1.2.2-keep-active-photo.png",
           alt: "Older adults exercising outdoors",
         },
       ],
