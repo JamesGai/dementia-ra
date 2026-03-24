@@ -8,7 +8,8 @@ import {
   Timestamp,
   where,
 } from "firebase/firestore";
-import { db } from "../firebase";
+import { getDownloadURL, ref } from "firebase/storage";
+import { db, storage } from "../firebase";
 
 export type Video = {
   id: string;
@@ -27,6 +28,61 @@ const COURSE_INSTRUCTION_ID = "course-instruction";
 const SERVICE_INSTRUCTION_ID = "service-instruction";
 
 /**
+ * Returns `true` when the supplied asset reference is already a browser-usable URL.
+ *
+ * @param value Potential asset reference from Firestore.
+ * @returns Whether the value is an HTTP(S), blob, or data URL.
+ */
+function isDirectAssetUrl(value?: string): boolean {
+  if (!value) return false;
+  return /^(https?:|blob:|data:)/i.test(value);
+}
+
+/**
+ * Resolves a stored asset reference into a URL usable by the browser video/image tags.
+ * Direct URLs are returned unchanged. Firebase Storage paths and `gs://` URIs are
+ * converted into signed download URLs via the Firebase SDK.
+ *
+ * @param value Asset reference stored in Firestore.
+ * @returns A playable/downloadable URL, or the original value if resolution fails.
+ */
+async function resolveStorageAssetUrl(value?: string): Promise<string> {
+  if (!value) return "";
+  if (isDirectAssetUrl(value)) {
+    return value;
+  }
+
+  try {
+    return await getDownloadURL(ref(storage, value));
+  } catch (error) {
+    console.warn(`Failed to resolve Firebase Storage URL for "${value}"`, error);
+    return value;
+  }
+}
+
+/**
+ * Normalizes a video document by resolving its video and thumbnail references into
+ * browser-usable URLs before the UI consumes them.
+ *
+ * @param video Raw video document merged with its Firestore ID.
+ * @returns The video with hydrated `videoUrl` and `thumbnailUrl` fields.
+ */
+async function hydrateVideoAssets(
+  video: Omit<Video, "id"> & { id: string },
+): Promise<Video> {
+  const [videoUrl, thumbnailUrl] = await Promise.all([
+    resolveStorageAssetUrl(video.videoUrl),
+    resolveStorageAssetUrl(video.thumbnailUrl),
+  ]);
+
+  return {
+    ...video,
+    videoUrl,
+    thumbnailUrl,
+  };
+}
+
+/**
  * Fetches all videos ordered by creation date descending.
  *
  * @returns The complete video list.
@@ -34,10 +90,12 @@ const SERVICE_INSTRUCTION_ID = "service-instruction";
 export async function fetchAllVideos(): Promise<Video[]> {
   const q = query(collection(db, "videos"), orderBy("createdAt", "desc"));
   const snap = await getDocs(q);
-  return snap.docs.map((d) => {
-    const data = d.data() as Omit<Video, "id">;
-    return { id: d.id, ...data };
-  });
+  return Promise.all(
+    snap.docs.map(async (d) => {
+      const data = d.data() as Omit<Video, "id">;
+      return hydrateVideoAssets({ id: d.id, ...data });
+    }),
+  );
 }
 
 /**
@@ -55,7 +113,7 @@ async function fetchInstructionVideoById(
   }
 
   const data = snap.data() as Omit<Video, "id">;
-  return { id: snap.id, ...data };
+  return hydrateVideoAssets({ id: snap.id, ...data });
 }
 
 /**
@@ -101,8 +159,10 @@ export async function searchVideos(searchTerm: string): Promise<Video[]> {
     where("keywords", "array-contains", formatted),
   );
   const snap = await getDocs(q);
-  return snap.docs.map((d) => {
-    const data = d.data() as Omit<Video, "id">;
-    return { id: d.id, ...data };
-  });
+  return Promise.all(
+    snap.docs.map(async (d) => {
+      const data = d.data() as Omit<Video, "id">;
+      return hydrateVideoAssets({ id: d.id, ...data });
+    }),
+  );
 }
