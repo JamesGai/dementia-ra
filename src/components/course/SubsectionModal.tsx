@@ -58,9 +58,44 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                   : `${subsection.moduleNumber}.${subsection.sectionNumber}.${subsection.subsectionNumber}. ${subsection.title}`}
               </div>
               <div className="h-px w-full bg-gray-300" />
-              <div className="text-gray-700 leading-relaxed">
-                Content coming soon
-              </div>
+              {!subsection.content || subsection.content.length === 0 ? (
+                <div className="text-gray-700 leading-relaxed">
+                  Content coming soon
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {subsection.content.map((block, index) => {
+                    if (block.type === "heading") {
+                      return (
+                        <h2
+                          key={index}
+                          className="text-[#2e6f73] font-extrabold text-2xl"
+                        >
+                          {block.text}
+                        </h2>
+                      );
+                    }
+                    if (block.type === "subheading") {
+                      return (
+                        <h3
+                          key={index}
+                          className="text-gray-800 font-extrabold text-lg pt-4"
+                        >
+                          {block.text}
+                        </h3>
+                      );
+                    }
+                    return (
+                      <p
+                        key={index}
+                        className="text-gray-700 leading-relaxed whitespace-pre-line"
+                      >
+                        {block.text}
+                      </p>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         )}

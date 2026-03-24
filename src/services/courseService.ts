@@ -34,14 +34,18 @@ export type Section = {
   title: string;
 };
 
+export type ContentBlock = {
+  type: "heading" | "subheading" | "paragraph";
+  text: string;
+};
+
 export type Subsection = {
   id: string;
   moduleNumber: number;
   sectionNumber: number;
   subsectionNumber: number;
   title: string;
-  //   contentFormat?: "text" | "html" | "markdown" | "ref";
-  //   content?: string;
+  content?: ContentBlock[];
 };
 
 const DEFAULT_PROGRESS_MODULE_COUNT = 5;
@@ -265,6 +269,40 @@ export async function fetchCourseTree(courseId: string) {
     }
   }
   return { modules, sections, subsections };
+}
+
+export async function fetchSubsectionDetail(params: {
+  courseId: string;
+  moduleId: string;
+  sectionId: string;
+  subsectionId: string;
+}): Promise<Subsection | null> {
+  const { courseId, moduleId, sectionId, subsectionId } = params;
+  const ref = doc(
+    db,
+    "course",
+    courseId,
+    "module",
+    moduleId,
+    "section",
+    sectionId,
+    "subsection",
+    subsectionId,
+  );
+  const snap = await getDoc(ref);
+  if (!snap.exists()) {
+    return null;
+  }
+  const data = snap.data() as Omit<Subsection, "id">;
+  return {
+    id: snap.id,
+    ...data,
+    moduleNumber: data.moduleNumber,
+    sectionNumber: data.sectionNumber,
+    subsectionNumber: data.subsectionNumber,
+    title: data.title,
+    content: Array.isArray(data.content) ? data.content : [],
+  };
 }
 
 export async function searchCourseSections(
