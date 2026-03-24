@@ -1,4 +1,4 @@
-// Execute: node src/scripts/seedSubsection112Content.js
+// Execute: node src/scripts/subsectionContent/seedSubsection112Content.js
 
 import admin from "firebase-admin";
 import path from "path";
@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 
 const serviceAccountPath = path.resolve(
   __dirname,
-  "../../serviceAccountKey.json",
+  "../../../serviceAccountKey.json",
 );
 
 const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf8"));

@@ -28,7 +28,6 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
 
   return (
     <IonModal isOpen={isOpen} onDidDismiss={handleClose}>
-      {/* Header */}
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="end">
@@ -42,7 +41,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      {/* Content */}
+      {/* Subsection content */}
       <IonContent className="ion-padding">
         {!subsection ? (
           <div className="bg-white rounded-2xl p-4 shadow-md text-gray-500">
@@ -95,6 +94,42 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                             <li key={itemIndex}>{item}</li>
                           ))}
                         </ol>
+                      );
+                    }
+                    if (block.type === "table") {
+                      return (
+                        <div key={index} className="overflow-x-auto">
+                          <table className="w-full border border-gray-300 text-sm">
+                            <thead>
+                              <tr className="bg-gray-100">
+                                {block.headers.map((header, headerIndex) => (
+                                  <th
+                                    key={headerIndex}
+                                    className="p-2 text-left border border-gray-300 align-top"
+                                  >
+                                    {header}
+                                  </th>
+                                ))}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {block.rows.map((row, rowIndex) => (
+                                <tr key={rowIndex}>
+                                  <td className="p-2 border border-gray-300 align-top text-gray-700">
+                                    {row.left}
+                                  </td>
+                                  <td className="p-2 border border-gray-300 align-top text-gray-700">
+                                    <ul className="list-disc pl-5 space-y-1">
+                                      {row.right.map((item, itemIndex) => (
+                                        <li key={itemIndex}>{item}</li>
+                                      ))}
+                                    </ul>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       );
                     }
                     return (

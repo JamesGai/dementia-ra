@@ -42,6 +42,14 @@ export type ContentBlock =
   | {
       type: "list";
       items: string[];
+    }
+  | {
+      type: "table";
+      headers: string[];
+      rows: {
+        left: string;
+        right: string[];
+      }[];
     };
 
 export type Subsection = {
