@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { Capacitor } from "@capacitor/core";
 import TitleButton from "../components/universal/TitleButton";
 import ManualModal from "../components/manual/manualModal";
 
@@ -34,7 +35,9 @@ const ManualPage: React.FC = () => {
   );
 
   return (
-    <div className="space-y-6 p-4 pt-15">
+    <div
+      className={`space-y-6 p-4 ${Capacitor.isNativePlatform() ? "pt-15" : ""}`}
+    >
       {/* Section cards */}
       {sections.map((s) => (
         <TitleButton

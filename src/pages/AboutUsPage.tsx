@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Capacitor } from "@capacitor/core";
 import ContactUs from "../components/aboutUs/ContactUs";
 import TheTeam from "../components/aboutUs/TheTeam";
 import TheProject from "../components/aboutUs/TheProject";
@@ -16,7 +17,9 @@ const AboutUsPage: React.FC = () => {
   const closeContactModal = () => setIsContactOpen(false);
 
   return (
-    <div className="space-y-6 p-4 pt-15">
+    <div
+      className={`space-y-6 p-4 ${Capacitor.isNativePlatform() ? "pt-15" : ""}`}
+    >
       <div className="bg-white rounded-2xl shadow-md overflow-hidden">
         <img
           src="Carers.png"

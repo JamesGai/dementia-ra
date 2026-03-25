@@ -23,6 +23,9 @@ type UserChatHistoryPayload = {
 
 /**
  * Runtime type guard for entries loaded from Firestore chatHistory.
+ *
+ * @param value Unknown Firestore value to validate.
+ * @returns `true` when the value matches the `ChatHistoryMessage` shape.
  */
 function isChatHistoryMessage(value: unknown): value is ChatHistoryMessage {
   if (!value || typeof value !== "object") return false;
@@ -37,6 +40,9 @@ function isChatHistoryMessage(value: unknown): value is ChatHistoryMessage {
 
 /**
  * Sends a user prompt to the chatbot API and returns the chatbot reply text.
+ *
+ * @param prompt User message to send to the chatbot backend.
+ * @returns The trimmed chatbot reply text.
  */
 export async function getChatbotReply(prompt: string): Promise<string> {
   console.log("Chatbot API URL:", CHATBOT_API_URL);
@@ -71,6 +77,9 @@ export async function getChatbotReply(prompt: string): Promise<string> {
 
 /**
  * Reads `users/{uid}.chatHistory` from Firestore and returns only valid messages.
+ *
+ * @param uid Firebase Auth user ID.
+ * @returns A filtered chat history array containing only valid messages.
  */
 export async function fetchChatHistory(
   uid: string,
@@ -84,6 +93,9 @@ export async function fetchChatHistory(
 
 /**
  * Persists full chat history into `users/{uid}.chatHistory` (merge update).
+ *
+ * @param uid Firebase Auth user ID.
+ * @param messages Full chat history to store for the user.
  */
 export async function saveChatHistory(
   uid: string,
@@ -100,6 +112,8 @@ export async function saveChatHistory(
 
 /**
  * Clears the persisted chat history for the given user.
+ *
+ * @param uid Firebase Auth user ID.
  */
 export async function clearChatHistory(uid: string): Promise<void> {
   await setDoc(

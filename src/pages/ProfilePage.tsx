@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Capacitor } from "@capacitor/core";
 import {
   fetchMyProfile,
   signOutUser,
@@ -153,7 +154,9 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
   }, [isLoggedIn]);
 
   return (
-    <div className="space-y-6 p-4 pt-15">
+    <div
+      className={`space-y-6 p-4 ${Capacitor.isNativePlatform() ? "pt-15" : ""}`}
+    >
       {!isLoggedIn && <ProfileLoggedOut onNavigate={onNavigate} />}
       {isLoggedIn && (
         <>

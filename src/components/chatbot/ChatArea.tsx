@@ -26,7 +26,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, contentRef }) => {
     }).format(new Date(timestamp));
 
   return (
-    <IonContent fullscreen className="bg-[#eef2f5]" ref={contentRef}>
+    <IonContent className="bg-[#eef2f5]" ref={contentRef}>
       <div className="px-4 py-6 space-y-6">
         {messages.map((msg) =>
           msg.sender === "bot" ? (

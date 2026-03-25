@@ -51,6 +51,18 @@ const ServiceModal: React.FC<ServicesModalProps> = ({
     onClose();
   };
 
+  const mapQuery = service?.address ?? service?.name ?? "";
+  const mapSrc = mapQuery
+    ? `https://www.google.com/maps?q=${encodeURIComponent(
+        mapQuery
+      )}&z=15&output=embed`
+    : null;
+  const googleMapsUrl = mapQuery
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        mapQuery
+      )}`
+    : null;
+
   return (
     <IonModal isOpen={isOpen} onDidDismiss={handleClose}>
       {/* Header */}
@@ -81,14 +93,32 @@ const ServiceModal: React.FC<ServicesModalProps> = ({
                 {service.name}
               </div>
               <div className="h-px w-full bg-gray-300" />
-              {/* Map placeholder (icon only)*/}
-              <div className="flex justify-center py-3">
-                <IonIcon
-                  icon={locationOutline}
-                  className="w-8 h-8 text-gray-400"
-                  aria-hidden="true"
-                />
-              </div>
+              {mapSrc ? (
+                <div className="space-y-3">
+                  <div className="overflow-hidden rounded-2xl border border-gray-200">
+                  <iframe
+                    title={`Map for ${service.name}`}
+                    src={mapSrc}
+                    className="pointer-events-none h-48 w-full border-0"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    aria-hidden="true"
+                    tabIndex={-1}
+                  />
+                  </div>
+                  {googleMapsUrl ? (
+                    <a
+                      href={googleMapsUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 font-semibold text-[#2e6f73]"
+                    >
+                      <IonIcon icon={locationOutline} aria-hidden="true" />
+                      Open in Google Maps
+                    </a>
+                  ) : null}
+                </div>
+              ) : null}
               <div className="space-y-4 text-gray-700 leading-relaxed">
                 {service.description ? <div>{service.description}</div> : null}
                 {service.address ? (

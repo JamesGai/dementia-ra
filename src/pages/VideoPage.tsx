@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Capacitor } from "@capacitor/core";
 import { funnelOutline, playCircleOutline } from "ionicons/icons";
 import {
   fetchAllVideos,
@@ -128,6 +129,14 @@ const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
     });
   };
 
+  const handlePageChange = (nextPage: number) => {
+    setPage((prev) => {
+      const next = Math.min(Math.max(nextPage, 1), totalPages);
+      if (next !== prev) scrollToTop();
+      return next;
+    });
+  };
+
   /**
    * Retrieve all videos from Firestore
    */
@@ -173,7 +182,9 @@ const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
   }, [page]);
 
   return (
-    <div className="space-y-6 p-4 pt-15">
+    <div
+      className={`space-y-6 p-4 ${Capacitor.isNativePlatform() ? "pt-15" : ""}`}
+    >
       <Segment
         value={segment}
         segmentOptions={videoSegmentOptions}
@@ -219,6 +230,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
           totalPages={totalPages}
           onPrev={goPrev}
           onNext={goNext}
+          onPageChange={handlePageChange}
         />
       )}
       <VideoPlayerModal

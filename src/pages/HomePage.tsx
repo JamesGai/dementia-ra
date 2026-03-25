@@ -1,4 +1,5 @@
 import React from "react";
+import { Capacitor } from "@capacitor/core";
 import { searchOutline } from "ionicons/icons";
 import BecomeMember from "../components/home/BecomeMember";
 import ChatbotButton from "../components/home/ChatbotButton";
@@ -24,7 +25,9 @@ interface HomePageProps {
 
 const HomePage: React.FC<HomePageProps> = ({ onNavigate, isLoggedIn }) => {
   return (
-    <div className="space-y-6 p-4 pt-15">
+    <div
+      className={`space-y-6 p-4 ${Capacitor.isNativePlatform() ? "pt-15" : ""}`}
+    >
       <Welcome />
       <InputBar
         placeholder="Search resources..."

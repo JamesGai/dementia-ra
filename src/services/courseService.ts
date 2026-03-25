@@ -34,14 +34,36 @@ export type Section = {
   title: string;
 };
 
+export type ContentBlock =
+  | {
+      type: "heading" | "subheading" | "paragraph";
+      text: string;
+    }
+  | {
+      type: "image";
+      src: string;
+      alt: string;
+    }
+  | {
+      type: "list";
+      items: string[];
+    }
+  | {
+      type: "table";
+      headers: string[];
+      rows: {
+        left: string;
+        right: string[];
+      }[];
+    };
+
 export type Subsection = {
   id: string;
   moduleNumber: number;
   sectionNumber: number;
   subsectionNumber: number;
   title: string;
-  //   contentFormat?: "text" | "html" | "markdown" | "ref";
-  //   content?: string;
+  content?: ContentBlock[];
 };
 
 const DEFAULT_PROGRESS_MODULE_COUNT = 5;
@@ -50,6 +72,9 @@ let canUseSectionCollectionGroupQuery = true;
 /**
  * Builds a subsection progress token in the format `module.section.subsection`.
  * Example: `1.1.0`.
+ *
+ * @param params Subsection location identifiers.
+ * @returns A stable progress key used in `users/{uid}.courseProgress`.
  */
 export function buildSubsectionProgressKey(params: {
   moduleNumber: number;
@@ -63,6 +88,8 @@ export function buildSubsectionProgressKey(params: {
 /**
  * Marks a subsection as completed by adding its token into `users/{uid}.courseProgress`.
  * Uses `arrayUnion` so duplicates are ignored automatically.
+ *
+ * @param params User ID and subsection location identifiers.
  */
 export async function markSubsectionCompleted(params: {
   uid: string;
@@ -89,6 +116,9 @@ export async function markSubsectionCompleted(params: {
 
 /**
  * Reads `users/{uid}.courseProgress` and returns it as a set for O(1) lookups.
+ *
+ * @param params User lookup parameters.
+ * @returns A set of completed subsection progress keys.
  */
 async function fetchCompletedSubsectionKeySet(params: {
   uid: string;
@@ -110,6 +140,9 @@ async function fetchCompletedSubsectionKeySet(params: {
  * `Math.round(completedSubsections / totalSubsections * 100)`.
  * Returns an array padded to `moduleCount` (default 5) when trackable subsections exist.
  * Returns `[]` if no trackable subsections are found, so callers can keep existing progress data.
+ *
+ * @param params Course ID, user ID, and optional module count to include.
+ * @returns Per-module completion percentages ordered by module number.
  */
 export async function computeCourseProgress(params: {
   courseId: string;
@@ -166,6 +199,11 @@ export async function computeCourseProgress(params: {
   return progress;
 }
 
+/**
+ * Fetches all course documents from Firestore.
+ *
+ * @returns A list of available courses.
+ */
 export async function fetchAllCourses(): Promise<Course[]> {
   const snap = await getDocs(collection(db, "course"));
   return snap.docs.map((doc) => {
@@ -177,6 +215,12 @@ export async function fetchAllCourses(): Promise<Course[]> {
   });
 }
 
+/**
+ * Fetches all modules for a course ordered by module number.
+ *
+ * @param courseId Firestore course document ID.
+ * @returns Ordered course modules.
+ */
 export async function fetchCourseModules(courseId: string): Promise<Module[]> {
   const col = collection(db, "course", courseId, "module");
   const q = query(col, orderBy("number", "asc"));
@@ -193,6 +237,12 @@ export async function fetchCourseModules(courseId: string): Promise<Module[]> {
   });
 }
 
+/**
+ * Fetches the sections for a module ordered by section number.
+ *
+ * @param params Course and module identifiers.
+ * @returns Ordered sections within the module.
+ */
 export async function fetchModuleSections(params: {
   courseId: string;
   moduleId: string;
@@ -212,6 +262,12 @@ export async function fetchModuleSections(params: {
   });
 }
 
+/**
+ * Fetches the subsections for a section ordered by subsection number.
+ *
+ * @param params Course, module, and section identifiers.
+ * @returns Ordered subsections within the section.
+ */
 export async function fetchSectionSubsections(params: {
   courseId: string;
   moduleId: string;
@@ -243,7 +299,10 @@ export async function fetchSectionSubsections(params: {
 }
 
 /**
- * OPTIONAL convenience: fetch everything and build a tree (still using Firestore types only)
+ * Fetches the full course tree and groups sections and subsections by parent IDs.
+ *
+ * @param courseId Firestore course document ID.
+ * @returns Modules plus lookup tables for their sections and subsections.
  */
 export async function fetchCourseTree(courseId: string) {
   const modules = await fetchCourseModules(courseId);
@@ -267,6 +326,54 @@ export async function fetchCourseTree(courseId: string) {
   return { modules, sections, subsections };
 }
 
+/**
+ * Fetches a single subsection document by its full path.
+ *
+ * @param params Course, module, section, and subsection identifiers.
+ * @returns The subsection detail, or `null` when the document does not exist.
+ */
+export async function fetchSubsectionDetail(params: {
+  courseId: string;
+  moduleId: string;
+  sectionId: string;
+  subsectionId: string;
+}): Promise<Subsection | null> {
+  const { courseId, moduleId, sectionId, subsectionId } = params;
+  const ref = doc(
+    db,
+    "course",
+    courseId,
+    "module",
+    moduleId,
+    "section",
+    sectionId,
+    "subsection",
+    subsectionId,
+  );
+  const snap = await getDoc(ref);
+  if (!snap.exists()) {
+    return null;
+  }
+  const data = snap.data() as Omit<Subsection, "id">;
+  return {
+    id: snap.id,
+    ...data,
+    moduleNumber: data.moduleNumber,
+    sectionNumber: data.sectionNumber,
+    subsectionNumber: data.subsectionNumber,
+    title: data.title,
+    content: Array.isArray(data.content) ? data.content : [],
+  };
+}
+
+/**
+ * Searches course sections by keyword and returns the matching course tree subset.
+ * Uses a collection group query when available and falls back to per-module filtering.
+ *
+ * @param courseId Firestore course document ID.
+ * @param searchTerm User-entered search term.
+ * @returns Matching modules plus lookup tables for their sections and subsections.
+ */
 export async function searchCourseSections(
   courseId: string,
   searchTerm: string,

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Capacitor } from "@capacitor/core";
 import { auth } from "../firebase";
 import {
   markSubsectionCompleted,
   fetchCourseTree,
+  fetchSubsectionDetail,
   Module,
   Section,
   Subsection,
@@ -16,12 +18,10 @@ import SubsectionModal from "../components/course/SubsectionModal";
 const ISupportNZPage: React.FC = () => {
   const courseId = "isupport-nz";
   const [modules, setModules] = useState<Module[]>([]);
-  // <Module ID, Section objects>
-  const [sections, setSections] = useState<Record<string, Section[]>>({});
-  // <Section ID, Subsection objects>
+  const [sections, setSections] = useState<Record<string, Section[]>>({}); // <Module ID, Section objects>
   const [subsections, setSubsections] = useState<Record<string, Subsection[]>>(
     {},
-  );
+  ); // <Section ID, Subsection objects>
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubsectionOpen, setIsSubsectionOpen] = useState(false);
@@ -29,19 +29,34 @@ const ISupportNZPage: React.FC = () => {
     Subsection | undefined
   >(undefined);
 
-  const handleOpenSubsection = (sub: Subsection) => {
-    setSelectedSubsection(sub);
-    setIsSubsectionOpen(true);
-    const uid = auth.currentUser?.uid;
-    if (!uid) return;
-    void markSubsectionCompleted({
-      uid,
-      moduleNumber: sub.moduleNumber,
-      sectionNumber: sub.sectionNumber,
-      subsectionNumber: sub.subsectionNumber,
-    }).catch((err) => {
-      console.error("Failed to save subsection completion", err);
-    });
+  const handleOpenSubsection = async (sub: Subsection) => {
+    try {
+      const fullSubsection = await fetchSubsectionDetail({
+        courseId,
+        moduleId: `module-${sub.moduleNumber}`,
+        sectionId: `section-${sub.moduleNumber}.${sub.sectionNumber}`,
+        subsectionId: sub.id,
+      });
+      if (!fullSubsection) {
+        setError("Failed to load subsection content");
+        return;
+      }
+      setSelectedSubsection(fullSubsection);
+      setIsSubsectionOpen(true);
+      const uid = auth.currentUser?.uid;
+      if (!uid) return;
+      void markSubsectionCompleted({
+        uid,
+        moduleNumber: sub.moduleNumber,
+        sectionNumber: sub.sectionNumber,
+        subsectionNumber: sub.subsectionNumber,
+      }).catch((err) => {
+        console.error("Failed to save subsection completion", err);
+      });
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load subsection content");
+    }
   };
 
   useEffect(() => {
@@ -64,7 +79,9 @@ const ISupportNZPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="space-y-6 p-4 pt-15">
+    <div
+      className={`space-y-6 p-4 ${Capacitor.isNativePlatform() ? "pt-15" : ""}`}
+    >
       {loading && <LoadingOverlay text="Loading modules..." />}
       {error && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-red-600">

@@ -77,6 +77,10 @@ The app will explain behaviours associated with dementia and offer strategies fo
 
 - `npm install firebase`
 
+### Deployment
+
+This mobile app is being hosted on Firebase Hosting
+
 ## Project Management
 
 This project is being tracked on Trello, ask permission to join and visit.

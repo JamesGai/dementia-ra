@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Capacitor } from "@capacitor/core";
 import { playCircleOutline } from "ionicons/icons";
 import { auth } from "../firebase";
 import {
@@ -87,7 +88,9 @@ const CoursePage: React.FC<CoursePageProps> = ({ onNavigate }) => {
   }, []);
 
   return (
-    <div className="space-y-6 p-4 pt-15">
+    <div
+      className={`space-y-6 p-4 ${Capacitor.isNativePlatform() ? "pt-15" : ""}`}
+    >
       <Segment
         value={segment}
         segmentOptions={courseSegmentOptions}
