@@ -129,6 +129,14 @@ const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
     });
   };
 
+  const handlePageChange = (nextPage: number) => {
+    setPage((prev) => {
+      const next = Math.min(Math.max(nextPage, 1), totalPages);
+      if (next !== prev) scrollToTop();
+      return next;
+    });
+  };
+
   /**
    * Retrieve all videos from Firestore
    */
@@ -222,6 +230,7 @@ const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
           totalPages={totalPages}
           onPrev={goPrev}
           onNext={goNext}
+          onPageChange={handlePageChange}
         />
       )}
       <VideoPlayerModal
