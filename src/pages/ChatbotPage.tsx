@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { IonAlert, IonFooter, IonPage } from "@ionic/react";
+import { Capacitor } from "@capacitor/core";
 import { auth } from "../firebase";
 import { useSpeechToText } from "../hooks/useSpeechToText";
 import { subscribeToAuthChanges } from "../services/authService";
@@ -155,7 +156,7 @@ const ChatbotPage: React.FC = () => {
   }, [messages, scrollToBottom]);
 
   return (
-    <IonPage className="pt-15">
+    <IonPage className={Capacitor.isNativePlatform() ? "pt-15" : undefined}>
       <Header
         title="e-DiVA chatbot"
         status="Online"

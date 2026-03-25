@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { Capacitor } from "@capacitor/core";
 import { searchOutline } from "ionicons/icons";
 import { useSpeechToText } from "../hooks/useSpeechToText";
 import {
@@ -141,7 +142,9 @@ const SearchPage: React.FC = () => {
   const hasQuery = Boolean(searchTerm.trim());
 
   return (
-    <div className="space-y-6 p-4 pt-15">
+    <div
+      className={`space-y-6 p-4 ${Capacitor.isNativePlatform() ? "pt-15" : ""}`}
+    >
       <InputBar
         placeholder="Search resources..."
         leftIcon={searchOutline}

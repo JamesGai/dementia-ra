@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Capacitor } from "@capacitor/core";
 import { auth } from "../firebase";
 import {
   markSubsectionCompleted,
@@ -78,7 +79,9 @@ const ISupportNZPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="space-y-6 p-4 pt-15">
+    <div
+      className={`space-y-6 p-4 ${Capacitor.isNativePlatform() ? "pt-15" : ""}`}
+    >
       {loading && <LoadingOverlay text="Loading modules..." />}
       {error && (
         <div className="bg-white rounded-2xl p-6 shadow-md text-sm text-red-600">

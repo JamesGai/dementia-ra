@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Capacitor } from "@capacitor/core";
 import { funnelOutline, playCircleOutline } from "ionicons/icons";
 import {
   fetchAllVideos,
@@ -173,7 +174,9 @@ const VideoPage: React.FC<VideoPageProps> = ({ scrollToTop }) => {
   }, [page]);
 
   return (
-    <div className="space-y-6 p-4 pt-15">
+    <div
+      className={`space-y-6 p-4 ${Capacitor.isNativePlatform() ? "pt-15" : ""}`}
+    >
       <Segment
         value={segment}
         segmentOptions={videoSegmentOptions}

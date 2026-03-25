@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Capacitor } from "@capacitor/core";
 import { playCircleOutline } from "ionicons/icons";
 import { fetchAllServices, Service } from "../services/serviceService";
 import { fetchServiceInstructionVideo, Video } from "../services/videoService";
@@ -56,7 +57,9 @@ const ServicesPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="space-y-6 p-4 pt-15">
+    <div
+      className={`space-y-6 p-4 ${Capacitor.isNativePlatform() ? "pt-15" : ""}`}
+    >
       <Button
         text="User Instruction"
         icon={playCircleOutline}

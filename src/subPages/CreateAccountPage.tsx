@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { Capacitor } from "@capacitor/core";
 import { signUpWithProfile } from "../services/authService";
 import Button from "../components/universal/Button";
 import GetStarted from "../components/profile/GetStarted";
@@ -118,7 +119,9 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBack }) => {
   };
 
   return (
-    <div className="space-y-6 p-4 pt-15">
+    <div
+      className={`space-y-6 p-4 ${Capacitor.isNativePlatform() ? "pt-15" : ""}`}
+    >
       <GetStarted content="Create an account to personalise your experience." />
       <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
         <LabeledInput
