@@ -3,7 +3,7 @@ import { db } from "../firebase";
 
 // const CHATBOT_API_URL = "/api/chat"; // Local
 // const CHATBOT_API_URL = "http://192.168.1.125:5050/api/chat"; // Emulator
-const CHATBOT_API_URL = "https://dementia-ra-chatbot.onrender.com/api/chat"; // Public
+const CHATBOT_API_URL = "https://dementia-ra-chatbot-new.onrender.com/api/chat"; // Public
 
 type ChatbotResponsePayload = {
   response?: string;
