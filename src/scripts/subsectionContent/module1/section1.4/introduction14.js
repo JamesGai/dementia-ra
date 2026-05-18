@@ -1,4 +1,4 @@
-const subsectionContent140 = {
+const introduction14 = {
       moduleNumber: 1,
       sectionNumber: 4,
       subsectionNumber: 0,
@@ -40,4 +40,4 @@ const subsectionContent140 = {
       ],
     };
 
-export default subsectionContent140;
+export default introduction14;
