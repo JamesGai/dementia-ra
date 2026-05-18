@@ -1,5 +1,5 @@
 // Execute all: node src/scripts/seedSubsectionContent.js
-// Execute one: node src/scripts/seedSubsectionContent.js --subsection=1.1.1
+// Execute course content: node src/scripts/seedSubsectionContent.js --subsection=1.1.1
 // Execute introduction: node src/scripts/seedSubsectionContent.js --introduction=2.1.1
 // Execute activity: node src/scripts/seedSubsectionContent.js --activity=2.1.1
 // Execute review: node src/scripts/seedSubsectionContent.js --review=2.1.1
