@@ -48,6 +48,26 @@ import subsectionContent226 from "./subsectionContent/module2/section2.2/subsect
 import subsectionContent227 from "./subsectionContent/module2/section2.2/subsectionContent227.js";
 import subsectionContent228 from "./subsectionContent/module2/section2.2/subsectionContent228.js";
 import review221 from "./subsectionContent/module2/section2.2/review221.js";
+import introduction231 from "./subsectionContent/module2/section2.3/introduction231.js";
+import introduction241 from "./subsectionContent/module2/section2.4/introduction241.js";
+import introduction311 from "./subsectionContent/module3/section3.1/introduction311.js";
+import introduction321 from "./subsectionContent/module3/section3.2/introduction321.js";
+import introduction331 from "./subsectionContent/module3/section3.3/introduction331.js";
+import introduction411 from "./subsectionContent/module4/section4.1/introduction411.js";
+import introduction421 from "./subsectionContent/module4/section4.2/introduction421.js";
+import introduction431 from "./subsectionContent/module4/section4.3/introduction431.js";
+import introduction441 from "./subsectionContent/module4/section4.4/introduction441.js";
+import introduction451 from "./subsectionContent/module4/section4.5/introduction451.js";
+import introduction511 from "./subsectionContent/module5/section5.1/introduction511.js";
+import introduction521 from "./subsectionContent/module5/section5.2/introduction521.js";
+import introduction531 from "./subsectionContent/module5/section5.3/introduction531.js";
+import introduction541 from "./subsectionContent/module5/section5.4/introduction541.js";
+import introduction551 from "./subsectionContent/module5/section5.5/introduction551.js";
+import introduction561 from "./subsectionContent/module5/section5.6/introduction561.js";
+import introduction571 from "./subsectionContent/module5/section5.7/introduction571.js";
+import introduction581 from "./subsectionContent/module5/section5.8/introduction581.js";
+import introduction591 from "./subsectionContent/module5/section5.9/introduction591.js";
+import introduction5101 from "./subsectionContent/module5/section5.10/introduction5101.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -109,6 +129,26 @@ const subsectionContents = [
   subsectionContent227,
   subsectionContent228,
   review221,
+  introduction231,
+  introduction241,
+  introduction311,
+  introduction321,
+  introduction331,
+  introduction411,
+  introduction421,
+  introduction431,
+  introduction441,
+  introduction451,
+  introduction511,
+  introduction521,
+  introduction531,
+  introduction541,
+  introduction551,
+  introduction561,
+  introduction571,
+  introduction581,
+  introduction591,
+  introduction5101,
 ];
 
 function parseArgs(argv) {
