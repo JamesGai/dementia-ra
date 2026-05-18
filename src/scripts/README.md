@@ -55,6 +55,12 @@ Upload subsection content in specified subsection
 node src/scripts/seedSubsectionContent.js --only=<module>.<section>.<subsection>
 ```
 
+Upload introduction subsection content only
+
+```sh
+node src/scripts/seedSubsectionContent.js --introductions
+```
+
 ## Delete subsections in a section
 
 Delete all subsection documents in specified section

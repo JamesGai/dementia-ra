@@ -1,5 +1,6 @@
 // Execute all: node src/scripts/seedSubsectionContent.js
-// Execute one: node src/scripts/seedSubsectionContent.js --only=1.1.0
+// Execute one: node src/scripts/seedSubsectionContent.js --only=1.1.1
+// Execute introductions: node src/scripts/seedSubsectionContent.js --introductions
 
 import admin from "firebase-admin";
 import path from "path";
@@ -77,33 +78,34 @@ function parseArgs(argv) {
 
   return {
     only: onlyArg ? onlyArg.replace("--only=", "") : null,
+    introductions: argv.includes("--introductions"),
   };
 }
 
 function getSubsectionPath(content) {
-  const { moduleNumber, sectionNumber, subsectionNumber } = content;
+  const { moduleNumber, sectionNumber, subsectionNumber, docId } = content;
 
   return {
     moduleId: `module-${moduleNumber}`,
     sectionId: `section-${moduleNumber}.${sectionNumber}`,
-    subsectionId: `subsection-${moduleNumber}.${sectionNumber}.${subsectionNumber}`,
+    subsectionId:
+      docId ??
+      `subsection-${moduleNumber}.${sectionNumber}.${subsectionNumber}`,
   };
 }
 
 function getContentKey(content) {
+  if (content.docId) {
+    return content.docId;
+  }
+
   const { moduleNumber, sectionNumber, subsectionNumber } = content;
   return `${moduleNumber}.${sectionNumber}.${subsectionNumber}`;
 }
 
 function validateContent(content) {
   const key = getContentKey(content);
-  const requiredFields = [
-    "moduleNumber",
-    "sectionNumber",
-    "subsectionNumber",
-    "title",
-    "content",
-  ];
+  const requiredFields = ["moduleNumber", "sectionNumber", "title", "content"];
 
   for (const field of requiredFields) {
     if (content[field] === undefined) {
@@ -113,6 +115,10 @@ function validateContent(content) {
 
   if (!Array.isArray(content.content)) {
     throw new Error(`Expected content array in subsection ${key}`);
+  }
+
+  if (!content.docId && content.subsectionNumber === undefined) {
+    throw new Error(`Missing subsectionNumber or docId in subsection ${key}`);
   }
 }
 
@@ -136,10 +142,20 @@ async function seedSubsectionContent(content) {
 }
 
 async function main() {
-  const { only } = parseArgs(process.argv.slice(2));
-  const contentsToSeed = only
-    ? subsectionContents.filter((content) => getContentKey(content) === only)
-    : subsectionContents;
+  const { only, introductions } = parseArgs(process.argv.slice(2));
+  let contentsToSeed = subsectionContents;
+
+  if (only) {
+    contentsToSeed = contentsToSeed.filter(
+      (content) => getContentKey(content) === only,
+    );
+  }
+
+  if (introductions) {
+    contentsToSeed = contentsToSeed.filter((content) =>
+      content.docId?.startsWith("introduction-"),
+    );
+  }
 
   if (only && contentsToSeed.length === 0) {
     throw new Error(`No subsection content found for --only=${only}`);

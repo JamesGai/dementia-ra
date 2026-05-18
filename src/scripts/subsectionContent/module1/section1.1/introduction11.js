@@ -1,7 +1,9 @@
 const introductionContent11 = {
+  docId: "introduction-1.1.1",
   moduleNumber: 1,
   sectionNumber: 1,
-  subsectionNumber: 0,
+  displayOrder: 1,
+  isCourseSubsection: false,
   title: "Why is this section important?",
   content: [
     {
