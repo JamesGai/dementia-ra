@@ -1,41 +1,34 @@
 const introduction541 = {
-  docId: "introduction-5.4.1",
-  moduleNumber: 5,
-  sectionNumber: 4,
-  subsectionNumber: 1,
-  displayOrder: 1,
-  isCourseSubsection: false,
-  title: "Why is this section important?",
   content: [
     {
-      type: "heading",
-      text: "Why is this section important?",
+      "type": "heading",
+      "text": "Why is this section important?"
     },
     {
-      type: "paragraph",
-      text: "Dementia may affect a person's mood and interest in daily activities, people and events.",
+      "type": "paragraph",
+      "text": "Dementia may affect a person's mood and interest in daily activities, people and events."
     },
     {
-      type: "subheading",
-      text: "How will this section help me?",
+      "type": "subheading",
+      "text": "How will this section help me?"
     },
     {
-      type: "paragraph",
-      text: "This section helps you to understand the possible causes of depression and anxiety, while improving your skills to prevent or reduce mood problems.",
+      "type": "paragraph",
+      "text": "This section helps you to understand the possible causes of depression and anxiety, while improving your skills to prevent or reduce mood problems."
     },
     {
-      type: "subheading",
-      text: "What will I learn?",
+      "type": "subheading",
+      "text": "What will I learn?"
     },
     {
-      type: "list",
-      items: [
+      "type": "list",
+      "items": [
         "What are depression, anxiety and apathy?",
         "How to respond when a person living with dementia is feeling depressed or anxious?",
-        "How to respond when a person living with dementia loses interest in daily activities",
-      ],
-    },
-  ],
+        "How to respond when a person living with dementia loses interest in daily activities"
+      ]
+    }
+  ]
 };
 
 export default introduction541;

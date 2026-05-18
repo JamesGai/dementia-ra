@@ -1,42 +1,35 @@
 const introduction511 = {
-  docId: "introduction-5.1.1",
-  moduleNumber: 5,
-  sectionNumber: 1,
-  subsectionNumber: 1,
-  displayOrder: 1,
-  isCourseSubsection: false,
-  title: "Why is this section important?",
   content: [
     {
-      type: "heading",
-      text: "Why is this section important?",
+      "type": "heading",
+      "text": "Why is this section important?"
     },
     {
-      type: "paragraph",
-      text: "Dementia changes the way that people behave, think or act. This can be distressing or upsetting not only for the person with dementia, but also for their families and carers.",
+      "type": "paragraph",
+      "text": "Dementia changes the way that people behave, think or act. This can be distressing or upsetting not only for the person with dementia, but also for their families and carers."
     },
     {
-      type: "subheading",
-      text: "How will this section help me?",
+      "type": "subheading",
+      "text": "How will this section help me?"
     },
     {
-      type: "paragraph",
-      text: "This section helps to improve your skills to prevent and cope with behaviour changes.",
+      "type": "paragraph",
+      "text": "This section helps to improve your skills to prevent and cope with behaviour changes."
     },
     {
-      type: "subheading",
-      text: "What will I learn?",
+      "type": "subheading",
+      "text": "What will I learn?"
     },
     {
-      type: "list",
-      items: [
+      "type": "list",
+      "items": [
         "Recognising changes in behaviour",
         "Understanding psychological needs",
         "Understanding the cycle of behaviour change",
-        "Different approaches to respond to behaviour changes",
-      ],
-    },
-  ],
+        "Different approaches to respond to behaviour changes"
+      ]
+    }
+  ]
 };
 
 export default introduction511;

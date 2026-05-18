@@ -88,67 +88,142 @@ if (!admin.apps.length) {
 const db = admin.firestore();
 const courseId = "isupport-nz";
 
+function contentDocument(
+  content,
+  moduleNumber,
+  sectionNumber,
+  subsectionNumber,
+  options = {},
+) {
+  return {
+    ...options,
+    moduleNumber,
+    sectionNumber,
+    subsectionNumber,
+    content: content.content,
+    contentOnly: true,
+  };
+}
+
 const subsectionContents = [
-  introductionContent111,
-  subsectionContent111,
-  subsectionContent112,
-  subsectionContent113,
-  subsectionContent114,
-  subsectionContent115,
-  subsectionContent116,
-  introduction121,
-  subsectionContent121,
-  subsectionContent122,
-  introduction131,
-  subsectionContent131,
-  subsectionContent132,
-  introduction141,
-  subsectionContent141,
-  subsectionContent142,
-  subsectionContent143,
-  subsectionContent144,
-  subsectionContent145,
-  subsectionContent146,
-  subsectionContent147,
-  subsectionContent148,
-  introduction211,
-  subsectionContent211,
-  subsectionContent212,
-  subsectionContent213,
-  subsectionContent214,
-  subsectionContent215,
-  subsectionContent215Continued,
-  review211,
-  introduction221,
-  subsectionContent221,
-  subsectionContent222,
-  subsectionContent223,
-  subsectionContent224,
-  subsectionContent225,
-  subsectionContent226,
-  subsectionContent227,
-  subsectionContent228,
-  review221,
-  introduction231,
-  introduction241,
-  introduction311,
-  introduction321,
-  introduction331,
-  introduction411,
-  introduction421,
-  introduction431,
-  introduction441,
-  introduction451,
-  introduction511,
-  introduction521,
-  introduction531,
-  introduction541,
-  introduction551,
-  introduction561,
-  introduction571,
-  introduction581,
-  introduction591,
-  introduction5101,
+  contentDocument(introductionContent111, 1, 1, 1, {
+    docId: "introduction-1.1.1",
+  }),
+  contentDocument(subsectionContent111, 1, 1, 1),
+  contentDocument(subsectionContent112, 1, 1, 2),
+  contentDocument(subsectionContent113, 1, 1, 3),
+  contentDocument(subsectionContent114, 1, 1, 4),
+  contentDocument(subsectionContent115, 1, 1, 5),
+  contentDocument(subsectionContent116, 1, 1, 6),
+  contentDocument(introduction121, 1, 2, 1, {
+    docId: "introduction-1.2.1",
+  }),
+  contentDocument(subsectionContent121, 1, 2, 1),
+  contentDocument(subsectionContent122, 1, 2, 2),
+  contentDocument(introduction131, 1, 3, 1, {
+    docId: "introduction-1.3.1",
+  }),
+  contentDocument(subsectionContent131, 1, 3, 1),
+  contentDocument(subsectionContent132, 1, 3, 2),
+  contentDocument(introduction141, 1, 4, 1, {
+    docId: "introduction-1.4.1",
+  }),
+  contentDocument(subsectionContent141, 1, 4, 1),
+  contentDocument(subsectionContent142, 1, 4, 2),
+  contentDocument(subsectionContent143, 1, 4, 3),
+  contentDocument(subsectionContent144, 1, 4, 4),
+  contentDocument(subsectionContent145, 1, 4, 5),
+  contentDocument(subsectionContent146, 1, 4, 6),
+  contentDocument(subsectionContent147, 1, 4, 7),
+  contentDocument(subsectionContent148, 1, 4, 8),
+  contentDocument(introduction211, 2, 1, 1, {
+    docId: "introduction-2.1.1",
+  }),
+  contentDocument(subsectionContent211, 2, 1, 1),
+  contentDocument(subsectionContent212, 2, 1, 2),
+  contentDocument(subsectionContent213, 2, 1, 3),
+  contentDocument(subsectionContent214, 2, 1, 4),
+  contentDocument(subsectionContent215, 2, 1, 5),
+  contentDocument(subsectionContent215Continued, 2, 1, 5, {
+    docId: "subsection-2.1.5-continued",
+  }),
+  contentDocument(review211, 2, 1, 1, {
+    docId: "review-2.1.1",
+  }),
+  contentDocument(introduction221, 2, 2, 1, {
+    docId: "introduction-2.2.1",
+  }),
+  contentDocument(subsectionContent221, 2, 2, 1),
+  contentDocument(subsectionContent222, 2, 2, 2),
+  contentDocument(subsectionContent223, 2, 2, 3),
+  contentDocument(subsectionContent224, 2, 2, 4),
+  contentDocument(subsectionContent225, 2, 2, 5),
+  contentDocument(subsectionContent226, 2, 2, 6),
+  contentDocument(subsectionContent227, 2, 2, 7),
+  contentDocument(subsectionContent228, 2, 2, 8),
+  contentDocument(review221, 2, 2, 1, {
+    docId: "review-2.2.1",
+  }),
+  contentDocument(introduction231, 2, 3, 1, {
+    docId: "introduction-2.3.1",
+  }),
+  contentDocument(introduction241, 2, 4, 1, {
+    docId: "introduction-2.4.1",
+  }),
+  contentDocument(introduction311, 3, 1, 1, {
+    docId: "introduction-3.1.1",
+  }),
+  contentDocument(introduction321, 3, 2, 1, {
+    docId: "introduction-3.2.1",
+  }),
+  contentDocument(introduction331, 3, 3, 1, {
+    docId: "introduction-3.3.1",
+  }),
+  contentDocument(introduction411, 4, 1, 1, {
+    docId: "introduction-4.1.1",
+  }),
+  contentDocument(introduction421, 4, 2, 1, {
+    docId: "introduction-4.2.1",
+  }),
+  contentDocument(introduction431, 4, 3, 1, {
+    docId: "introduction-4.3.1",
+  }),
+  contentDocument(introduction441, 4, 4, 1, {
+    docId: "introduction-4.4.1",
+  }),
+  contentDocument(introduction451, 4, 5, 1, {
+    docId: "introduction-4.5.1",
+  }),
+  contentDocument(introduction511, 5, 1, 1, {
+    docId: "introduction-5.1.1",
+  }),
+  contentDocument(introduction521, 5, 2, 1, {
+    docId: "introduction-5.2.1",
+  }),
+  contentDocument(introduction531, 5, 3, 1, {
+    docId: "introduction-5.3.1",
+  }),
+  contentDocument(introduction541, 5, 4, 1, {
+    docId: "introduction-5.4.1",
+  }),
+  contentDocument(introduction551, 5, 5, 1, {
+    docId: "introduction-5.5.1",
+  }),
+  contentDocument(introduction561, 5, 6, 1, {
+    docId: "introduction-5.6.1",
+  }),
+  contentDocument(introduction571, 5, 7, 1, {
+    docId: "introduction-5.7.1",
+  }),
+  contentDocument(introduction581, 5, 8, 1, {
+    docId: "introduction-5.8.1",
+  }),
+  contentDocument(introduction591, 5, 9, 1, {
+    docId: "introduction-5.9.1",
+  }),
+  contentDocument(introduction5101, 5, 10, 1, {
+    docId: "introduction-5.10.1",
+  }),
 ];
 
 function parseArgs(argv) {
@@ -233,7 +308,9 @@ function getRequestedContentFilter(args) {
 
 function validateContent(content) {
   const key = getContentKey(content);
-  const requiredFields = ["moduleNumber", "sectionNumber", "title", "content"];
+  const requiredFields = content.contentOnly
+    ? ["moduleNumber", "sectionNumber", "content"]
+    : ["moduleNumber", "sectionNumber", "title", "content"];
 
   for (const field of requiredFields) {
     if (content[field] === undefined) {
@@ -254,6 +331,7 @@ async function seedSubsectionContent(content) {
   validateContent(content);
 
   const { moduleId, sectionId, subsectionId } = getSubsectionPath(content);
+  const payload = content.contentOnly ? { content: content.content } : content;
   const ref = db
     .collection("course")
     .doc(courseId)
@@ -264,9 +342,9 @@ async function seedSubsectionContent(content) {
     .collection("subsection")
     .doc(subsectionId);
 
-  await ref.set(content, { merge: true });
+  await ref.set(payload, { merge: true });
 
-  console.log(`Seeded ${subsectionId}: ${content.title}`);
+  console.log(`Seeded ${subsectionId}: ${content.title ?? "content"}`);
 }
 
 async function main() {
