@@ -5,7 +5,7 @@ import admin from "firebase-admin";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-import subsectionContent110 from "./subsectionContent/subsectionContent110.js";
+import introductionContent11 from "./subsectionContent/introductionContent11.js";
 import subsectionContent111 from "./subsectionContent/subsectionContent111.js";
 import subsectionContent112 from "./subsectionContent/subsectionContent112.js";
 import subsectionContent113 from "./subsectionContent/subsectionContent113.js";
@@ -48,7 +48,7 @@ const db = admin.firestore();
 const courseId = "isupport-nz";
 
 const subsectionContents = [
-  subsectionContent110,
+  introductionContent11,
   subsectionContent111,
   subsectionContent112,
   subsectionContent113,
@@ -149,7 +149,9 @@ async function main() {
     await seedSubsectionContent(content);
   }
 
-  console.log(`Done seeding ${contentsToSeed.length} subsection content file(s).`);
+  console.log(
+    `Done seeding ${contentsToSeed.length} subsection content file(s).`,
+  );
   process.exit(0);
 }
 
