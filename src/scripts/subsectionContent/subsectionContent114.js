@@ -1,46 +1,4 @@
-// Execute: node src/scripts/subsectionContent/seedSubsection114Content.js
-
-import admin from "firebase-admin";
-import path from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const serviceAccountPath = path.resolve(
-  __dirname,
-  "../../../serviceAccountKey.json",
-);
-
-const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf8"));
-
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
-}
-
-const db = admin.firestore();
-
-async function main() {
-  const courseId = "isupport-nz";
-  const moduleId = "module-1";
-  const sectionId = "section-1.1";
-  const subsectionId = "subsection-1.1.4";
-
-  const ref = db
-    .collection("course")
-    .doc(courseId)
-    .collection("module")
-    .doc(moduleId)
-    .collection("section")
-    .doc(sectionId)
-    .collection("subsection")
-    .doc(subsectionId);
-
-  await ref.set(
-    {
+const subsectionContent114 = {
       moduleNumber: 1,
       sectionNumber: 1,
       subsectionNumber: 4,
@@ -68,15 +26,6 @@ async function main() {
           text: "This manual provides information on how to support and provide care for someone who has been diagnosed with dementia, while also caring for yourself. This cannot replace the advice of a GP or other specialist, but it may help.",
         },
       ],
-    },
-    { merge: true },
-  );
+    };
 
-  console.log("✅ Seeded subsection-1.1.4 content successfully.");
-  process.exit(0);
-}
-
-main().catch((err) => {
-  console.error("❌ Seed failed:", err);
-  process.exit(1);
-});
+export default subsectionContent114;

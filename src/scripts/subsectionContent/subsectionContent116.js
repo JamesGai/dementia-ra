@@ -1,46 +1,4 @@
-// Execute: node src/scripts/subsectionContent/seedSubsection116Content.js
-
-import admin from "firebase-admin";
-import path from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const serviceAccountPath = path.resolve(
-  __dirname,
-  "../../../serviceAccountKey.json",
-);
-
-const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf8"));
-
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
-}
-
-const db = admin.firestore();
-
-async function main() {
-  const courseId = "isupport-nz";
-  const moduleId = "module-1";
-  const sectionId = "section-1.1";
-  const subsectionId = "subsection-1.1.6";
-
-  const ref = db
-    .collection("course")
-    .doc(courseId)
-    .collection("module")
-    .doc(moduleId)
-    .collection("section")
-    .doc(sectionId)
-    .collection("subsection")
-    .doc(subsectionId);
-
-  await ref.set(
-    {
+const subsectionContent116 = {
       moduleNumber: 1,
       sectionNumber: 1,
       subsectionNumber: 6,
@@ -82,15 +40,6 @@ async function main() {
           ],
         },
       ],
-    },
-    { merge: true },
-  );
+    };
 
-  console.log("✅ Seeded subsection-1.1.6 content successfully.");
-  process.exit(0);
-}
-
-main().catch((err) => {
-  console.error("❌ Seed failed:", err);
-  process.exit(1);
-});
+export default subsectionContent116;

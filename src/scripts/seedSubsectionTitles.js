@@ -1,0 +1,164 @@
+// Execute all: node src/scripts/seedSubsectionTitles.js
+// Execute section: node src/scripts/seedSubsectionTitles.js --section=1.1
+// Execute one: node src/scripts/seedSubsectionTitles.js --only=1.1.0
+
+import admin from "firebase-admin";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
+import subsectionTitles11 from "./subsectionTitles/subsectionTitles11.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const serviceAccountPath = path.resolve(
+  __dirname,
+  "../../serviceAccountKey.json",
+);
+
+const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf8"));
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
+
+const db = admin.firestore();
+const courseId = "isupport-nz";
+
+const subsectionTitleSections = [
+  subsectionTitles11,
+];
+
+function parseArgs(argv) {
+  const sectionArg = argv.find((arg) => arg.startsWith("--section="));
+  const onlyArg = argv.find((arg) => arg.startsWith("--only="));
+
+  return {
+    section: sectionArg ? sectionArg.replace("--section=", "") : null,
+    only: onlyArg ? onlyArg.replace("--only=", "") : null,
+  };
+}
+
+function getSectionKey(section) {
+  return `${section.moduleNumber}.${section.sectionNumber}`;
+}
+
+function getSubsectionKey(section, subsection) {
+  return `${section.moduleNumber}.${section.sectionNumber}.${subsection.subsectionNumber}`;
+}
+
+function validateSection(section) {
+  const sectionKey = getSectionKey(section);
+
+  if (section.moduleNumber === undefined) {
+    throw new Error(`Missing moduleNumber in section ${sectionKey}`);
+  }
+
+  if (section.sectionNumber === undefined) {
+    throw new Error(`Missing sectionNumber in section ${sectionKey}`);
+  }
+
+  if (!Array.isArray(section.subsections)) {
+    throw new Error(`Expected subsections array in section ${sectionKey}`);
+  }
+
+  for (const subsection of section.subsections) {
+    if (subsection.subsectionNumber === undefined) {
+      throw new Error(`Missing subsectionNumber in section ${sectionKey}`);
+    }
+
+    if (!subsection.title) {
+      throw new Error(
+        `Missing title in subsection ${getSubsectionKey(section, subsection)}`,
+      );
+    }
+  }
+}
+
+function getSectionsToSeed({ section, only }) {
+  if (section && only) {
+    throw new Error("Use either --section or --only, not both.");
+  }
+
+  if (section) {
+    return subsectionTitleSections.filter(
+      (sectionData) => getSectionKey(sectionData) === section,
+    );
+  }
+
+  if (only) {
+    return subsectionTitleSections
+      .map((sectionData) => ({
+        ...sectionData,
+        subsections: sectionData.subsections.filter(
+          (subsection) => getSubsectionKey(sectionData, subsection) === only,
+        ),
+      }))
+      .filter((sectionData) => sectionData.subsections.length > 0);
+  }
+
+  return subsectionTitleSections;
+}
+
+async function seedSubsectionTitle(section, subsection) {
+  const { moduleNumber, sectionNumber } = section;
+  const { subsectionNumber, title } = subsection;
+  const moduleId = `module-${moduleNumber}`;
+  const sectionId = `section-${moduleNumber}.${sectionNumber}`;
+  const subsectionId = `subsection-${moduleNumber}.${sectionNumber}.${subsectionNumber}`;
+
+  const ref = db
+    .collection("course")
+    .doc(courseId)
+    .collection("module")
+    .doc(moduleId)
+    .collection("section")
+    .doc(sectionId)
+    .collection("subsection")
+    .doc(subsectionId);
+
+  await ref.set(
+    {
+      moduleNumber,
+      sectionNumber,
+      subsectionNumber,
+      title,
+    },
+    { merge: true },
+  );
+
+  console.log(`Seeded ${subsectionId}: ${title}`);
+}
+
+async function main() {
+  const args = parseArgs(process.argv.slice(2));
+  const sectionsToSeed = getSectionsToSeed(args);
+
+  if (sectionsToSeed.length === 0) {
+    const filter = args.section
+      ? `--section=${args.section}`
+      : `--only=${args.only}`;
+    throw new Error(`No subsection title data found for ${filter}`);
+  }
+
+  let seededCount = 0;
+
+  for (const section of sectionsToSeed) {
+    validateSection(section);
+
+    for (const subsection of section.subsections) {
+      await seedSubsectionTitle(section, subsection);
+      seededCount++;
+    }
+  }
+
+  console.log(`Done seeding ${seededCount} subsection title(s).`);
+  process.exit(0);
+}
+
+main().catch((err) => {
+  console.error("Seed failed:", err);
+  process.exit(1);
+});

@@ -1,46 +1,4 @@
-// Execute: node src/scripts/subsectionContent/seedSubsection131Content.js
-
-import admin from "firebase-admin";
-import path from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const serviceAccountPath = path.resolve(
-  __dirname,
-  "../../../serviceAccountKey.json",
-);
-
-const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf8"));
-
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
-}
-
-const db = admin.firestore();
-
-async function main() {
-  const courseId = "isupport-nz";
-  const moduleId = "module-1";
-  const sectionId = "section-1.3";
-  const subsectionId = "subsection-1.3.1";
-
-  const ref = db
-    .collection("course")
-    .doc(courseId)
-    .collection("module")
-    .doc(moduleId)
-    .collection("section")
-    .doc(sectionId)
-    .collection("subsection")
-    .doc(subsectionId);
-
-  await ref.set(
-    {
+const subsectionContent131 = {
       moduleNumber: 1,
       sectionNumber: 3,
       subsectionNumber: 1,
@@ -71,15 +29,6 @@ async function main() {
           text: "Dementia might change how someone perceives and responds to the world around them or how they express themselves, but it is important to remember that they are still the person you know and love.",
         },
       ],
-    },
-    { merge: true },
-  );
+    };
 
-  console.log("✅ Seeded subsection-1.3.1 content successfully.");
-  process.exit(0);
-}
-
-main().catch((err) => {
-  console.error("❌ Seed failed:", err);
-  process.exit(1);
-});
+export default subsectionContent131;

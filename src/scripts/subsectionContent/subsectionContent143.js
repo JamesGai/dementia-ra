@@ -1,46 +1,4 @@
-// Execute: node src/scripts/subsectionContent/seedSubsection143Content.js
-
-import admin from "firebase-admin";
-import path from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const serviceAccountPath = path.resolve(
-  __dirname,
-  "../../../serviceAccountKey.json",
-);
-
-const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf8"));
-
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
-}
-
-const db = admin.firestore();
-
-async function main() {
-  const courseId = "isupport-nz";
-  const moduleId = "module-1";
-  const sectionId = "section-1.4";
-  const subsectionId = "subsection-1.4.3";
-
-  const ref = db
-    .collection("course")
-    .doc(courseId)
-    .collection("module")
-    .doc(moduleId)
-    .collection("section")
-    .doc(sectionId)
-    .collection("subsection")
-    .doc(subsectionId);
-
-  await ref.set(
-    {
+const subsectionContent143 = {
       moduleNumber: 1,
       sectionNumber: 4,
       subsectionNumber: 3,
@@ -67,15 +25,6 @@ async function main() {
           text: "You may find more information about driving and dementia on the NZ Transport Association website (https://www.nzta.govt.nz/driver-licences/getting-a-licence/medical-requirements/dementia-and-driving/)",
         },
       ],
-    },
-    { merge: true },
-  );
+    };
 
-  console.log("✅ Seeded subsection-1.4.3 content successfully.");
-  process.exit(0);
-}
-
-main().catch((err) => {
-  console.error("❌ Seed failed:", err);
-  process.exit(1);
-});
+export default subsectionContent143;

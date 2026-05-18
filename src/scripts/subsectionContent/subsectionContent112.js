@@ -1,46 +1,4 @@
-// Execute: node src/scripts/subsectionContent/seedSubsection112Content.js
-
-import admin from "firebase-admin";
-import path from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const serviceAccountPath = path.resolve(
-  __dirname,
-  "../../../serviceAccountKey.json",
-);
-
-const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf8"));
-
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
-}
-
-const db = admin.firestore();
-
-async function main() {
-  const courseId = "isupport-nz";
-  const moduleId = "module-1";
-  const sectionId = "section-1.1";
-  const subsectionId = "subsection-1.1.2";
-
-  const subsectionRef = db
-    .collection("course")
-    .doc(courseId)
-    .collection("module")
-    .doc(moduleId)
-    .collection("section")
-    .doc(sectionId)
-    .collection("subsection")
-    .doc(subsectionId);
-
-  await subsectionRef.set(
-    {
+const subsectionContent112 = {
       moduleNumber: 1,
       sectionNumber: 1,
       subsectionNumber: 2,
@@ -115,15 +73,6 @@ async function main() {
           text: "There are many other rarer forms of dementia. Read Section 2. Optimising brain health to see what factors can increase the risk of dementia and what protects your brain from it.",
         },
       ],
-    },
-    { merge: true },
-  );
+    };
 
-  console.log("✅ Seeded subsection-1.1.2 content successfully.");
-  process.exit(0);
-}
-
-main().catch((err) => {
-  console.error("❌ Seed failed:", err);
-  process.exit(1);
-});
+export default subsectionContent112;
