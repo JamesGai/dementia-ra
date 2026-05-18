@@ -112,6 +112,30 @@ Seed one subsection title:
 npm run seed:subsection-titles -- --only=1.1.0
 ```
 
+## Delete subsections in a section
+
+Use this when you want to remove every subsection document under one section
+before reseeding that section.
+
+Firestore target:
+
+```text
+course/isupport-nz/module/module-{moduleNumber}/section/section-{moduleNumber}.{sectionNumber}/subsection/*
+```
+
+Delete all subsection documents in one section:
+
+```sh
+npm run delete:section-subsections -- --section=2.1
+```
+
+Then reseed the section's titles and content as needed:
+
+```sh
+npm run seed:subsection-titles -- --section=2.1
+npm run seed:subsection-content -- --only=2.1.0
+```
+
 ## Subsection content
 
 Use subsection content files when you need to add or update the body content
