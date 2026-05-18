@@ -5,8 +5,10 @@ import admin from "firebase-admin";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-import subsectionTitles11 from "./subsectionTitles/subsectionTitles11.js";
 import subsectionTitles21 from "./subsectionTitles/subsectionTitles21.js";
+import subsectionTitles22 from "./subsectionTitles/subsectionTitles22.js";
+import subsectionTitles23 from "./subsectionTitles/subsectionTitles23.js";
+import subsectionTitles24 from "./subsectionTitles/subsectionTitles24.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,7 +29,12 @@ if (!admin.apps.length) {
 const db = admin.firestore();
 const courseId = "isupport-nz";
 
-const subsectionTitleSections = [subsectionTitles11, subsectionTitles21];
+const subsectionTitleSections = [
+  subsectionTitles21,
+  subsectionTitles22,
+  subsectionTitles23,
+  subsectionTitles24,
+];
 
 function parseArgs(argv) {
   const sectionArg = argv.find((arg) => arg.startsWith("--section="));

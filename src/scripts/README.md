@@ -3,12 +3,12 @@
 These scripts upload all resources to Firebase. Keep `serviceAccountKey.json` in the project root before
 running any seed script.
 
-## Course Module and section
+## Videos
 
-Upload all course module and section data
+Upload all video data (not video objects)
 
 ```sh
-node src/scripts/seedModulesAndSections.js
+node src/scripts/seedVideos.js
 ```
 
 ## Services
@@ -19,12 +19,12 @@ Upload all medical centre data
 node src/scripts/seedServices.js
 ```
 
-## Videos
+## Course Module and section
 
-Upload all video data (not video objects)
+Upload all course module and section data
 
 ```sh
-node src/scripts/seedVideos.js
+node src/scripts/seedModulesAndSections.js
 ```
 
 ## Course subsection titles
@@ -41,14 +41,6 @@ Upload subsection titles in specified section
 node src/scripts/seedSubsectionTitles.js --section=<module>.<section>
 ```
 
-## Delete subsections in a section
-
-Delete all subsection documents in specified section
-
-```sh
-node src/scripts/deleteSubsections.js --section=<module>.<section>
-```
-
 ## Course subsection content
 
 Upload all subsection content
@@ -61,4 +53,12 @@ Upload subsection content in specified subsection
 
 ```sh
 node src/scripts/seedSubsectionContent.js --only=<module>.<section>.<subsection>
+```
+
+## Delete subsections in a section
+
+Delete all subsection documents in specified section
+
+```sh
+node src/scripts/deleteSubsections.js --section=<module>.<section>
 ```
