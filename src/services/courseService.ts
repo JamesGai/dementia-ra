@@ -61,8 +61,9 @@ export type Subsection = {
   id: string;
   moduleNumber: number;
   sectionNumber: number;
-  subsectionNumber: number;
+  subsectionNumber?: number;
   displayOrder: number;
+  isCourseSubsection?: boolean;
   title: string;
   content?: ContentBlock[];
 };
@@ -178,6 +179,10 @@ export async function computeCourseProgress(params: {
       const key = `${m.id}/${s.id}`;
       const sectionSubs = subsections[key] ?? [];
       for (const sub of sectionSubs) {
+        if (sub.isCourseSubsection === false || sub.subsectionNumber === undefined) {
+          continue;
+        }
+
         totalSubsections += 1;
         const subKey = buildSubsectionProgressKey({
           moduleNumber: sub.moduleNumber,
@@ -300,6 +305,8 @@ export async function fetchSectionSubsections(params: {
       moduleNumber: data.moduleNumber,
       sectionNumber: data.sectionNumber,
       subsectionNumber: data.subsectionNumber,
+      displayOrder: data.displayOrder,
+      isCourseSubsection: data.isCourseSubsection,
     };
   });
 
@@ -369,6 +376,8 @@ export async function fetchSubsectionDetail(params: {
     moduleNumber: data.moduleNumber,
     sectionNumber: data.sectionNumber,
     subsectionNumber: data.subsectionNumber,
+    displayOrder: data.displayOrder,
+    isCourseSubsection: data.isCourseSubsection,
     title: data.title,
     content: Array.isArray(data.content) ? data.content : [],
   };
@@ -422,6 +431,7 @@ export async function searchCourseSections(
         sectionNumber: data.sectionNumber,
         subsectionNumber: data.subsectionNumber,
         displayOrder: data.displayOrder,
+        isCourseSubsection: data.isCourseSubsection,
       } as Subsection;
     });
 

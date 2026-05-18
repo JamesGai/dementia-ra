@@ -48,6 +48,10 @@ function getSectionKey(section) {
 }
 
 function getSubsectionKey(section, subsection) {
+  if (subsection.docId) {
+    return subsection.docId;
+  }
+
   return `${section.moduleNumber}.${section.sectionNumber}.${subsection.subsectionNumber}`;
 }
 
@@ -75,8 +79,10 @@ function validateSection(section) {
   }
 
   for (const subsection of section.subsections) {
-    if (subsection.subsectionNumber === undefined) {
-      throw new Error(`Missing subsectionNumber in section ${sectionKey}`);
+    if (subsection.subsectionNumber === undefined && !subsection.docId) {
+      throw new Error(
+        `Missing subsectionNumber or docId in section ${sectionKey}`,
+      );
     }
 
     if (!subsection.title) {
@@ -130,16 +136,22 @@ async function seedSubsectionTitle(section, subsection) {
     .collection("subsection")
     .doc(subsectionId);
 
-  await ref.set(
-    {
-      moduleNumber,
-      sectionNumber: subsectionSectionNumber,
-      subsectionNumber,
-      title,
-      displayOrder: subsection.displayOrder ?? subsectionNumber,
-    },
-    { merge: true },
-  );
+  const data = {
+    moduleNumber,
+    sectionNumber: subsectionSectionNumber,
+    title,
+    displayOrder: subsection.displayOrder,
+  };
+
+  if (subsectionNumber !== undefined) {
+    data.subsectionNumber = subsectionNumber;
+  }
+
+  if (subsection.isCourseSubsection !== undefined) {
+    data.isCourseSubsection = subsection.isCourseSubsection;
+  }
+
+  await ref.set(data, { merge: true });
 
   console.log(`Seeded ${subsectionId}: ${title}`);
 }
