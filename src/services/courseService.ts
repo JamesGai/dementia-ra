@@ -62,12 +62,19 @@ export type Subsection = {
   moduleNumber: number;
   sectionNumber: number;
   subsectionNumber: number;
+  displayOrder: number;
   title: string;
   content?: ContentBlock[];
 };
 
 const DEFAULT_PROGRESS_MODULE_COUNT = 5;
 let canUseSectionCollectionGroupQuery = true;
+
+function sortSubsections(subsections: Subsection[]) {
+  return [...subsections].sort((a, b) => {
+    return a.displayOrder - b.displayOrder;
+  });
+}
 
 /**
  * Builds a subsection progress token in the format `module.section.subsection`.
@@ -284,9 +291,8 @@ export async function fetchSectionSubsections(params: {
     sectionId,
     "subsection",
   );
-  const q = query(col, orderBy("subsectionNumber", "asc"));
-  const snap = await getDocs(q);
-  return snap.docs.map((d) => {
+  const snap = await getDocs(col);
+  const subsections = snap.docs.map((d) => {
     const data = d.data() as Omit<Subsection, "id">;
     return {
       id: d.id,
@@ -296,6 +302,8 @@ export async function fetchSectionSubsections(params: {
       subsectionNumber: data.subsectionNumber,
     };
   });
+
+  return sortSubsections(subsections);
 }
 
 /**
@@ -404,10 +412,8 @@ export async function searchCourseSections(
       sectionId,
       "subsection",
     );
-    const subsectionSnap = await getDocs(
-      query(subsectionCol, orderBy("subsectionNumber", "asc")),
-    );
-    return subsectionSnap.docs.map((d) => {
+    const subsectionSnap = await getDocs(subsectionCol);
+    const subsections = subsectionSnap.docs.map((d) => {
       const data = d.data();
       return {
         id: d.id,
@@ -415,8 +421,11 @@ export async function searchCourseSections(
         moduleNumber: data.moduleNumber,
         sectionNumber: data.sectionNumber,
         subsectionNumber: data.subsectionNumber,
+        displayOrder: data.displayOrder,
       } as Subsection;
     });
+
+    return sortSubsections(subsections);
   };
 
   if (canUseSectionCollectionGroupQuery) {

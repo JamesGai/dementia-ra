@@ -7,6 +7,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import subsectionTitles11 from "./subsectionTitles/subsectionTitles11.js";
+import subsectionTitles21 from "./subsectionTitles/subsectionTitles21.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,6 +30,7 @@ const courseId = "isupport-nz";
 
 const subsectionTitleSections = [
   subsectionTitles11,
+  subsectionTitles21,
 ];
 
 function parseArgs(argv) {
@@ -47,6 +49,14 @@ function getSectionKey(section) {
 
 function getSubsectionKey(section, subsection) {
   return `${section.moduleNumber}.${section.sectionNumber}.${subsection.subsectionNumber}`;
+}
+
+function getSubsectionId(section, subsection) {
+  if (subsection.docId) {
+    return subsection.docId;
+  }
+
+  return `subsection-${section.moduleNumber}.${section.sectionNumber}.${subsection.subsectionNumber}`;
 }
 
 function validateSection(section) {
@@ -104,10 +114,11 @@ function getSectionsToSeed({ section, only }) {
 
 async function seedSubsectionTitle(section, subsection) {
   const { moduleNumber, sectionNumber } = section;
+  const subsectionSectionNumber = subsection.sectionNumber ?? sectionNumber;
   const { subsectionNumber, title } = subsection;
   const moduleId = `module-${moduleNumber}`;
   const sectionId = `section-${moduleNumber}.${sectionNumber}`;
-  const subsectionId = `subsection-${moduleNumber}.${sectionNumber}.${subsectionNumber}`;
+  const subsectionId = getSubsectionId(section, subsection);
 
   const ref = db
     .collection("course")
@@ -122,9 +133,10 @@ async function seedSubsectionTitle(section, subsection) {
   await ref.set(
     {
       moduleNumber,
-      sectionNumber,
+      sectionNumber: subsectionSectionNumber,
       subsectionNumber,
       title,
+      displayOrder: subsection.displayOrder ?? subsectionNumber,
     },
     { merge: true },
   );

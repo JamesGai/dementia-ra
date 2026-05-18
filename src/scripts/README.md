@@ -82,8 +82,16 @@ const subsectionTitles11 = {
   moduleNumber: 1,
   sectionNumber: 1,
   subsections: [
-    { subsectionNumber: 0, title: "Why is this section important?" },
-    { subsectionNumber: 1, title: "What is dementia?" },
+    {
+      subsectionNumber: 0,
+      displayOrder: 0,
+      title: "Why is this section important?",
+    },
+    {
+      subsectionNumber: 1,
+      displayOrder: 1,
+      title: "What is dementia?",
+    },
   ],
 };
 
@@ -110,6 +118,21 @@ Seed one subsection title:
 
 ```sh
 npm run seed:subsection-titles -- --only=1.1.0
+```
+
+For non-course items such as `Activity` or review rows, use
+`sectionNumber: 99` and `subsectionNumber: 99` so the app does not display a
+number prefix. If the Firestore document ID still needs a unique ordered suffix,
+set `docId`, such as `activity-2.1.1` or `review-2.1.1`.
+
+Use `displayOrder` to control the order shown in the app. This is important for
+sections such as `2.1`, where unnumbered Activity rows appear between numbered
+course rows.
+
+Seed section `2.1` title data:
+
+```sh
+npm run seed:subsection-titles -- --section=2.1
 ```
 
 ## Delete subsections in a section
