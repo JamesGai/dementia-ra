@@ -17,6 +17,16 @@ import subsectionTitles42 from "./subsectionTitles/subsectionTitles42.js";
 import subsectionTitles43 from "./subsectionTitles/subsectionTitles43.js";
 import subsectionTitles44 from "./subsectionTitles/subsectionTitles44.js";
 import subsectionTitles45 from "./subsectionTitles/subsectionTitles45.js";
+import subsectionTitles51 from "./subsectionTitles/subsectionTitles51.js";
+import subsectionTitles52 from "./subsectionTitles/subsectionTitles52.js";
+import subsectionTitles53 from "./subsectionTitles/subsectionTitles53.js";
+import subsectionTitles54 from "./subsectionTitles/subsectionTitles54.js";
+import subsectionTitles55 from "./subsectionTitles/subsectionTitles55.js";
+import subsectionTitles56 from "./subsectionTitles/subsectionTitles56.js";
+import subsectionTitles57 from "./subsectionTitles/subsectionTitles57.js";
+import subsectionTitles58 from "./subsectionTitles/subsectionTitles58.js";
+import subsectionTitles59 from "./subsectionTitles/subsectionTitles59.js";
+import subsectionTitles510 from "./subsectionTitles/subsectionTitles510.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -50,6 +60,16 @@ const subsectionTitleSections = [
   subsectionTitles43,
   subsectionTitles44,
   subsectionTitles45,
+  subsectionTitles51,
+  subsectionTitles52,
+  subsectionTitles53,
+  subsectionTitles54,
+  subsectionTitles55,
+  subsectionTitles56,
+  subsectionTitles57,
+  subsectionTitles58,
+  subsectionTitles59,
+  subsectionTitles510,
 ];
 
 function parseArgs(argv) {
