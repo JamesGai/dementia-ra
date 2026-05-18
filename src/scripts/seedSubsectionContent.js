@@ -1,6 +1,5 @@
 // Execute all: node src/scripts/seedSubsectionContent.js
-// Execute one: node src/scripts/seedSubsectionContent.js --only=1.1.1
-// Execute introductions: node src/scripts/seedSubsectionContent.js --introductions
+// Execute one: node src/scripts/seedSubsectionContent.js --subsection=1.1.1
 
 import admin from "firebase-admin";
 import path from "path";
@@ -74,11 +73,12 @@ const subsectionContents = [
 ];
 
 function parseArgs(argv) {
-  const onlyArg = argv.find((arg) => arg.startsWith("--only="));
+  const subsectionArg = argv.find((arg) => arg.startsWith("--subsection="));
 
   return {
-    only: onlyArg ? onlyArg.replace("--only=", "") : null,
-    introductions: argv.includes("--introductions"),
+    subsection: subsectionArg
+      ? subsectionArg.replace("--subsection=", "")
+      : null,
   };
 }
 
@@ -142,23 +142,19 @@ async function seedSubsectionContent(content) {
 }
 
 async function main() {
-  const { only, introductions } = parseArgs(process.argv.slice(2));
+  const { subsection } = parseArgs(process.argv.slice(2));
   let contentsToSeed = subsectionContents;
 
-  if (only) {
+  if (subsection) {
     contentsToSeed = contentsToSeed.filter(
-      (content) => getContentKey(content) === only,
+      (content) => getContentKey(content) === subsection,
     );
   }
 
-  if (introductions) {
-    contentsToSeed = contentsToSeed.filter((content) =>
-      content.docId?.startsWith("introduction-"),
+  if (subsection && contentsToSeed.length === 0) {
+    throw new Error(
+      `No subsection content found for --subsection=${subsection}`,
     );
-  }
-
-  if (only && contentsToSeed.length === 0) {
-    throw new Error(`No subsection content found for --only=${only}`);
   }
 
   for (const content of contentsToSeed) {

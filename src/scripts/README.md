@@ -49,16 +49,10 @@ Upload all subsection content
 node src/scripts/seedSubsectionContent.js
 ```
 
-Upload subsection content in specified subsection
+Upload subsection content (course content, activity, review) in specified subsection
 
 ```sh
-node src/scripts/seedSubsectionContent.js --only=<module>.<section>.<subsection>
-```
-
-Upload introduction subsection content only
-
-```sh
-node src/scripts/seedSubsectionContent.js --introductions
+node src/scripts/seedSubsectionContent.js --subsection=<module>.<section>.<subsection>
 ```
 
 ## Delete subsections in a section
