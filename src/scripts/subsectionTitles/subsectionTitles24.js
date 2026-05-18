@@ -4,6 +4,7 @@ const subsectionTitles24 = {
   subsections: [
     {
       docId: "introduction-2.4.1",
+      subsectionNumber: 1,
       displayOrder: 1,
       isCourseSubsection: false,
       title: "Why is this section important?",
@@ -20,30 +21,35 @@ const subsectionTitles24 = {
     },
     {
       docId: "activity-2.4.1",
+      subsectionNumber: 1,
       displayOrder: 4,
       isCourseSubsection: false,
       title: "Activity",
     },
     {
       docId: "activity-2.4.2",
+      subsectionNumber: 2,
       displayOrder: 5,
       isCourseSubsection: false,
       title: "Activity",
     },
     {
       docId: "activity-2.4.3",
+      subsectionNumber: 3,
       displayOrder: 6,
       isCourseSubsection: false,
       title: "Activity",
     },
     {
       docId: "activity-2.4.4",
+      subsectionNumber: 4,
       displayOrder: 7,
       isCourseSubsection: false,
       title: "Activity",
     },
     {
       docId: "activity-2.4.5",
+      subsectionNumber: 5,
       displayOrder: 8,
       isCourseSubsection: false,
       title: "Activity",
@@ -62,6 +68,7 @@ const subsectionTitles24 = {
     },
     {
       docId: "activity-2.4.6",
+      subsectionNumber: 6,
       displayOrder: 11,
       isCourseSubsection: false,
       title: "Activity",
@@ -79,24 +86,28 @@ const subsectionTitles24 = {
     },
     {
       docId: "activity-2.4.7",
+      subsectionNumber: 7,
       displayOrder: 14,
       isCourseSubsection: false,
       title: "Activity",
     },
     {
       docId: "activity-2.4.8",
+      subsectionNumber: 8,
       displayOrder: 15,
       isCourseSubsection: false,
       title: "Activity",
     },
     {
       docId: "activity-2.4.9",
+      subsectionNumber: 9,
       displayOrder: 16,
       isCourseSubsection: false,
       title: "Activity",
     },
     {
       docId: "activity-2.4.10",
+      subsectionNumber: 10,
       displayOrder: 17,
       isCourseSubsection: false,
       title: "Activity",

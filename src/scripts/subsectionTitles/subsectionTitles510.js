@@ -4,6 +4,7 @@ const subsectionTitles510 = {
   subsections: [
     {
       docId: "introduction-5.10.1",
+      subsectionNumber: 1,
       displayOrder: 1,
       isCourseSubsection: false,
       title: "Why is this section important?",

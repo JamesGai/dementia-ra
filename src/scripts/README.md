@@ -35,31 +35,41 @@ Upload all subsection titles
 node src/scripts/seedSubsectionTitles.js
 ```
 
-Upload subsection titles in specified section
-
-```sh
-node src/scripts/seedSubsectionTitles.js --section=<module>.<section>
-```
-
 ## Course subsection content
 
-Upload all subsection content (course content, activity, review)
+Upload all content (course content, activity, review)
 
 ```sh
 node src/scripts/seedSubsectionContent.js
 ```
 
-Upload subsection content in specified subsection
+Upload course content to specified subsection
 
 ```sh
 node src/scripts/seedSubsectionContent.js --subsection=<module>.<section>.<subsection>
 ```
 
-Commands of uploading introductions, activities, and reviews will come soon
+Upload introduction content to specified introduction document
+
+```sh
+node src/scripts/seedSubsectionContent.js --introduction=<module>.<section>.<introduction>
+```
+
+Upload activity content to specified activity document
+
+```sh
+node src/scripts/seedSubsectionContent.js --activity=<module>.<section>.<activity>
+```
+
+Upload review content to specified review document
+
+```sh
+node src/scripts/seedSubsectionContent.js --review=<module>.<section>.<review>
+```
 
 ## Delete subsections in a section
 
-Delete all subsection documents in specified section
+Delete all subsection documents to specified section
 
 ```sh
 node src/scripts/deleteSubsections.js --section=<module>.<section>

@@ -4,6 +4,7 @@ const subsectionTitles44 = {
   subsections: [
     {
       docId: "introduction-4.4.1",
+      subsectionNumber: 1,
       displayOrder: 1,
       isCourseSubsection: false,
       title: "Why is this section important?",
@@ -20,6 +21,7 @@ const subsectionTitles44 = {
     },
     {
       docId: "activity-4.4.1",
+      subsectionNumber: 1,
       displayOrder: 4,
       isCourseSubsection: false,
       title: "Activity",
@@ -32,6 +34,7 @@ const subsectionTitles44 = {
     },
     {
       docId: "review-4.4.1",
+      subsectionNumber: 1,
       displayOrder: 6,
       isCourseSubsection: false,
       title: "Let’s review what you have learned",

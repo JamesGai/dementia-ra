@@ -1,24 +1,27 @@
 // Execute all: node src/scripts/seedSubsectionContent.js
 // Execute one: node src/scripts/seedSubsectionContent.js --subsection=1.1.1
+// Execute introduction: node src/scripts/seedSubsectionContent.js --introduction=2.1.1
+// Execute activity: node src/scripts/seedSubsectionContent.js --activity=2.1.1
+// Execute review: node src/scripts/seedSubsectionContent.js --review=2.1.1
 
 import admin from "firebase-admin";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-import introductionContent11 from "./subsectionContent/module1/section1.1/introduction11.js";
+import introductionContent111 from "./subsectionContent/module1/section1.1/introduction111.js";
 import subsectionContent111 from "./subsectionContent/module1/section1.1/subsectionContent111.js";
 import subsectionContent112 from "./subsectionContent/module1/section1.1/subsectionContent112.js";
 import subsectionContent113 from "./subsectionContent/module1/section1.1/subsectionContent113.js";
 import subsectionContent114 from "./subsectionContent/module1/section1.1/subsectionContent114.js";
 import subsectionContent115 from "./subsectionContent/module1/section1.1/subsectionContent115.js";
 import subsectionContent116 from "./subsectionContent/module1/section1.1/subsectionContent116.js";
-import introduction12 from "./subsectionContent/module1/section1.2/introduction12.js";
+import introduction121 from "./subsectionContent/module1/section1.2/introduction121.js";
 import subsectionContent121 from "./subsectionContent/module1/section1.2/subsectionContent121.js";
 import subsectionContent122 from "./subsectionContent/module1/section1.2/subsectionContent122.js";
-import introduction13 from "./subsectionContent/module1/section1.3/introduction13.js";
+import introduction131 from "./subsectionContent/module1/section1.3/introduction131.js";
 import subsectionContent131 from "./subsectionContent/module1/section1.3/subsectionContent131.js";
 import subsectionContent132 from "./subsectionContent/module1/section1.3/subsectionContent132.js";
-import introduction14 from "./subsectionContent/module1/section1.4/introduction14.js";
+import introduction141 from "./subsectionContent/module1/section1.4/introduction141.js";
 import subsectionContent141 from "./subsectionContent/module1/section1.4/subsectionContent141.js";
 import subsectionContent142 from "./subsectionContent/module1/section1.4/subsectionContent142.js";
 import subsectionContent143 from "./subsectionContent/module1/section1.4/subsectionContent143.js";
@@ -48,20 +51,20 @@ const db = admin.firestore();
 const courseId = "isupport-nz";
 
 const subsectionContents = [
-  introductionContent11,
+  introductionContent111,
   subsectionContent111,
   subsectionContent112,
   subsectionContent113,
   subsectionContent114,
   subsectionContent115,
   subsectionContent116,
-  introduction12,
+  introduction121,
   subsectionContent121,
   subsectionContent122,
-  introduction13,
+  introduction131,
   subsectionContent131,
   subsectionContent132,
-  introduction14,
+  introduction141,
   subsectionContent141,
   subsectionContent142,
   subsectionContent143,
@@ -74,11 +77,19 @@ const subsectionContents = [
 
 function parseArgs(argv) {
   const subsectionArg = argv.find((arg) => arg.startsWith("--subsection="));
+  const introductionArg = argv.find((arg) => arg.startsWith("--introduction="));
+  const activityArg = argv.find((arg) => arg.startsWith("--activity="));
+  const reviewArg = argv.find((arg) => arg.startsWith("--review="));
 
   return {
     subsection: subsectionArg
       ? subsectionArg.replace("--subsection=", "")
       : null,
+    introduction: introductionArg
+      ? introductionArg.replace("--introduction=", "")
+      : null,
+    activity: activityArg ? activityArg.replace("--activity=", "") : null,
+    review: reviewArg ? reviewArg.replace("--review=", "") : null,
   };
 }
 
@@ -95,12 +106,53 @@ function getSubsectionPath(content) {
 }
 
 function getContentKey(content) {
-  if (content.docId) {
-    return content.docId;
-  }
-
   const { moduleNumber, sectionNumber, subsectionNumber } = content;
   return `${moduleNumber}.${sectionNumber}.${subsectionNumber}`;
+}
+
+function getContentDocId(content) {
+  return getSubsectionPath(content).subsectionId;
+}
+
+function getRequestedDocId(type, value) {
+  return `${type}-${value}`;
+}
+
+function getRequestedContentFilter(args) {
+  const requested = [
+    args.subsection,
+    args.introduction,
+    args.activity,
+    args.review,
+  ].filter(Boolean);
+
+  if (requested.length > 1) {
+    throw new Error(
+      "Use only one content filter: --subsection, --introduction, --activity, or --review.",
+    );
+  }
+
+  if (args.subsection) {
+    const docId = getRequestedDocId("subsection", args.subsection);
+    return {
+      label: `--subsection=${args.subsection}`,
+      matches: (content) =>
+        (!content.docId && getContentKey(content) === args.subsection) ||
+        getContentDocId(content) === docId,
+    };
+  }
+
+  for (const type of ["introduction", "activity", "review"]) {
+    if (args[type]) {
+      const docId = getRequestedDocId(type, args[type]);
+      return {
+        label: `--${type}=${args[type]}`,
+        matches: (content) => getContentDocId(content) === docId,
+      };
+    }
+  }
+
+  return null;
 }
 
 function validateContent(content) {
@@ -142,19 +194,16 @@ async function seedSubsectionContent(content) {
 }
 
 async function main() {
-  const { subsection } = parseArgs(process.argv.slice(2));
+  const args = parseArgs(process.argv.slice(2));
+  const contentFilter = getRequestedContentFilter(args);
   let contentsToSeed = subsectionContents;
 
-  if (subsection) {
-    contentsToSeed = contentsToSeed.filter(
-      (content) => getContentKey(content) === subsection,
-    );
+  if (contentFilter) {
+    contentsToSeed = contentsToSeed.filter(contentFilter.matches);
   }
 
-  if (subsection && contentsToSeed.length === 0) {
-    throw new Error(
-      `No subsection content found for --subsection=${subsection}`,
-    );
+  if (contentFilter && contentsToSeed.length === 0) {
+    throw new Error(`No subsection content found for ${contentFilter.label}`);
   }
 
   for (const content of contentsToSeed) {

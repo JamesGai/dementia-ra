@@ -4,6 +4,7 @@ const subsectionTitles58 = {
   subsections: [
     {
       docId: "introduction-5.8.1",
+      subsectionNumber: 1,
       displayOrder: 1,
       isCourseSubsection: false,
       title: "Why is this section important?",
@@ -15,12 +16,14 @@ const subsectionTitles58 = {
     },
     {
       docId: "activity-5.8.1",
+      subsectionNumber: 1,
       displayOrder: 3,
       isCourseSubsection: false,
       title: "Let's look at your situation",
     },
     {
       docId: "activity-5.8.2",
+      subsectionNumber: 2,
       displayOrder: 4,
       isCourseSubsection: false,
       title: "Let's look at your situation",
@@ -43,30 +46,35 @@ const subsectionTitles58 = {
     },
     {
       docId: "activity-5.8.3",
+      subsectionNumber: 3,
       displayOrder: 8,
       isCourseSubsection: false,
       title: "Let's look at your own situation",
     },
     {
       docId: "activity-5.8.4",
+      subsectionNumber: 4,
       displayOrder: 9,
       isCourseSubsection: false,
       title: "Let's look at your own situation",
     },
     {
       docId: "activity-5.8.5",
+      subsectionNumber: 5,
       displayOrder: 10,
       isCourseSubsection: false,
       title: "Let's look at your own situation",
     },
     {
       docId: "activity-5.8.6",
+      subsectionNumber: 6,
       displayOrder: 11,
       isCourseSubsection: false,
       title: "Let's look at your own situation",
     },
     {
       docId: "review-5.8.1",
+      subsectionNumber: 1,
       displayOrder: 12,
       isCourseSubsection: false,
       title: "Let’s review what you have learned",

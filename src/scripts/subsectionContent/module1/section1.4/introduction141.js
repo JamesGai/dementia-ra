@@ -1,8 +1,9 @@
-const introduction14 = {
+const introduction141 = {
   docId: "introduction-1.4.1",
-  moduleNumber: 1,
-  sectionNumber: 4,
-  displayOrder: 1,
+      moduleNumber: 1,
+      sectionNumber: 4,
+      subsectionNumber: 1,
+      displayOrder: 1,
   isCourseSubsection: false,
   title: "Why is this section important?",
   content: [
@@ -42,4 +43,4 @@ const introduction14 = {
   ],
 };
 
-export default introduction14;
+export default introduction141;

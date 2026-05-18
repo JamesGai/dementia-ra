@@ -4,6 +4,7 @@ const subsectionTitles32 = {
   subsections: [
     {
       docId: "introduction-3.2.1",
+      subsectionNumber: 1,
       displayOrder: 1,
       isCourseSubsection: false,
       title: "Why is this section important?",
@@ -20,6 +21,7 @@ const subsectionTitles32 = {
     },
     {
       docId: "activity-3.2.1",
+      subsectionNumber: 1,
       displayOrder: 4,
       isCourseSubsection: false,
       title: "Activity",

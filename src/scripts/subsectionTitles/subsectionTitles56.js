@@ -4,6 +4,7 @@ const subsectionTitles56 = {
   subsections: [
     {
       docId: "introduction-5.6.1",
+      subsectionNumber: 1,
       displayOrder: 1,
       isCourseSubsection: false,
       title: "Why is this section important?",
@@ -25,30 +26,35 @@ const subsectionTitles56 = {
     },
     {
       docId: "activity-5.6.1",
+      subsectionNumber: 1,
       displayOrder: 5,
       isCourseSubsection: false,
       title: "Activity",
     },
     {
       docId: "activity-5.6.2",
+      subsectionNumber: 2,
       displayOrder: 6,
       isCourseSubsection: false,
       title: "Activity",
     },
     {
       docId: "activity-5.6.3",
+      subsectionNumber: 3,
       displayOrder: 7,
       isCourseSubsection: false,
       title: "Activity",
     },
     {
       docId: "activity-5.6.4",
+      subsectionNumber: 4,
       displayOrder: 8,
       isCourseSubsection: false,
       title: "Activity",
     },
     {
       docId: "review-5.6.1",
+      subsectionNumber: 1,
       displayOrder: 9,
       isCourseSubsection: false,
       title: "Let’s review what you have learned",
