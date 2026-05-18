@@ -84,12 +84,12 @@ const subsectionTitles11 = {
   subsections: [
     {
       subsectionNumber: 0,
-      displayOrder: 0,
+      displayOrder: 1,
       title: "Why is this section important?",
     },
     {
       subsectionNumber: 1,
-      displayOrder: 1,
+      displayOrder: 2,
       title: "What is dementia?",
     },
   ],
@@ -120,11 +120,12 @@ Seed one subsection title:
 npm run seed:subsection-titles -- --only=1.1.0
 ```
 
-For non-course items such as `Activity` or review rows, set
+For non-course items such as introductions, `Activity`, or review rows, set
 `isCourseSubsection: false` and do not set `subsectionNumber`. These rows still
 inherit the section's real `moduleNumber` and `sectionNumber`, but the app will
 not display a number prefix or count them in course progress. Set `docId`, such
-as `activity-2.1.1` or `review-2.1.1`, so Firestore has a stable document ID.
+as `introduction-2.1.1`, `activity-2.1.1`, or `review-2.1.1`, so Firestore has
+a stable document ID.
 
 Use `displayOrder` to control the order shown in the app. This is important for
 sections such as `2.1`, where unnumbered Activity rows appear between numbered

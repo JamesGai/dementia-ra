@@ -1,6 +1,5 @@
 // Execute all: node src/scripts/seedSubsectionTitles.js
 // Execute section: node src/scripts/seedSubsectionTitles.js --section=1.1
-// Execute one: node src/scripts/seedSubsectionTitles.js --only=1.1.0
 
 import admin from "firebase-admin";
 import path from "path";
@@ -28,10 +27,7 @@ if (!admin.apps.length) {
 const db = admin.firestore();
 const courseId = "isupport-nz";
 
-const subsectionTitleSections = [
-  subsectionTitles11,
-  subsectionTitles21,
-];
+const subsectionTitleSections = [subsectionTitles11, subsectionTitles21];
 
 function parseArgs(argv) {
   const sectionArg = argv.find((arg) => arg.startsWith("--section="));
