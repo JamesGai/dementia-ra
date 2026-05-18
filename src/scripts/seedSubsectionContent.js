@@ -30,6 +30,14 @@ import subsectionContent145 from "./subsectionContent/module1/section1.4/subsect
 import subsectionContent146 from "./subsectionContent/module1/section1.4/subsectionContent146.js";
 import subsectionContent147 from "./subsectionContent/module1/section1.4/subsectionContent147.js";
 import subsectionContent148 from "./subsectionContent/module1/section1.4/subsectionContent148.js";
+import introduction211 from "./subsectionContent/module2/section2.1/introduction211.js";
+import subsectionContent211 from "./subsectionContent/module2/section2.1/subsectionContent211.js";
+import subsectionContent212 from "./subsectionContent/module2/section2.1/subsectionContent212.js";
+import subsectionContent213 from "./subsectionContent/module2/section2.1/subsectionContent213.js";
+import subsectionContent214 from "./subsectionContent/module2/section2.1/subsectionContent214.js";
+import subsectionContent215 from "./subsectionContent/module2/section2.1/subsectionContent215.js";
+import subsectionContent215Continued from "./subsectionContent/module2/section2.1/subsectionContent215Continued.js";
+import review211 from "./subsectionContent/module2/section2.1/review211.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,6 +81,14 @@ const subsectionContents = [
   subsectionContent146,
   subsectionContent147,
   subsectionContent148,
+  introduction211,
+  subsectionContent211,
+  subsectionContent212,
+  subsectionContent213,
+  subsectionContent214,
+  subsectionContent215,
+  subsectionContent215Continued,
+  review211,
 ];
 
 function parseArgs(argv) {
