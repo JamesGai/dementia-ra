@@ -69,6 +69,7 @@ export type ContentBlock =
       inputType: "multichoice";
       prompt: string;
       options: string[];
+      allowMultiple?: boolean;
     };
 
 export type Subsection = {
@@ -83,7 +84,7 @@ export type Subsection = {
 };
 
 export type ActivityAnswer = {
-  answer: string;
+  answer: string | string[];
 };
 
 export async function fetchActivityAnswer(params: {
@@ -102,12 +103,16 @@ export async function fetchActivityAnswer(params: {
   };
   const activityAnswer = data.activityAnswers?.[subsectionId];
 
-  if (!activityAnswer || typeof activityAnswer.answer !== "string") {
+  if (
+    !activityAnswer ||
+    (typeof activityAnswer.answer !== "string" &&
+      !Array.isArray(activityAnswer.answer))
+  ) {
     return null;
   }
 
   return {
-    answer: activityAnswer.answer,
+    answer: activityAnswer.answer as string | string[],
   };
 }
 
@@ -115,7 +120,7 @@ export async function saveActivityAnswer(params: {
   uid: string;
   subsection: Subsection;
   inputType: "textarea" | "multichoice";
-  answer: string;
+  answer: string | string[];
 }): Promise<void> {
   const { uid, subsection, inputType, answer } = params;
 

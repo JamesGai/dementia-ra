@@ -17,6 +17,8 @@ import {
 } from "../../services/courseService";
 import Button from "../universal/Button";
 
+type ActivityAnswerValue = string | string[];
+
 interface SubsectionModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -29,7 +31,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
   subsection,
 }) => {
   const [activityAnswers, setActivityAnswers] = React.useState<
-    Record<string, string>
+    Record<string, ActivityAnswerValue>
   >({});
   const [activitySaveStates, setActivitySaveStates] = React.useState<
     Record<string, "idle" | "saving" | "saved" | "error">
@@ -72,7 +74,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
         }
 
         setActivityAnswers(
-          activityBlocks.reduce<Record<string, string>>(
+          activityBlocks.reduce<Record<string, ActivityAnswerValue>>(
             (answers, { index }) => ({
               ...answers,
               [`${subsection.id}-${index}`]: activityAnswer.answer,
@@ -97,7 +99,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
   const handleSubmitActivity = async (params: {
     answerKey: string;
     inputType: "textarea" | "multichoice";
-    answer: string;
+    answer: ActivityAnswerValue;
   }) => {
     if (!subsection) {
       return;
@@ -269,6 +271,9 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                       const answerKey = `${subsection.id}-${index}`;
                       const answer = activityAnswers[answerKey] ?? "";
                       const saveState = activitySaveStates[answerKey] ?? "idle";
+                      const selectedOptions = Array.isArray(answer)
+                        ? answer
+                        : [];
 
                       return (
                         <div key={index} className="space-y-3">
@@ -281,7 +286,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                           {block.inputType === "textarea" ? (
                             <textarea
                               id={answerKey}
-                              value={answer}
+                              value={typeof answer === "string" ? answer : ""}
                               onChange={(event) =>
                                 setActivityAnswers((answers) => ({
                                   ...answers,
@@ -299,14 +304,29 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                                   className="flex min-h-14 items-center gap-3 rounded bg-gray-100 px-3 py-2 text-gray-800"
                                 >
                                   <input
-                                    type="radio"
+                                    type={
+                                      block.allowMultiple
+                                        ? "checkbox"
+                                        : "radio"
+                                    }
                                     name={answerKey}
                                     value={option}
-                                    checked={answer === option}
+                                    checked={
+                                      block.allowMultiple
+                                        ? selectedOptions.includes(option)
+                                        : answer === option
+                                    }
                                     onChange={(event) =>
                                       setActivityAnswers((answers) => ({
                                         ...answers,
-                                        [answerKey]: event.target.value,
+                                        [answerKey]: block.allowMultiple
+                                          ? event.target.checked
+                                            ? [...selectedOptions, option]
+                                            : selectedOptions.filter(
+                                                (selectedOption) =>
+                                                  selectedOption !== option,
+                                              )
+                                          : event.target.value,
                                       }))
                                     }
                                     className="h-4 w-4 shrink-0"

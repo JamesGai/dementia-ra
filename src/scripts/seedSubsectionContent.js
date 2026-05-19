@@ -76,15 +76,20 @@ import activity2411 from "./subsectionContent/module2/section2.4/activity2411.js
 import introduction311 from "./subsectionContent/module3/section3.1/introduction311.js";
 import review311 from "./subsectionContent/module3/section3.1/review311.js";
 import introduction321 from "./subsectionContent/module3/section3.2/introduction321.js";
+import activity321 from "./subsectionContent/module3/section3.2/activity321.js";
 import introduction331 from "./subsectionContent/module3/section3.3/introduction331.js";
+import activity331 from "./subsectionContent/module3/section3.3/activity331.js";
+import activity332 from "./subsectionContent/module3/section3.3/activity332.js";
 import review331 from "./subsectionContent/module3/section3.3/review331.js";
 import introduction411 from "./subsectionContent/module4/section4.1/introduction411.js";
+import activity411 from "./subsectionContent/module4/section4.1/activity411.js";
 import review411 from "./subsectionContent/module4/section4.1/review411.js";
 import introduction421 from "./subsectionContent/module4/section4.2/introduction421.js";
 import review421 from "./subsectionContent/module4/section4.2/review421.js";
 import introduction431 from "./subsectionContent/module4/section4.3/introduction431.js";
 import review431 from "./subsectionContent/module4/section4.3/review431.js";
 import introduction441 from "./subsectionContent/module4/section4.4/introduction441.js";
+import activity441 from "./subsectionContent/module4/section4.4/activity441.js";
 import review441 from "./subsectionContent/module4/section4.4/review441.js";
 import introduction451 from "./subsectionContent/module4/section4.5/introduction451.js";
 import review451 from "./subsectionContent/module4/section4.5/review451.js";
@@ -287,14 +292,26 @@ const subsectionContents = [
   contentDocument(introduction321, 3, 2, 1, {
     docId: "introduction-3.2.1",
   }),
+  contentDocument(activity321, 3, 2, 1, {
+    docId: "activity-3.2.1",
+  }),
   contentDocument(introduction331, 3, 3, 1, {
     docId: "introduction-3.3.1",
+  }),
+  contentDocument(activity331, 3, 3, 1, {
+    docId: "activity-3.3.1",
+  }),
+  contentDocument(activity332, 3, 3, 2, {
+    docId: "activity-3.3.2",
   }),
   contentDocument(review331, 3, 3, 1, {
     docId: "review-3.3.1",
   }),
   contentDocument(introduction411, 4, 1, 1, {
     docId: "introduction-4.1.1",
+  }),
+  contentDocument(activity411, 4, 1, 1, {
+    docId: "activity-4.1.1",
   }),
   contentDocument(review411, 4, 1, 1, {
     docId: "review-4.1.1",
@@ -313,6 +330,9 @@ const subsectionContents = [
   }),
   contentDocument(introduction441, 4, 4, 1, {
     docId: "introduction-4.4.1",
+  }),
+  contentDocument(activity441, 4, 4, 1, {
+    docId: "activity-4.4.1",
   }),
   contentDocument(review441, 4, 4, 1, {
     docId: "review-4.4.1",
