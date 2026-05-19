@@ -144,6 +144,11 @@ import activity592 from "./subsectionContent/module5/section5.9/activity592.js";
 import activity593 from "./subsectionContent/module5/section5.9/activity593.js";
 import review591 from "./subsectionContent/module5/section5.9/review591.js";
 import introduction5101 from "./subsectionContent/module5/section5.10/introduction5101.js";
+import subsectionContent611 from "./subsectionContent/module6/section6.1/subsectionContent611.js";
+import subsectionContent612 from "./subsectionContent/module6/section6.1/subsectionContent612.js";
+import subsectionContent613 from "./subsectionContent/module6/section6.1/subsectionContent613.js";
+import subsectionContent614 from "./subsectionContent/module6/section6.1/subsectionContent614.js";
+import subsectionContent615 from "./subsectionContent/module6/section6.1/subsectionContent615.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -528,6 +533,11 @@ const subsectionContents = [
   contentDocument(introduction5101, 5, 10, 1, {
     docId: "introduction-5.10.1",
   }),
+  contentDocument(subsectionContent611, 6, 1, 1),
+  contentDocument(subsectionContent612, 6, 1, 2),
+  contentDocument(subsectionContent613, 6, 1, 3),
+  contentDocument(subsectionContent614, 6, 1, 4),
+  contentDocument(subsectionContent615, 6, 1, 5),
 ];
 
 function parseArgs(argv) {

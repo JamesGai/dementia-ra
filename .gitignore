@@ -37,3 +37,6 @@ yarn-error.log*
 # Firebase service account keys
 serviceAccountKey.json
 **/serviceAccountKey.json
+
+# Local Firestore seed scripts
+/src/scripts/
