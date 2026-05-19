@@ -2,12 +2,15 @@ import {
   arrayUnion,
   collection,
   collectionGroup,
+  FieldPath,
   getDoc,
   getDocs,
   orderBy,
   query,
   doc,
+  serverTimestamp,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "../firebase";
@@ -72,6 +75,57 @@ export type Subsection = {
   title: string;
   content?: ContentBlock[];
 };
+
+export type ActivityAnswer = {
+  answer: string;
+};
+
+export async function fetchActivityAnswer(params: {
+  uid: string;
+  subsectionId: string;
+}): Promise<ActivityAnswer | null> {
+  const { uid, subsectionId } = params;
+  const snap = await getDoc(doc(db, "users", uid));
+
+  if (!snap.exists()) {
+    return null;
+  }
+
+  const data = snap.data() as {
+    activityAnswers?: Record<string, { answer?: unknown }>;
+  };
+  const activityAnswer = data.activityAnswers?.[subsectionId];
+
+  if (!activityAnswer || typeof activityAnswer.answer !== "string") {
+    return null;
+  }
+
+  return {
+    answer: activityAnswer.answer,
+  };
+}
+
+export async function saveActivityAnswer(params: {
+  uid: string;
+  subsection: Subsection;
+  inputType: "textarea";
+  answer: string;
+}): Promise<void> {
+  const { uid, subsection, inputType, answer } = params;
+
+  await updateDoc(
+    doc(db, "users", uid),
+    new FieldPath("activityAnswers", subsection.id),
+    {
+      answer,
+      inputType,
+      moduleNumber: subsection.moduleNumber,
+      sectionNumber: subsection.sectionNumber,
+      subsectionNumber: subsection.subsectionNumber ?? null,
+      updatedAt: serverTimestamp(),
+    },
+  );
+}
 
 const DEFAULT_PROGRESS_MODULE_COUNT = 5;
 let canUseSectionCollectionGroupQuery = true;
@@ -184,7 +238,10 @@ export async function computeCourseProgress(params: {
       const key = `${m.id}/${s.id}`;
       const sectionSubs = subsections[key] ?? [];
       for (const sub of sectionSubs) {
-        if (sub.isCourseSubsection === false || sub.subsectionNumber === undefined) {
+        if (
+          sub.isCourseSubsection === false ||
+          sub.subsectionNumber === undefined
+        ) {
           continue;
         }
 

@@ -9,7 +9,12 @@ import {
   IonButton,
 } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
-import { Subsection } from "../../services/courseService";
+import { auth } from "../../firebase";
+import {
+  fetchActivityAnswer,
+  saveActivityAnswer,
+  Subsection,
+} from "../../services/courseService";
 import Button from "../universal/Button";
 
 interface SubsectionModalProps {
@@ -26,13 +31,111 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
   const [activityAnswers, setActivityAnswers] = React.useState<
     Record<string, string>
   >({});
+  const [activitySaveStates, setActivitySaveStates] = React.useState<
+    Record<string, "idle" | "saving" | "saved" | "error">
+  >({});
 
   React.useEffect(() => {
+    let isCancelled = false;
+
     setActivityAnswers({});
-  }, [subsection?.id]);
+    setActivitySaveStates({});
+
+    if (!isOpen || !subsection?.content) {
+      return () => {
+        isCancelled = true;
+      };
+    }
+
+    const activityBlocks = subsection.content
+      .map((block, index) => ({ block, index }))
+      .filter(({ block }) => block.type === "activity");
+
+    if (activityBlocks.length === 0) {
+      return () => {
+        isCancelled = true;
+      };
+    }
+
+    const uid = auth.currentUser?.uid;
+
+    if (!uid) {
+      return () => {
+        isCancelled = true;
+      };
+    }
+
+    void fetchActivityAnswer({ uid, subsectionId: subsection.id })
+      .then((activityAnswer) => {
+        if (isCancelled || !activityAnswer) {
+          return;
+        }
+
+        setActivityAnswers(
+          activityBlocks.reduce<Record<string, string>>(
+            (answers, { index }) => ({
+              ...answers,
+              [`${subsection.id}-${index}`]: activityAnswer.answer,
+            }),
+            {},
+          ),
+        );
+      })
+      .catch((error) => {
+        console.error("Failed to load activity answer:", error);
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [isOpen, subsection]);
 
   const handleClose = () => {
     onClose();
+  };
+
+  const handleSubmitActivity = async (params: {
+    answerKey: string;
+    inputType: "textarea";
+    answer: string;
+  }) => {
+    if (!subsection) {
+      return;
+    }
+
+    const uid = auth.currentUser?.uid;
+
+    if (!uid) {
+      setActivitySaveStates((states) => ({
+        ...states,
+        [params.answerKey]: "error",
+      }));
+      return;
+    }
+
+    setActivitySaveStates((states) => ({
+      ...states,
+      [params.answerKey]: "saving",
+    }));
+
+    try {
+      await saveActivityAnswer({
+        uid,
+        subsection,
+        inputType: params.inputType,
+        answer: params.answer,
+      });
+      setActivitySaveStates((states) => ({
+        ...states,
+        [params.answerKey]: "saved",
+      }));
+    } catch (error) {
+      console.error("Failed to save activity answer:", error);
+      setActivitySaveStates((states) => ({
+        ...states,
+        [params.answerKey]: "error",
+      }));
+    }
   };
 
   return (
@@ -165,6 +268,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                     if (block.type === "activity") {
                       const answerKey = `${subsection.id}-${index}`;
                       const answer = activityAnswers[answerKey] ?? "";
+                      const saveState = activitySaveStates[answerKey] ?? "idle";
 
                       return (
                         <div key={index} className="space-y-3">
@@ -187,8 +291,29 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                             className="w-full resize-y rounded-lg border border-gray-300 bg-white p-3 text-gray-800 leading-relaxed outline-none focus:border-[#2e6f73] focus:ring-2 focus:ring-[#2e6f73]/20"
                           />
                           <div className="w-full">
-                            <Button text="Submit" onClick={() => {}} />
+                            <Button
+                              text={
+                                saveState === "saving" ? "Saving..." : "Submit"
+                              }
+                              onClick={() =>
+                                handleSubmitActivity({
+                                  answerKey,
+                                  inputType: block.inputType,
+                                  answer,
+                                })
+                              }
+                            />
                           </div>
+                          {saveState === "saved" && (
+                            <div className="text-sm font-semibold text-[#2e6f73]">
+                              Saved
+                            </div>
+                          )}
+                          {saveState === "error" && (
+                            <div className="text-sm font-semibold text-red-600">
+                              Unable to save. Please sign in and try again.
+                            </div>
+                          )}
                         </div>
                       );
                     }
