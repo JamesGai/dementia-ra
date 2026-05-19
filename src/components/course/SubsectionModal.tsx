@@ -9,7 +9,15 @@ import {
   IonButton,
 } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
-import { Subsection } from "../../services/courseService";
+import { auth } from "../../firebase";
+import {
+  fetchActivityAnswer,
+  saveActivityAnswer,
+  Subsection,
+} from "../../services/courseService";
+import Button from "../universal/Button";
+
+type ActivityAnswerValue = string | string[];
 
 interface SubsectionModalProps {
   isOpen: boolean;
@@ -22,8 +30,114 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
   onClose,
   subsection,
 }) => {
+  const [activityAnswers, setActivityAnswers] = React.useState<
+    Record<string, ActivityAnswerValue>
+  >({});
+  const [activitySaveStates, setActivitySaveStates] = React.useState<
+    Record<string, "idle" | "saving" | "saved" | "error">
+  >({});
+
+  React.useEffect(() => {
+    let isCancelled = false;
+
+    setActivityAnswers({});
+    setActivitySaveStates({});
+
+    if (!isOpen || !subsection?.content) {
+      return () => {
+        isCancelled = true;
+      };
+    }
+
+    const activityBlocks = subsection.content
+      .map((block, index) => ({ block, index }))
+      .filter(({ block }) => block.type === "activity");
+
+    if (activityBlocks.length === 0) {
+      return () => {
+        isCancelled = true;
+      };
+    }
+
+    const uid = auth.currentUser?.uid;
+
+    if (!uid) {
+      return () => {
+        isCancelled = true;
+      };
+    }
+
+    void fetchActivityAnswer({ uid, subsectionId: subsection.id })
+      .then((activityAnswer) => {
+        if (isCancelled || !activityAnswer) {
+          return;
+        }
+
+        setActivityAnswers(
+          activityBlocks.reduce<Record<string, ActivityAnswerValue>>(
+            (answers, { index }) => ({
+              ...answers,
+              [`${subsection.id}-${index}`]: activityAnswer.answer,
+            }),
+            {},
+          ),
+        );
+      })
+      .catch((error) => {
+        console.error("Failed to load activity answer:", error);
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [isOpen, subsection]);
+
   const handleClose = () => {
     onClose();
+  };
+
+  const handleSubmitActivity = async (params: {
+    answerKey: string;
+    inputType: "textarea" | "multichoice";
+    answer: ActivityAnswerValue;
+  }) => {
+    if (!subsection) {
+      return;
+    }
+
+    const uid = auth.currentUser?.uid;
+
+    if (!uid) {
+      setActivitySaveStates((states) => ({
+        ...states,
+        [params.answerKey]: "error",
+      }));
+      return;
+    }
+
+    setActivitySaveStates((states) => ({
+      ...states,
+      [params.answerKey]: "saving",
+    }));
+
+    try {
+      await saveActivityAnswer({
+        uid,
+        subsection,
+        inputType: params.inputType,
+        answer: params.answer,
+      });
+      setActivitySaveStates((states) => ({
+        ...states,
+        [params.answerKey]: "saved",
+      }));
+    } catch (error) {
+      console.error("Failed to save activity answer:", error);
+      setActivitySaveStates((states) => ({
+        ...states,
+        [params.answerKey]: "error",
+      }));
+    }
   };
 
   return (
@@ -64,6 +178,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
               ) : (
                 <div className="space-y-4">
                   {subsection.content.map((block, index) => {
+                    // Heading
                     if (block.type === "heading") {
                       return (
                         <h2
@@ -74,6 +189,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                         </h2>
                       );
                     }
+                    // Subheading
                     if (block.type === "subheading") {
                       return (
                         <h3
@@ -84,6 +200,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                         </h3>
                       );
                     }
+                    // List
                     if (block.type === "list") {
                       return (
                         <ol
@@ -96,9 +213,13 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                         </ol>
                       );
                     }
+                    // Image
                     if (block.type === "image") {
                       return (
-                        <div key={index} className="overflow-hidden rounded-2xl">
+                        <div
+                          key={index}
+                          className="overflow-hidden rounded-2xl"
+                        >
                           <img
                             src={block.src}
                             alt={block.alt}
@@ -108,6 +229,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                         </div>
                       );
                     }
+                    // Table
                     if (block.type === "table") {
                       return (
                         <div key={index} className="overflow-x-auto">
@@ -141,6 +263,105 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                               ))}
                             </tbody>
                           </table>
+                        </div>
+                      );
+                    }
+                    // Activity
+                    if (block.type === "activity") {
+                      const answerKey = `${subsection.id}-${index}`;
+                      const answer = activityAnswers[answerKey] ?? "";
+                      const saveState = activitySaveStates[answerKey] ?? "idle";
+                      const selectedOptions = Array.isArray(answer)
+                        ? answer
+                        : [];
+
+                      return (
+                        <div key={index} className="space-y-3">
+                          <label
+                            htmlFor={answerKey}
+                            className="block text-[#2e6f73] font-semibold leading-relaxed"
+                          >
+                            {block.prompt}
+                          </label>
+                          {block.inputType === "textarea" ? (
+                            <textarea
+                              id={answerKey}
+                              value={typeof answer === "string" ? answer : ""}
+                              onChange={(event) =>
+                                setActivityAnswers((answers) => ({
+                                  ...answers,
+                                  [answerKey]: event.target.value,
+                                }))
+                              }
+                              rows={5}
+                              className="w-full resize-y rounded-lg border border-gray-300 bg-white p-3 text-gray-800 leading-relaxed outline-none focus:border-[#2e6f73] focus:ring-2 focus:ring-[#2e6f73]/20"
+                            />
+                          ) : (
+                            <div className="space-y-3" id={answerKey}>
+                              {block.options.map((option) => (
+                                <label
+                                  key={option}
+                                  className="flex min-h-14 items-center gap-3 rounded bg-gray-100 px-3 py-2 text-gray-800"
+                                >
+                                  <input
+                                    type={
+                                      block.allowMultiple
+                                        ? "checkbox"
+                                        : "radio"
+                                    }
+                                    name={answerKey}
+                                    value={option}
+                                    checked={
+                                      block.allowMultiple
+                                        ? selectedOptions.includes(option)
+                                        : answer === option
+                                    }
+                                    onChange={(event) =>
+                                      setActivityAnswers((answers) => ({
+                                        ...answers,
+                                        [answerKey]: block.allowMultiple
+                                          ? event.target.checked
+                                            ? [...selectedOptions, option]
+                                            : selectedOptions.filter(
+                                                (selectedOption) =>
+                                                  selectedOption !== option,
+                                              )
+                                          : event.target.value,
+                                      }))
+                                    }
+                                    className="h-4 w-4 shrink-0"
+                                  />
+                                  <span className="bg-white px-4 py-3 font-semibold leading-relaxed">
+                                    {option}
+                                  </span>
+                                </label>
+                              ))}
+                            </div>
+                          )}
+                          <div className="w-full">
+                            <Button
+                              text={
+                                saveState === "saving" ? "Saving..." : "Submit"
+                              }
+                              onClick={() =>
+                                handleSubmitActivity({
+                                  answerKey,
+                                  inputType: block.inputType,
+                                  answer,
+                                })
+                              }
+                            />
+                          </div>
+                          {saveState === "saved" && (
+                            <div className="text-sm font-semibold text-[#2e6f73]">
+                              Saved
+                            </div>
+                          )}
+                          {saveState === "error" && (
+                            <div className="text-sm font-semibold text-red-600">
+                              Unable to save. Please sign in and try again.
+                            </div>
+                          )}
                         </div>
                       );
                     }
