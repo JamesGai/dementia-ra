@@ -37,6 +37,7 @@ import subsectionContent213 from "./subsectionContent/module2/section2.1/subsect
 import subsectionContent214 from "./subsectionContent/module2/section2.1/subsectionContent214.js";
 import subsectionContent215 from "./subsectionContent/module2/section2.1/subsectionContent215.js";
 import subsectionContent215Continued from "./subsectionContent/module2/section2.1/subsectionContent215Continued.js";
+import activity211 from "./subsectionContent/module2/section2.1/activity211.js";
 import review211 from "./subsectionContent/module2/section2.1/review211.js";
 import introduction221 from "./subsectionContent/module2/section2.2/introduction221.js";
 import subsectionContent221 from "./subsectionContent/module2/section2.2/subsectionContent221.js";
@@ -162,6 +163,9 @@ const subsectionContents = [
   contentDocument(subsectionContent215, 2, 1, 5),
   contentDocument(subsectionContent215Continued, 2, 1, 5, {
     docId: "subsection-2.1.5-continued",
+  }),
+  contentDocument(activity211, 2, 1, 1, {
+    docId: "activity-2.1.1",
   }),
   contentDocument(review211, 2, 1, 1, {
     docId: "review-2.1.1",

@@ -55,6 +55,11 @@ export type ContentBlock =
         left: string;
         right: string[];
       }[];
+    }
+  | {
+      type: "activity";
+      inputType: "textarea";
+      prompt: string;
     };
 
 export type Subsection = {

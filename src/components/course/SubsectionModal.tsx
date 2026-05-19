@@ -10,6 +10,7 @@ import {
 } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
 import { Subsection } from "../../services/courseService";
+import Button from "../universal/Button";
 
 interface SubsectionModalProps {
   isOpen: boolean;
@@ -22,6 +23,14 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
   onClose,
   subsection,
 }) => {
+  const [activityAnswers, setActivityAnswers] = React.useState<
+    Record<string, string>
+  >({});
+
+  React.useEffect(() => {
+    setActivityAnswers({});
+  }, [subsection?.id]);
+
   const handleClose = () => {
     onClose();
   };
@@ -64,6 +73,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
               ) : (
                 <div className="space-y-4">
                   {subsection.content.map((block, index) => {
+                    // Heading
                     if (block.type === "heading") {
                       return (
                         <h2
@@ -74,6 +84,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                         </h2>
                       );
                     }
+                    // Subheading
                     if (block.type === "subheading") {
                       return (
                         <h3
@@ -84,6 +95,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                         </h3>
                       );
                     }
+                    // List
                     if (block.type === "list") {
                       return (
                         <ol
@@ -96,9 +108,13 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                         </ol>
                       );
                     }
+                    // Image
                     if (block.type === "image") {
                       return (
-                        <div key={index} className="overflow-hidden rounded-2xl">
+                        <div
+                          key={index}
+                          className="overflow-hidden rounded-2xl"
+                        >
                           <img
                             src={block.src}
                             alt={block.alt}
@@ -108,6 +124,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                         </div>
                       );
                     }
+                    // Table
                     if (block.type === "table") {
                       return (
                         <div key={index} className="overflow-x-auto">
@@ -141,6 +158,37 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                               ))}
                             </tbody>
                           </table>
+                        </div>
+                      );
+                    }
+                    // Activity
+                    if (block.type === "activity") {
+                      const answerKey = `${subsection.id}-${index}`;
+                      const answer = activityAnswers[answerKey] ?? "";
+
+                      return (
+                        <div key={index} className="space-y-3">
+                          <label
+                            htmlFor={answerKey}
+                            className="block text-[#2e6f73] font-semibold leading-relaxed"
+                          >
+                            {block.prompt}
+                          </label>
+                          <textarea
+                            id={answerKey}
+                            value={answer}
+                            onChange={(event) =>
+                              setActivityAnswers((answers) => ({
+                                ...answers,
+                                [answerKey]: event.target.value,
+                              }))
+                            }
+                            rows={5}
+                            className="w-full resize-y rounded-lg border border-gray-300 bg-white p-3 text-gray-800 leading-relaxed outline-none focus:border-[#2e6f73] focus:ring-2 focus:ring-[#2e6f73]/20"
+                          />
+                          <div className="w-full">
+                            <Button text="Submit" onClick={() => {}} />
+                          </div>
                         </div>
                       );
                     }
