@@ -7,7 +7,7 @@ const activity249 = {
     {
       type: "activity",
       inputType: "textarea",
-      prompt: "What would you do if the person does want to help?",
+      prompt: "What would you like to say?",
     },
   ],
 };

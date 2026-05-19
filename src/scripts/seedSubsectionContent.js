@@ -71,6 +71,8 @@ import activity246 from "./subsectionContent/module2/section2.4/activity246.js";
 import activity247 from "./subsectionContent/module2/section2.4/activity247.js";
 import activity248 from "./subsectionContent/module2/section2.4/activity248.js";
 import activity249 from "./subsectionContent/module2/section2.4/activity249.js";
+import activity2410 from "./subsectionContent/module2/section2.4/activity2410.js";
+import activity2411 from "./subsectionContent/module2/section2.4/activity2411.js";
 import introduction311 from "./subsectionContent/module3/section3.1/introduction311.js";
 import review311 from "./subsectionContent/module3/section3.1/review311.js";
 import introduction321 from "./subsectionContent/module3/section3.2/introduction321.js";
@@ -258,6 +260,9 @@ const subsectionContents = [
   contentDocument(activity245, 2, 4, 5, {
     docId: "activity-2.4.5",
   }),
+  contentDocument(activity2411, 2, 4, 11, {
+    docId: "activity-2.4.11",
+  }),
   contentDocument(activity246, 2, 4, 6, {
     docId: "activity-2.4.6",
   }),
@@ -269,6 +274,9 @@ const subsectionContents = [
   }),
   contentDocument(activity249, 2, 4, 9, {
     docId: "activity-2.4.9",
+  }),
+  contentDocument(activity2410, 2, 4, 10, {
+    docId: "activity-2.4.10",
   }),
   contentDocument(introduction311, 3, 1, 1, {
     docId: "introduction-3.1.1",

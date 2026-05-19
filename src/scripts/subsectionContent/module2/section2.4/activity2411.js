@@ -1,4 +1,4 @@
-const activity247 = {
+const activity2411 = {
   content: [
     {
       type: "heading",
@@ -7,9 +7,9 @@ const activity247 = {
     {
       type: "activity",
       inputType: "textarea",
-      prompt: "Write down some ideas below",
+      prompt: "What would you do if the person does NOT want to help?",
     },
   ],
 };
 
-export default activity247;
+export default activity2411;
