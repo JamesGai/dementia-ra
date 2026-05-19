@@ -36,7 +36,8 @@ const SectionList: React.FC<SectionListProps> = ({
                 <TitleButton
                   key={sub.id}
                   title={
-                    sub.sectionNumber === 99 && sub.subsectionNumber === 99 ? (
+                    sub.isCourseSubsection === false ||
+                    sub.subsectionNumber === undefined ? (
                       <div>{sub.title}</div>
                     ) : (
                       <>

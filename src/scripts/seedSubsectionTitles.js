@@ -1,12 +1,32 @@
 // Execute all: node src/scripts/seedSubsectionTitles.js
 // Execute section: node src/scripts/seedSubsectionTitles.js --section=1.1
-// Execute one: node src/scripts/seedSubsectionTitles.js --only=1.1.0
 
 import admin from "firebase-admin";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-import subsectionTitles11 from "./subsectionTitles/subsectionTitles11.js";
+import subsectionTitles21 from "./subsectionTitles/subsectionTitles21.js";
+import subsectionTitles22 from "./subsectionTitles/subsectionTitles22.js";
+import subsectionTitles23 from "./subsectionTitles/subsectionTitles23.js";
+import subsectionTitles24 from "./subsectionTitles/subsectionTitles24.js";
+import subsectionTitles31 from "./subsectionTitles/subsectionTitles31.js";
+import subsectionTitles32 from "./subsectionTitles/subsectionTitles32.js";
+import subsectionTitles33 from "./subsectionTitles/subsectionTitles33.js";
+import subsectionTitles41 from "./subsectionTitles/subsectionTitles41.js";
+import subsectionTitles42 from "./subsectionTitles/subsectionTitles42.js";
+import subsectionTitles43 from "./subsectionTitles/subsectionTitles43.js";
+import subsectionTitles44 from "./subsectionTitles/subsectionTitles44.js";
+import subsectionTitles45 from "./subsectionTitles/subsectionTitles45.js";
+import subsectionTitles51 from "./subsectionTitles/subsectionTitles51.js";
+import subsectionTitles52 from "./subsectionTitles/subsectionTitles52.js";
+import subsectionTitles53 from "./subsectionTitles/subsectionTitles53.js";
+import subsectionTitles54 from "./subsectionTitles/subsectionTitles54.js";
+import subsectionTitles55 from "./subsectionTitles/subsectionTitles55.js";
+import subsectionTitles56 from "./subsectionTitles/subsectionTitles56.js";
+import subsectionTitles57 from "./subsectionTitles/subsectionTitles57.js";
+import subsectionTitles58 from "./subsectionTitles/subsectionTitles58.js";
+import subsectionTitles59 from "./subsectionTitles/subsectionTitles59.js";
+import subsectionTitles510 from "./subsectionTitles/subsectionTitles510.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,7 +48,28 @@ const db = admin.firestore();
 const courseId = "isupport-nz";
 
 const subsectionTitleSections = [
-  subsectionTitles11,
+  subsectionTitles21,
+  subsectionTitles22,
+  subsectionTitles23,
+  subsectionTitles24,
+  subsectionTitles31,
+  subsectionTitles32,
+  subsectionTitles33,
+  subsectionTitles41,
+  subsectionTitles42,
+  subsectionTitles43,
+  subsectionTitles44,
+  subsectionTitles45,
+  subsectionTitles51,
+  subsectionTitles52,
+  subsectionTitles53,
+  subsectionTitles54,
+  subsectionTitles55,
+  subsectionTitles56,
+  subsectionTitles57,
+  subsectionTitles58,
+  subsectionTitles59,
+  subsectionTitles510,
 ];
 
 function parseArgs(argv) {
@@ -46,7 +87,19 @@ function getSectionKey(section) {
 }
 
 function getSubsectionKey(section, subsection) {
+  if (subsection.docId) {
+    return subsection.docId;
+  }
+
   return `${section.moduleNumber}.${section.sectionNumber}.${subsection.subsectionNumber}`;
+}
+
+function getSubsectionId(section, subsection) {
+  if (subsection.docId) {
+    return subsection.docId;
+  }
+
+  return `subsection-${section.moduleNumber}.${section.sectionNumber}.${subsection.subsectionNumber}`;
 }
 
 function validateSection(section) {
@@ -65,8 +118,10 @@ function validateSection(section) {
   }
 
   for (const subsection of section.subsections) {
-    if (subsection.subsectionNumber === undefined) {
-      throw new Error(`Missing subsectionNumber in section ${sectionKey}`);
+    if (subsection.subsectionNumber === undefined && !subsection.docId) {
+      throw new Error(
+        `Missing subsectionNumber or docId in section ${sectionKey}`,
+      );
     }
 
     if (!subsection.title) {
@@ -104,10 +159,11 @@ function getSectionsToSeed({ section, only }) {
 
 async function seedSubsectionTitle(section, subsection) {
   const { moduleNumber, sectionNumber } = section;
+  const subsectionSectionNumber = subsection.sectionNumber ?? sectionNumber;
   const { subsectionNumber, title } = subsection;
   const moduleId = `module-${moduleNumber}`;
   const sectionId = `section-${moduleNumber}.${sectionNumber}`;
-  const subsectionId = `subsection-${moduleNumber}.${sectionNumber}.${subsectionNumber}`;
+  const subsectionId = getSubsectionId(section, subsection);
 
   const ref = db
     .collection("course")
@@ -119,15 +175,22 @@ async function seedSubsectionTitle(section, subsection) {
     .collection("subsection")
     .doc(subsectionId);
 
-  await ref.set(
-    {
-      moduleNumber,
-      sectionNumber,
-      subsectionNumber,
-      title,
-    },
-    { merge: true },
-  );
+  const data = {
+    moduleNumber,
+    sectionNumber: subsectionSectionNumber,
+    title,
+    displayOrder: subsection.displayOrder,
+  };
+
+  if (subsectionNumber !== undefined) {
+    data.subsectionNumber = subsectionNumber;
+  }
+
+  if (subsection.isCourseSubsection !== undefined) {
+    data.isCourseSubsection = subsection.isCourseSubsection;
+  }
+
+  await ref.set(data, { merge: true });
 
   console.log(`Seeded ${subsectionId}: ${title}`);
 }

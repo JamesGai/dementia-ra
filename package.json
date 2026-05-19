@@ -9,10 +9,7 @@
     "preview": "vite preview",
     "test.e2e": "cypress run",
     "test.unit": "vitest",
-    "lint": "eslint",
-    "seed:subsection-content": "node src/scripts/seedSubsectionContent.js",
-    "seed:subsection-titles": "node src/scripts/seedSubsectionTitles.js",
-    "delete:section-subsections": "node src/scripts/deleteSubsections.js"
+    "lint": "eslint"
   },
   "dependencies": {
     "@capacitor/android": "8.0.1",

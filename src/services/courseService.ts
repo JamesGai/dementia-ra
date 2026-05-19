@@ -61,13 +61,21 @@ export type Subsection = {
   id: string;
   moduleNumber: number;
   sectionNumber: number;
-  subsectionNumber: number;
+  subsectionNumber?: number;
+  displayOrder: number;
+  isCourseSubsection?: boolean;
   title: string;
   content?: ContentBlock[];
 };
 
 const DEFAULT_PROGRESS_MODULE_COUNT = 5;
 let canUseSectionCollectionGroupQuery = true;
+
+function sortSubsections(subsections: Subsection[]) {
+  return [...subsections].sort((a, b) => {
+    return a.displayOrder - b.displayOrder;
+  });
+}
 
 /**
  * Builds a subsection progress token in the format `module.section.subsection`.
@@ -171,6 +179,10 @@ export async function computeCourseProgress(params: {
       const key = `${m.id}/${s.id}`;
       const sectionSubs = subsections[key] ?? [];
       for (const sub of sectionSubs) {
+        if (sub.isCourseSubsection === false || sub.subsectionNumber === undefined) {
+          continue;
+        }
+
         totalSubsections += 1;
         const subKey = buildSubsectionProgressKey({
           moduleNumber: sub.moduleNumber,
@@ -284,9 +296,8 @@ export async function fetchSectionSubsections(params: {
     sectionId,
     "subsection",
   );
-  const q = query(col, orderBy("subsectionNumber", "asc"));
-  const snap = await getDocs(q);
-  return snap.docs.map((d) => {
+  const snap = await getDocs(col);
+  const subsections = snap.docs.map((d) => {
     const data = d.data() as Omit<Subsection, "id">;
     return {
       id: d.id,
@@ -294,8 +305,12 @@ export async function fetchSectionSubsections(params: {
       moduleNumber: data.moduleNumber,
       sectionNumber: data.sectionNumber,
       subsectionNumber: data.subsectionNumber,
+      displayOrder: data.displayOrder,
+      isCourseSubsection: data.isCourseSubsection,
     };
   });
+
+  return sortSubsections(subsections);
 }
 
 /**
@@ -361,6 +376,8 @@ export async function fetchSubsectionDetail(params: {
     moduleNumber: data.moduleNumber,
     sectionNumber: data.sectionNumber,
     subsectionNumber: data.subsectionNumber,
+    displayOrder: data.displayOrder,
+    isCourseSubsection: data.isCourseSubsection,
     title: data.title,
     content: Array.isArray(data.content) ? data.content : [],
   };
@@ -404,10 +421,8 @@ export async function searchCourseSections(
       sectionId,
       "subsection",
     );
-    const subsectionSnap = await getDocs(
-      query(subsectionCol, orderBy("subsectionNumber", "asc")),
-    );
-    return subsectionSnap.docs.map((d) => {
+    const subsectionSnap = await getDocs(subsectionCol);
+    const subsections = subsectionSnap.docs.map((d) => {
       const data = d.data();
       return {
         id: d.id,
@@ -415,8 +430,12 @@ export async function searchCourseSections(
         moduleNumber: data.moduleNumber,
         sectionNumber: data.sectionNumber,
         subsectionNumber: data.subsectionNumber,
+        displayOrder: data.displayOrder,
+        isCourseSubsection: data.isCourseSubsection,
       } as Subsection;
     });
+
+    return sortSubsections(subsections);
   };
 
   if (canUseSectionCollectionGroupQuery) {

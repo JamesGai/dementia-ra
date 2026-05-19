@@ -45,6 +45,10 @@ const ISupportNZPage: React.FC = () => {
       setIsSubsectionOpen(true);
       const uid = auth.currentUser?.uid;
       if (!uid) return;
+      if (sub.isCourseSubsection === false || sub.subsectionNumber === undefined) {
+        return;
+      }
+
       void markSubsectionCompleted({
         uid,
         moduleNumber: sub.moduleNumber,
