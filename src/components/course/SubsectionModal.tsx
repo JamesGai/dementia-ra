@@ -200,6 +200,20 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                         </h3>
                       );
                     }
+                    // Link
+                    if (block.type === "link") {
+                      return (
+                        <a
+                          key={index}
+                          href={block.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="block text-blue-600 underline break-words"
+                        >
+                          {block.text}
+                        </a>
+                      );
+                    }
                     // List
                     if (block.type === "list") {
                       return (

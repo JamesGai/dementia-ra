@@ -27,6 +27,7 @@ import subsectionTitles57 from "./subsectionTitles/subsectionTitles57.js";
 import subsectionTitles58 from "./subsectionTitles/subsectionTitles58.js";
 import subsectionTitles59 from "./subsectionTitles/subsectionTitles59.js";
 import subsectionTitles510 from "./subsectionTitles/subsectionTitles510.js";
+import subsectionTitles61 from "./subsectionTitles/subsectionTitles61.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -70,6 +71,7 @@ const subsectionTitleSections = [
   subsectionTitles58,
   subsectionTitles59,
   subsectionTitles510,
+  subsectionTitles61,
 ];
 
 function parseArgs(argv) {

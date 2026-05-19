@@ -45,7 +45,10 @@ const ISupportNZPage: React.FC = () => {
       setIsSubsectionOpen(true);
       const uid = auth.currentUser?.uid;
       if (!uid) return;
-      if (sub.isCourseSubsection === false || sub.subsectionNumber === undefined) {
+      if (
+        sub.isCourseSubsection === false ||
+        sub.subsectionNumber === undefined
+      ) {
         return;
       }
 
@@ -123,11 +126,6 @@ const ISupportNZPage: React.FC = () => {
               )}
             </AccordionCard>
           ))}
-          <AccordionCard title="NEW ZEALAND LOCAL RESOURCES">
-            <div className="title-sm title-gray-500 py-2">
-              More resources are coming soon!
-            </div>
-          </AccordionCard>
         </>
       )}
       <SubsectionModal

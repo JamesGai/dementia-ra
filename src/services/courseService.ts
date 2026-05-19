@@ -43,6 +43,11 @@ export type ContentBlock =
       text: string;
     }
   | {
+      type: "link";
+      text: string;
+      href: string;
+    }
+  | {
       type: "image";
       src: string;
       alt: string;
