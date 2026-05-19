@@ -96,7 +96,7 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
 
   const handleSubmitActivity = async (params: {
     answerKey: string;
-    inputType: "textarea";
+    inputType: "textarea" | "multichoice";
     answer: string;
   }) => {
     if (!subsection) {
@@ -278,18 +278,46 @@ const SubsectionModal: React.FC<SubsectionModalProps> = ({
                           >
                             {block.prompt}
                           </label>
-                          <textarea
-                            id={answerKey}
-                            value={answer}
-                            onChange={(event) =>
-                              setActivityAnswers((answers) => ({
-                                ...answers,
-                                [answerKey]: event.target.value,
-                              }))
-                            }
-                            rows={5}
-                            className="w-full resize-y rounded-lg border border-gray-300 bg-white p-3 text-gray-800 leading-relaxed outline-none focus:border-[#2e6f73] focus:ring-2 focus:ring-[#2e6f73]/20"
-                          />
+                          {block.inputType === "textarea" ? (
+                            <textarea
+                              id={answerKey}
+                              value={answer}
+                              onChange={(event) =>
+                                setActivityAnswers((answers) => ({
+                                  ...answers,
+                                  [answerKey]: event.target.value,
+                                }))
+                              }
+                              rows={5}
+                              className="w-full resize-y rounded-lg border border-gray-300 bg-white p-3 text-gray-800 leading-relaxed outline-none focus:border-[#2e6f73] focus:ring-2 focus:ring-[#2e6f73]/20"
+                            />
+                          ) : (
+                            <div className="space-y-3" id={answerKey}>
+                              {block.options.map((option) => (
+                                <label
+                                  key={option}
+                                  className="flex min-h-14 items-center gap-3 rounded bg-gray-100 px-3 py-2 text-gray-800"
+                                >
+                                  <input
+                                    type="radio"
+                                    name={answerKey}
+                                    value={option}
+                                    checked={answer === option}
+                                    onChange={(event) =>
+                                      setActivityAnswers((answers) => ({
+                                        ...answers,
+                                        [answerKey]: event.target.value,
+                                      }))
+                                    }
+                                    className="h-4 w-4 shrink-0"
+                                  />
+                                  <span className="bg-white px-4 py-3 font-semibold leading-relaxed">
+                                    {option}
+                                  </span>
+                                </label>
+                              ))}
+                            </div>
+                          )}
                           <div className="w-full">
                             <Button
                               text={

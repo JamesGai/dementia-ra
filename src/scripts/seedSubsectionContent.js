@@ -38,6 +38,9 @@ import subsectionContent214 from "./subsectionContent/module2/section2.1/subsect
 import subsectionContent215 from "./subsectionContent/module2/section2.1/subsectionContent215.js";
 import subsectionContent215Continued from "./subsectionContent/module2/section2.1/subsectionContent215Continued.js";
 import activity211 from "./subsectionContent/module2/section2.1/activity211.js";
+import activity212 from "./subsectionContent/module2/section2.1/activity212.js";
+import activity213 from "./subsectionContent/module2/section2.1/activity213.js";
+import activity214 from "./subsectionContent/module2/section2.1/activity214.js";
 import review211 from "./subsectionContent/module2/section2.1/review211.js";
 import introduction221 from "./subsectionContent/module2/section2.2/introduction221.js";
 import subsectionContent221 from "./subsectionContent/module2/section2.2/subsectionContent221.js";
@@ -48,9 +51,26 @@ import subsectionContent225 from "./subsectionContent/module2/section2.2/subsect
 import subsectionContent226 from "./subsectionContent/module2/section2.2/subsectionContent226.js";
 import subsectionContent227 from "./subsectionContent/module2/section2.2/subsectionContent227.js";
 import subsectionContent228 from "./subsectionContent/module2/section2.2/subsectionContent228.js";
+import activity221 from "./subsectionContent/module2/section2.2/activity221.js";
 import review221 from "./subsectionContent/module2/section2.2/review221.js";
 import introduction231 from "./subsectionContent/module2/section2.3/introduction231.js";
+import activity231 from "./subsectionContent/module2/section2.3/activity231.js";
+import activity232 from "./subsectionContent/module2/section2.3/activity232.js";
+import activity233 from "./subsectionContent/module2/section2.3/activity233.js";
+import activity234 from "./subsectionContent/module2/section2.3/activity234.js";
+import activity235 from "./subsectionContent/module2/section2.3/activity235.js";
+import activity236 from "./subsectionContent/module2/section2.3/activity236.js";
+import activity237 from "./subsectionContent/module2/section2.3/activity237.js";
 import introduction241 from "./subsectionContent/module2/section2.4/introduction241.js";
+import activity241 from "./subsectionContent/module2/section2.4/activity241.js";
+import activity242 from "./subsectionContent/module2/section2.4/activity242.js";
+import activity243 from "./subsectionContent/module2/section2.4/activity243.js";
+import activity244 from "./subsectionContent/module2/section2.4/activity244.js";
+import activity245 from "./subsectionContent/module2/section2.4/activity245.js";
+import activity246 from "./subsectionContent/module2/section2.4/activity246.js";
+import activity247 from "./subsectionContent/module2/section2.4/activity247.js";
+import activity248 from "./subsectionContent/module2/section2.4/activity248.js";
+import activity249 from "./subsectionContent/module2/section2.4/activity249.js";
 import introduction311 from "./subsectionContent/module3/section3.1/introduction311.js";
 import review311 from "./subsectionContent/module3/section3.1/review311.js";
 import introduction321 from "./subsectionContent/module3/section3.2/introduction321.js";
@@ -167,6 +187,15 @@ const subsectionContents = [
   contentDocument(activity211, 2, 1, 1, {
     docId: "activity-2.1.1",
   }),
+  contentDocument(activity212, 2, 1, 2, {
+    docId: "activity-2.1.2",
+  }),
+  contentDocument(activity213, 2, 1, 3, {
+    docId: "activity-2.1.3",
+  }),
+  contentDocument(activity214, 2, 1, 4, {
+    docId: "activity-2.1.4",
+  }),
   contentDocument(review211, 2, 1, 1, {
     docId: "review-2.1.1",
   }),
@@ -181,14 +210,65 @@ const subsectionContents = [
   contentDocument(subsectionContent226, 2, 2, 6),
   contentDocument(subsectionContent227, 2, 2, 7),
   contentDocument(subsectionContent228, 2, 2, 8),
+  contentDocument(activity221, 2, 2, 1, {
+    docId: "activity-2.2.1",
+  }),
   contentDocument(review221, 2, 2, 1, {
     docId: "review-2.2.1",
   }),
   contentDocument(introduction231, 2, 3, 1, {
     docId: "introduction-2.3.1",
   }),
+  contentDocument(activity231, 2, 3, 1, {
+    docId: "activity-2.3.1",
+  }),
+  contentDocument(activity232, 2, 3, 2, {
+    docId: "activity-2.3.2",
+  }),
+  contentDocument(activity233, 2, 3, 3, {
+    docId: "activity-2.3.3",
+  }),
+  contentDocument(activity234, 2, 3, 4, {
+    docId: "activity-2.3.4",
+  }),
+  contentDocument(activity235, 2, 3, 5, {
+    docId: "activity-2.3.5",
+  }),
+  contentDocument(activity236, 2, 3, 6, {
+    docId: "activity-2.3.6",
+  }),
+  contentDocument(activity237, 2, 3, 7, {
+    docId: "activity-2.3.7",
+  }),
   contentDocument(introduction241, 2, 4, 1, {
     docId: "introduction-2.4.1",
+  }),
+  contentDocument(activity241, 2, 4, 1, {
+    docId: "activity-2.4.1",
+  }),
+  contentDocument(activity242, 2, 4, 2, {
+    docId: "activity-2.4.2",
+  }),
+  contentDocument(activity243, 2, 4, 3, {
+    docId: "activity-2.4.3",
+  }),
+  contentDocument(activity244, 2, 4, 4, {
+    docId: "activity-2.4.4",
+  }),
+  contentDocument(activity245, 2, 4, 5, {
+    docId: "activity-2.4.5",
+  }),
+  contentDocument(activity246, 2, 4, 6, {
+    docId: "activity-2.4.6",
+  }),
+  contentDocument(activity247, 2, 4, 7, {
+    docId: "activity-2.4.7",
+  }),
+  contentDocument(activity248, 2, 4, 8, {
+    docId: "activity-2.4.8",
+  }),
+  contentDocument(activity249, 2, 4, 9, {
+    docId: "activity-2.4.9",
   }),
   contentDocument(introduction311, 3, 1, 1, {
     docId: "introduction-3.1.1",

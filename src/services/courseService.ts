@@ -63,6 +63,12 @@ export type ContentBlock =
       type: "activity";
       inputType: "textarea";
       prompt: string;
+    }
+  | {
+      type: "activity";
+      inputType: "multichoice";
+      prompt: string;
+      options: string[];
     };
 
 export type Subsection = {
@@ -108,7 +114,7 @@ export async function fetchActivityAnswer(params: {
 export async function saveActivityAnswer(params: {
   uid: string;
   subsection: Subsection;
-  inputType: "textarea";
+  inputType: "textarea" | "multichoice";
   answer: string;
 }): Promise<void> {
   const { uid, subsection, inputType, answer } = params;
