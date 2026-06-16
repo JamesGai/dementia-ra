@@ -45,33 +45,12 @@ The app will explain behaviours associated with dementia and offer strategies fo
   - Firebase Storage
     - Planning to store all images, videos, and documents
 
-## Instructions
+## Setup
 
-### How to run this mobile app on Android and iOS?
+### How to run the mobile app locally?
 
-### Android
-
-- Download **Android Studio** on Windows
-- Build the project
-- Download Android Studio on Windows
-- Build the project
-  - `ionic build`
-- Add Android native platform
-  - `ionic cap add android`
-- Run Android app
-  - `ionic cap open android`
-  - Click run on Android Studio
-
-### iOS
-
-- Download **XCode** from App Store on Mac
-- Build the project
-  - `ionic build`
-- Add iOS native platform
-  - `ionic cap add ios`
-- Run iOS app
-  - `ionic cap open ios`
-  - Click run on XCode
+- `npm install`
+- `ionic serve`
 
 ### How to configure Firebase to the project?
 
